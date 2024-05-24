@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="../CSS/style.css">
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: Oswald, sans-serif;
-            background-image: url('bilder/kalen-emsley-Bkci_8qcdvQ-unsplash.jpg');
             background-size: cover;
             background-position: center;
             height: 100vh;
