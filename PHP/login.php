@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../CSS/style.css">
     <style>
         body {
+            background-image: url('../CSS/Hintergrundbild.jpg')
             margin: 0;
             padding: 0;
             font-family: Oswald, sans-serif;
