@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../CSS/style.css">
     <style>
         body {
-            background-image: url('../CSS/Hintergrundbild.jpg')
+            background-image: url('../CSS/Hintergrundbild.jpg');
             margin: 0;
             padding: 0;
             font-family: Oswald, sans-serif;
@@ -62,8 +62,8 @@
             <h2>Willkommen bei Odori</h2>
             <p>Logge dich ein, um gebrauchte Outdoor-Schätze zu entdecken und anzubieten.</p>
             <form method="post">
-                <input type="text" name="username" placeholder="Email/Mitgliedsname">
-                <input type="password" name="password" placeholder="Passwort">
+                <input type="text" name="username" placeholder="Benutzername" required>
+                <input type="password" name="password" placeholder="Passwort" required>
                 <button type="submit" name="login">Einloggen</button>
             </form>
             <p>Noch nicht registriert? <strong><a href="#">Erstelle ein Konto</a></strong></p>
@@ -71,17 +71,37 @@
     </div>
 
     <?php
-        if (isset($_POST['login'])) {
-          $username = $_POST['username'];
-          $password = $_POST['password'];
-          // Einfache Überprüfung der Anmeldedaten
-          if ($username === 'OutdoorQueen02' && $password === 'passwort') {
-              header('Location:http://localhost/Odori/PHP/startseite.php'); // Weiterleitung zur Startseite
-              exit; // Beendet die Skriptausführung nach der Weiterleitung
-          } else {
-              echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
-          }
+    include '../db_connect.php';
+
+    if (isset($_POST['login'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        // Benutzerdaten aus der Datenbank abrufen
+        $sql = "SELECT * FROM users WHERE benutzername = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            // Überprüfen, ob das eingegebene Passwort mit dem in der Datenbank übereinstimmt
+            if (password_verify($password, $row['passwort'])) {
+                header('Location: http://localhost/Odori/PHP/startseite.php'); // Weiterleitung zur Startseite
+                exit; // Beendet die Skriptausführung nach der Weiterleitung
+            } else {
+                echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
+            }
+        } else {
+            echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
         }
+
+        $stmt->close();
+    }
+
+    $conn->close();
     ?>
 </body>
 </html>
+
