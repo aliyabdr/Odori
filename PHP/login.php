@@ -54,6 +54,13 @@
             border-radius: 20px;
             cursor: pointer;
         }
+        a {
+            color: rgb(163, 177, 138);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -66,7 +73,7 @@
                 <input type="password" name="password" placeholder="Passwort" required>
                 <button type="submit" name="login">Einloggen</button>
             </form>
-            <p>Noch nicht registriert? <strong><a href="#">Erstelle ein Konto</a></strong></p>
+            <p>Noch nicht registriert? <strong><a href="registrierung1.php">Erstelle ein Konto</a></strong></p>
         </div>
     </div>
 
