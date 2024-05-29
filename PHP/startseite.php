@@ -11,7 +11,9 @@
             margin-bottom: 20px;
         }
     </style>
-    <?php include 'header.php'; ?>
+    <?php include 'header.php'; 
+    include 'footer.php';
+    ?>
 </head>
 <body>
     <div class="container">
