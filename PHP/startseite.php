@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
     <title>Startseite</title>
     <link rel="stylesheet" href="style.css">
-    <?php include 'header.php'?>
+    <?php include 'header.php'; ?>
 </head>
-<body>
+<body class="startseite">
     <div class="container">
-        <h1>Kaufe und verkaufe gebrauchtes Outdoor-Equipment 
-        – einfach, schnell und sicher</h1>
+        <h1>Kaufe und verkaufe gebrauchtes Outdoor-Equipment – einfach, schnell und sicher</h1>
         <form action="suchergebnisse.php" method="GET">
             <div class="search-bar">
                 <label for="artikel">Artikel suchen:</label>
@@ -24,3 +24,4 @@
     <?php include 'footer.php'; ?>
 </body>
 </html>
+

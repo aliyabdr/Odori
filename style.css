@@ -1,12 +1,22 @@
+/* Grundlegendes Layout und Stile */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family: Arial, sans-serif;
 }
 
 body {
     display: flex;
     flex-direction: column;
+}
+
+body.startseite {
+    background-image: url('../img/startseite.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white; /* Optional: Wenn der Text besser sichtbar sein soll */
 }
 
 .container {
@@ -28,10 +38,60 @@ body {
     padding: 10px;
 }
 
-.container {
-    text-align: center;
-    margin-top: 100px;
+.footer img {
+    max-width: 100px; /* Beispielgröße, passe nach Bedarf an */
+    height: auto;
 }
-.search-bar {
-    margin-bottom: 20px;
+
+/* Header-Stile */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Logo-Stile */
+.logo {
+    max-width: 150px;
+    width: 100px;  /* Größe des Logos anpassen */
+    height: auto;/* Seitenverhältnis beibehalten */
+}
+
+
+/* Navigation-Stile */
+.navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.navigation ul li {
+    display: inline;
+}
+
+.navigation ul li a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    transition: color 0.3s;
+}
+
+.navigation ul li a:hover {
+    color: #007bff;
+}
+
+/* Icons-Stile */
+.icons {
+    display: flex;
+    gap: 15px;
+}
+
+.icons a img {
+    max-width: 30px; /* Größe der Icons anpassen */
+    height: auto; /* Seitenverhältnis beibehalten */
 }

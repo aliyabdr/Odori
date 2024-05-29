@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Odori</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .logo-img{
+        max-width: 200px;  /* Größe des Logos anpassen */
+        height: auto;/* Seitenverhältnis beibehalten */
+    }
+    </style>
 </head>
 <body>
     <header>
-        <div class="logo">
-            <img src="../img/odori-logo-quer.png" alt="Odori Logo">
-        </div>
+    <div class="logo">
+            <img src="../img/odori-logo-quer.png" alt="Logo" class="logo-img">
+    </div> 
         <nav class="navigation">
             <ul>
                 <li><a href="bekleidung.php">Bekleidung</a></li>

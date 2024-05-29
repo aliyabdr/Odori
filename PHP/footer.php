@@ -64,7 +64,7 @@ p {
     <footer>
         <div class="footer-container">
             <div class="footer-column">
-                <img src="logo.png" alt="Logo" class="footer-logo">
+                <img src="../img/odori-logo-quer.png" alt="Logo" class="footer-logo">
                 <p>Entdecke die größte Auswahl an gebrauchtem Outdoor-Equipment in Deutschland</p>
             </div>
             <div class="footer-column">
