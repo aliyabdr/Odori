@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../style.css">
     <style>
         body {
-            background-image: url('../CSS/Hintergrundbild.jpg');
+            background-image: url('../img/Hintergrundbild.jpg');
             margin: 0;
             padding: 0;
             font-family: Oswald, sans-serif;

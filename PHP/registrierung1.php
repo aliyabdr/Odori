@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrierung</title>
-    <link rel="stylesheet" href="../CSS/style.css">
     <style>
         body {
-            background-image: url('../CSS/Hintergrundbild.jpg');
+            background-image: url('../img/Hintergrundbild.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             display: flex;

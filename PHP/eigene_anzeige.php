@@ -2,7 +2,7 @@
 include '../db_connect.php';
 
 // ID der Anzeige
-$ad_id = 0;
+$ad_id = 1; // Die ID der Anzeige, die dargestellt werden soll
 
 // Anzeige aus der Datenbank abrufen
 $sql = "SELECT * FROM ads WHERE id = ?";
@@ -34,21 +34,23 @@ $images = json_decode($ad['bilder'], true);
             background-color: #f4f4f4;
         }
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
+            background-color:#a3b18a ;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            text-align: left;
-            color: #333;
+        h1, h2, h3, p {
+            color: white; /* Ensure headings and paragraphs are in white */
         }
         .ad-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+        .ad-header h2 {
+            margin: 0;
         }
         .ad-images {
             display: flex;
@@ -78,8 +80,8 @@ $images = json_decode($ad['bilder'], true);
         }
         .ad-actions button, .ad-actions a {
             padding: 10px 20px;
-            background-color: #a3b18a;
-            color: white;
+            background-color: white;
+            color: #a3b18a;
             border: none;
             border-radius: 5px;
             text-align: center;
@@ -89,32 +91,99 @@ $images = json_decode($ad['bilder'], true);
         .ad-actions button:hover, .ad-actions a:hover {
             background-color: #8a9b68;
         }
+        .ad-info {
+            display: flex;
+            gap: 20px;
+        }
+        .ad-info .ad-image {
+            flex: 1;
+            max-width: 300px;
+        }
+        .ad-info .ad-description {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toggle-button {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            background-color: #ccc;
+            border-radius: 12px;
+            width: 50px;
+            height: 25px;
+            position: relative;
+        }
+        .toggle-button input {
+            display: none;
+        }
+        .toggle-button .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 12px;
+            transition: .4s;
+        }
+        .toggle-button .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            border-radius: 50%;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+        }
+        .toggle-button input:checked + .slider {
+            background-color: #66bb6a;
+        }
+        .toggle-button input:checked + .slider:before {
+            transform: translateX(24px);
+        }
     </style>
 </head>
 <body>
+    <?php include 'header.php'; ?>
     <div class="container">
         <h1>Meine Anzeige</h1>
-        <div class="ad-header">
-            <div>
+        <div class="ad-info">
+            <div class="ad-image">
+                <img src="<?php echo htmlspecialchars($images[0]); ?>" alt="Bild" style="width: 300px; height: auto;">
+                <div class="ad-images">
+                    <?php foreach ($images as $image): ?>
+                        <img src="<?php echo htmlspecialchars($image); ?>" alt="Bild">
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <div class="ad-description">
                 <h2><?php echo htmlspecialchars($ad['titel']); ?></h2>
-                <p>Preis: <?php echo number_format($ad['preis'], 2, ',', '.'); ?>€</p>
-                <p>Preistyp: <?php echo htmlspecialchars($ad['preistyp']); ?></p>
-                <p>Kategorie: <?php echo htmlspecialchars($ad['kategorie']); ?></p>
+                <p><strong>Preis:</strong> <?php echo number_format($ad['preis'], 2, ',', '.'); ?>€</p>
+                <p><strong>Preistyp:</strong> <?php echo htmlspecialchars($ad['preistyp']); ?></p>
+                <h3>Beschreibung</h3>
+                <p><?php echo nl2br(htmlspecialchars($ad['beschreibung'])); ?></p>
+                <div class="ad-actions">
+                    <form action="anzeige_bearbeiten.php" method="get">
+                        <input type="hidden" name="id" value="<?php echo $ad_id; ?>">
+                        <button type="submit">Anzeige bearbeiten</button>
+                    </form>
+                    <form action="pop-up_anzeige_loeschen.php" method="get">
+                        <input type="hidden" name="id" value="<?php echo $ad_id; ?>">
+                        <button type="submit">Anzeige löschen</button>
+                    </form>
+                </div>
+                <div class="ad-status">
+                    <label class="toggle-button">
+                        <input type="checkbox" <?php if ($ad['status'] == 1) echo 'checked'; ?>>
+                        <span class="slider"></span>
+                    </label>
+                    <span>Anzeige aktiv</span>
+                </div>
             </div>
-            <div>
-                <p>Status: <span><?php echo ($ad['status'] == 1) ? 'Aktiv' : 'Inaktiv'; ?></span></p>
-                <button>Anzeige bearbeiten</button>
-                <button>Anzeige löschen</button>
-            </div>
-        </div>
-        <div class="ad-images">
-            <?php foreach ($images as $image): ?>
-                <img src="<?php echo htmlspecialchars($image); ?>" alt="Bild">
-            <?php endforeach; ?>
-        </div>
-        <div class="ad-details">
-            <h3>Beschreibung</h3>
-            <p><?php echo nl2br(htmlspecialchars($ad['beschreibung'])); ?></p>
         </div>
     </div>
     <?php include 'footer.php'; ?>
