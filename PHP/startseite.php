@@ -2,18 +2,8 @@
 <html>
 <head>
     <title>Startseite</title>
-    <style>
-        .container {
-            text-align: center;
-            margin-top: 100px;
-        }
-        .search-bar {
-            margin-bottom: 20px;
-        }
-    </style>
-    <?php include 'header.php'; 
-    include 'footer.php';
-    ?>
+    <link rel="stylesheet" href="style.css">
+    <?php include 'header.php'?>
 </head>
 <body>
     <div class="container">
@@ -31,5 +21,6 @@
             <button type="submit">Suchen</button>
         </form>
     </div>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
