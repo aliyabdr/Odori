@@ -28,7 +28,11 @@ if ($sort == 'price_asc') {
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$user_id, "%$search%", "%$location%", $filters['price_min'], $filters['price_max'], "%{$filters['color']}%", "%{$filters['brand']}%", "%{$filters['condition']}%"]);
-$ads = $stmt->fetchAll();
+$ads = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if ($ads === false) {
+    $ads = [];
+}
 
 // Filteroptionen aus den Daten abrufen
 $colors = $pdo->query("SELECT DISTINCT color FROM ads")->fetchAll(PDO::FETCH_COLUMN);
@@ -41,7 +45,6 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
     <meta charset="UTF-8">
     <title>Suchergebnisse</title>
     <style>
-        
         body.startseite {
             flex: 1;
             position: relative;
@@ -114,8 +117,6 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             background-color: #8F9D70;
         }
 
-        
-
         /* Styles für die Suchergebnisseite */
         .search-results-container {
             padding: 20px;
@@ -180,8 +181,8 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             border: 1px solid #ddd;
             border-radius: 5px;
             padding: 10px;
-            width: calc(33.333% - 20px); /* Adjust this value to control the width of each ad item */
-            max-width: 300px; /* Optional: Set a max-width to limit the size of each ad item */
+            width: calc(50% - 20px); /* Adjust this value to control the width of each ad item */
+            max-width: 700px; /* Optional: Set a max-width to limit the size of each ad item */
             box-sizing: border-box;
             transition: box-shadow 0.3s;
         }
@@ -282,3 +283,4 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
     <?php include 'footer.php'; ?>
 </body>
 </html>
+
