@@ -1,3 +1,15 @@
+<?php
+session_start(); // Start der Session am Anfang des Skripts, ohne Leerzeichen oder Zeilenumbrüche davor
+
+// Überprüfung, ob der Benutzer eingeloggt ist
+if (isset($_SESSION['user_id'])) {
+    header('Location: startseite.php');
+    exit; // Beendet die Skriptausführung nach der Weiterleitung
+}
+
+include '../db_connect.php';
+
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -79,8 +91,8 @@
     <div class="container">
         <h1>Benutzerdaten</h1>
         <form name="regForm" action="register.php" method="post" onsubmit="return validateForm()">
-            <input type="hidden" name="postal_code" value="<?php echo htmlspecialchars($_POST['postal_code']); ?>">
-            <input type="hidden" name="location" value="<?php echo htmlspecialchars($_POST['location']); ?>">
+            <input type="hidden" name="plz" value="<?php echo htmlspecialchars($_POST['plz']); ?>">
+            <input type="hidden" name="ort" value="<?php echo htmlspecialchars($_POST['ort']); ?>">
             <input type="text" name="username" placeholder="Benutzername" required>
             <input type="email" name="email" placeholder="E-Mail" required>
             <input type="password" name="password" placeholder="Passwort" required>

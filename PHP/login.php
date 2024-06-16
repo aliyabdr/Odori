@@ -1,5 +1,11 @@
 <?php
-session_start(); // Start der Session am Anfang des Skripts
+    session_start(); // Startet die Session nur, wenn noch keine aktive Session vorhanden ist
+
+// Überprüfung, ob der Benutzer eingeloggt ist
+if (isset($_SESSION['user_id'])) {
+    header('Location: startseite.php');
+    exit; // Beendet die Skriptausführung nach der Weiterleitung
+}
 
 include '../db_connect.php';
 
@@ -21,9 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
             // Setzen von Session-Variablen
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
-            if (isset($row['profile_picture'])) {
-                $_SESSION['user_profile_picture'] = $row['profile_picture'];
-            }
+            $_SESSION['user_profile_picture'] = $row['profile_picture'];
             header('Location: startseite.php'); // Weiterleitung zur Startseite
             exit; // Beendet die Skriptausführung nach der Weiterleitung
         } else {
@@ -123,3 +127,4 @@ $conn->close();
     <?php include 'footer.php'; ?>
 </body>
 </html>
+

@@ -1,3 +1,6 @@
+<?php
+    session_start(); // Startet die Session nur, wenn noch keine aktive Session vorhanden ist
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
