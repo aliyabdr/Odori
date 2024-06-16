@@ -148,7 +148,7 @@ if (isset($_SESSION['user_id'])) {
                         <?php echo strtoupper($_SESSION['username'][0]); ?>
                     <?php endif; ?>
                     <div class="dropdown-content" id="dropdownContent">
-                        <a href="profil.php">Zum Profil</a>
+                        <a href="eigenes_profil.php">Zum Profil</a>
                         <form method="post" action="logout.php">
                             <button type="submit" name="logout">Abmelden</button>
                         </form>
