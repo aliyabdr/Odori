@@ -85,7 +85,7 @@
             </ul>
         </nav>
         <div class="icons">
-            <a href="erstellen.php"><img src="../img/icon-add.jpg" alt="Anzeige erstellen"></a>
+            <a href="anzeige_erstellen.php"><img src="../img/icon-add.jpg" alt="Anzeige erstellen"></a>
             <a href="chat.php"><img src="../img/icon-speech-bubble.jpg" alt="Chat"></a>
             <a href="gespeichert.php"><img src="../img/icon-fav.jpg" alt="Gespeicherte Anzeigen"></a>
             <a href="profil.php"><img src="../img/icon-image.jpg" alt="Profil"></a>

@@ -1,3 +1,13 @@
+<?php
+session_start(); // Startet die Sitzung
+
+// Überprüfen, ob der Benutzer angemeldet ist
+if (!isset($_SESSION['user_id'])) {
+    // Wenn der Benutzer nicht angemeldet ist, Weiterleitung zur Login-Seite
+    header('Location: login.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -5,14 +15,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anzeige erstellen</title>
     <style>
+         /* Importiere die Schriftart 'Lato' */
+         @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
+            font-family: 'Lato', sans-serif;
             padding: 20px;
         }
         .container {
             max-width: 800px;
-            margin: 200px;
+            margin: 100px;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
@@ -58,6 +69,7 @@
     </style>
 </head>
 <body>
+    <?php include 'header.php'; ?>
     <div class="container">
         <h1>Anzeige erstellen</h1>
         <form action="create_ad.php" method="post" enctype="multipart/form-data">
