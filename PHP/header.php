@@ -9,8 +9,6 @@
             max-width: 200px; /* Größe des Logos anpassen */
             height: auto; /* Seitenverhältnis beibehalten */
         }
-                
-
 
         /* Header-Stile */
         header {
@@ -20,6 +18,12 @@
             padding: 10px 20px;
             background-color: #f8f8f8;
             border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000; /* Stellt sicher, dass der Header über anderen Inhalten bleibt */
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box; /* Stellt sicher, dass Padding im Gesamtbreitenwert enthalten ist */
         }
 
         /* Logo-Stile */
@@ -63,7 +67,6 @@
             max-width: 30px;
             height: auto;
         }
-
     </style>
 </head>
 <body>
@@ -90,3 +93,4 @@
     </header>
 </body>
 </html>
+

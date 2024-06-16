@@ -16,15 +16,14 @@
         background-position: center;
         height: 100vh;
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
+        align-items: center;
     }
     .container {
         width: 100%;
         display: flex;
         justify-content: center;
-        margin: 5%;
+        margin-top: 5%; /* Erhöht den Abstand vom oberen Rand */
     }
     .login-box {
         background-color: rgba(255, 255, 255, 0.7);
@@ -33,17 +32,20 @@
         border-radius: 10px;
         text-align: center;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+        margin-bottom: 50px
     }
     h2 {
         font-size: 24px;
         margin-bottom: 20px;
     }
     input[type="text"], input[type="password"] {
-        width: 100%;
+        width: calc(100% - 30px); /* Reduziert die Breite des Eingabefeldes */
         padding: 10px;
-        margin: 10px 0;
+        margin: 10px 15px; /* Fügt links und rechts mehr Abstand hinzu */
         border-radius: 5px;
         border: 1px solid #ccc;
+        box-sizing: border-box; /* Beinhaltet Padding in der Breite */
     }
     button {
         width: 100%;
@@ -52,6 +54,7 @@
         color: white;
         border: none;
         border-radius: 5px;
+        margin-top: 10px;
         cursor: pointer;
         font-size: 16px;
     }
