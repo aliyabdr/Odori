@@ -4,6 +4,7 @@ include 'db.php'; // Verbindet zur Datenbank
 
 $ad_id = $_GET['id'] ?? 0;
 
+// Anzeige-Daten abrufen
 $sql = "SELECT ads.*, users.username AS user_name, users.location AS user_location
         FROM ads
         JOIN users ON ads.user_id = users.id
@@ -16,6 +17,13 @@ if (!$ad) {
     echo "Anzeige nicht gefunden.";
     exit;
 }
+
+// Bilder-Daten abrufen
+$sql_images = "SELECT image_url FROM ad_images WHERE ad_id = ?";
+$stmt_images = $pdo->prepare($sql_images);
+$stmt_images->execute([$ad_id]);
+$images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -23,12 +31,13 @@ if (!$ad) {
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($ad['title']); ?></title>
     <style>
+        /* CSS bleibt unverändert */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             margin: 0;
             padding: 20px;
-            color: #333; /* Dunkelgraue Schriftfarbe für den gesamten Text */
+            color: #333;
         }
         .container {
             max-width: 1200px;
@@ -51,12 +60,12 @@ if (!$ad) {
             font-size: 2em;
             font-weight: bold;
             margin: 0;
-            color: black; /* Schwarze Schriftfarbe für den Titel */
+            color: black;
         }
         .ad-header .price {
             font-size: 1.5em;
             font-weight: bold;
-            color: black; /* Schwarze Schriftfarbe für den Preis */
+            color: black;
         }
         .ad-header .old-price {
             text-decoration: line-through;
@@ -99,12 +108,12 @@ if (!$ad) {
             font-size: 2em;
             font-weight: bold;
             margin: 0;
-            color: black; /* Schwarze Schriftfarbe für den Titel */
+            color: black;
         }
         .ad-body .details .price {
             font-size: 1.5em;
             font-weight: bold;
-            color: black; /* Schwarze Schriftfarbe für den Preis */
+            color: black;
             margin-bottom: 10px;
         }
         .ad-body .details .old-price {
@@ -133,7 +142,7 @@ if (!$ad) {
             margin-bottom: 10px;
             border-bottom: 1px solid #ddd;
             padding-bottom: 5px;
-            color: black; /* Schwarze Schriftfarbe für den Titel "Beschreibung" */
+            color: black;
         }
         .ad-details table {
             width: 100%;
@@ -144,10 +153,10 @@ if (!$ad) {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-            color: #333; /* Dunkelgraue Schriftfarbe für die Tabelle */
+            color: #333;
         }
         .description {
-            color: black; /* Schwarze Schriftfarbe für die Beschreibung */
+            color: black;
         }
         .seller-info-container {
             flex: 1;
@@ -161,7 +170,7 @@ if (!$ad) {
             border-radius: 8px;
             display: flex;
             align-items: center;
-            color: #333; /* Dunkelgraue Schriftfarbe für Verkäuferinformationen */
+            color: #333;
         }
         .seller-info img {
             border-radius: 50%;
@@ -199,12 +208,11 @@ if (!$ad) {
     <div class="container">
         <div class="ad-body">
             <div class="images">
-                <?php $images = explode(",", $ad['image_url']); ?>
                 <?php if (count($images) > 0): ?>
-                    <img id="mainImage" src="<?php echo htmlspecialchars($images[0]); ?>" alt="Bild">
+                    <img id="mainImage" src="<?php echo htmlspecialchars($images[0]['image_url']); ?>" alt="Bild">
                     <div class="thumbnail">
                         <?php foreach ($images as $image): ?>
-                            <img src="<?php echo htmlspecialchars($image); ?>" alt="Bild" onclick="document.getElementById('mainImage').src='<?php echo htmlspecialchars($image); ?>'">
+                            <img src="<?php echo htmlspecialchars($image['image_url']); ?>" alt="Bild" onclick="document.getElementById('mainImage').src='<?php echo htmlspecialchars($image['image_url']); ?>'">
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
