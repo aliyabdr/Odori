@@ -79,8 +79,8 @@
     <div class="container">
         <h1>Benutzerdaten</h1>
         <form name="regForm" action="register.php" method="post" onsubmit="return validateForm()">
-            <input type="hidden" name="plz" value="<?php echo htmlspecialchars($_POST['plz']); ?>">
-            <input type="hidden" name="ort" value="<?php echo htmlspecialchars($_POST['ort']); ?>">
+            <input type="hidden" name="postal_code" value="<?php echo htmlspecialchars($_POST['postal_code']); ?>">
+            <input type="hidden" name="location" value="<?php echo htmlspecialchars($_POST['location']); ?>">
             <input type="text" name="username" placeholder="Benutzername" required>
             <input type="email" name="email" placeholder="E-Mail" required>
             <input type="password" name="password" placeholder="Passwort" required>
@@ -91,5 +91,3 @@
     <?php include 'footer.php'; ?>     
 </body>
 </html>
-
-

@@ -2,8 +2,8 @@
 include '../db_connect.php'; // Verbindung zur Datenbank herstellen
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $plz = $_POST['plz'];
-    $ort = $_POST['ort'];
+    $postal_code = $_POST['postal_code'];
+    $location = $_POST['location'];
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -25,10 +25,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Das Passwort verschlüsseln
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+    // Überprüfen, ob der Benutzername oder die E-Mail bereits existieren
+    $sql_check = "SELECT * FROM users WHERE username = ? OR email = ?";
+    $stmt_check = $conn->prepare($sql_check);
+    $stmt_check->bind_param("ss", $username, $email);
+    $stmt_check->execute();
+    $result_check = $stmt_check->get_result();
+
+    if ($result_check->num_rows > 0) {
+        die("Benutzername oder E-Mail ist bereits vergeben.");
+    }
+
+    $stmt_check->close();
+
     // Benutzer in die Datenbank einfügen
-    $sql = "INSERT INTO users (benutzername, passwort, email, plz, standort) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO users (username, password, email, postal_code, location) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $username, $hashed_password, $email, $plz, $ort);
+    $stmt->bind_param("sssss", $username, $hashed_password, $email, $postal_code, $location);
 
     if ($stmt->execute()) {
         echo "Registrierung erfolgreich!";

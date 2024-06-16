@@ -1,3 +1,43 @@
+<?php
+session_start(); // Start der Session am Anfang des Skripts
+
+include '../db_connect.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Benutzerdaten aus der Datenbank abrufen
+    $sql = "SELECT * FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        // Überprüfen, ob das eingegebene Passwort mit dem in der Datenbank übereinstimmt
+        if (password_verify($password, $row['password'])) {
+            // Setzen von Session-Variablen
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['username'] = $row['username'];
+            if (isset($row['profile_picture'])) {
+                $_SESSION['user_profile_picture'] = $row['profile_picture'];
+            }
+            header('Location: startseite.php'); // Weiterleitung zur Startseite
+            exit; // Beendet die Skriptausführung nach der Weiterleitung
+        } else {
+            echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
+        }
+    } else {
+        echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
+    }
+
+    $stmt->close();
+}
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -33,7 +73,7 @@
         text-align: center;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 30px;
-        margin-bottom: 80px
+        margin-bottom: 80px;
     }
     h2 {
         font-size: 24px;
@@ -80,38 +120,6 @@
             <p>Noch nicht registriert? <strong><a href="registrierung1.php">Erstelle ein Konto</a></strong></p>
         </div>
     </div>
-<?php
-include '../db_connect.php';
-
-if (isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Benutzerdaten aus der Datenbank abrufen
-    $sql = "SELECT * FROM users WHERE benutzername = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        // Überprüfen, ob das eingegebene Passwort mit dem in der Datenbank übereinstimmt
-        if (password_verify($password, $row['passwort'])) {
-            header('Location: http://localhost/Odori/PHP/startseite.php'); // Weiterleitung zur Startseite
-            exit; // Beendet die Skriptausführung nach der Weiterleitung
-        } else {
-            echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
-        }
-    } else {
-        echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
-    }
-
-    $stmt->close();
-}
-
-$conn->close();
-?>
-<?php include 'footer.php'; ?> 
+    <?php include 'footer.php'; ?>
 </body>
 </html>
