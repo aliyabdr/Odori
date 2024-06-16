@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrierung</title>
     <style>
+          /* Importiere die Schriftart 'Lato' */
+          @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
         body {
             background-image: url('../img/Hintergrundbild.jpg');
             background-size: cover;
             background-repeat: no-repeat;
+            font-family: 'Lato', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,6 +24,9 @@
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
+            width: 350px;
+            margin-top: 400px;
+            margin-bottom: 150px
         }
         input[type="text"] {
             width: 90%;
@@ -41,6 +47,7 @@
     </style>
 </head>
 <body>
+    <?php include 'header.php'; ?>
     <div class="container">
         <h1>Ort</h1>
         <form action="registrierung2.php" method="post">
@@ -49,5 +56,6 @@
             <button type="submit">Weiter</button>
         </form>
     </div>
+<?php include 'footer.php'; ?>     
 </body>
 </html>

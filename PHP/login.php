@@ -26,14 +26,14 @@
         margin-top: 5%; /* Erhöht den Abstand vom oberen Rand */
     }
     .login-box {
-        background-color: rgba(255, 255, 255, 0.7);
-        width: 300px;
+        background-color: rgba(255, 255, 255, 0.8);
+        width: 400px;
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 20px;
         text-align: center;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 30px;
-        margin-bottom: 50px
+        margin-bottom: 80px
     }
     h2 {
         font-size: 24px;
@@ -43,17 +43,16 @@
         width: calc(100% - 30px); /* Reduziert die Breite des Eingabefeldes */
         padding: 10px;
         margin: 10px 15px; /* Fügt links und rechts mehr Abstand hinzu */
-        border-radius: 5px;
+        border-radius: 20px;
         border: 1px solid #ccc;
         box-sizing: border-box; /* Beinhaltet Padding in der Breite */
     }
     button {
-        width: 100%;
-        padding: 10px;
+        padding: 10px 20px;
         background-color: rgb(163, 177, 138);
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 20px;
         margin-top: 10px;
         cursor: pointer;
         font-size: 16px;

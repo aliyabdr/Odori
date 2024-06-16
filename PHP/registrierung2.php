@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrierung - Schritt 2</title>
     <style>
+            /* Importiere die Schriftart 'Lato' */
+            @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
         body {
             background-image: url('../img/Hintergrundbild.jpg');
             background-size: cover;
             background-repeat: no-repeat;
+            font-family: 'Lato', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,6 +24,9 @@
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
+            width: 350px;
+            margin-top: 400px;
+            margin-bottom: 150px;
         }
         input[type="text"], input[type="password"], input[type="email"] {
             width: 90%;
@@ -38,6 +44,7 @@
             border-radius: 20px;
             cursor: pointer;
             align-items: center;
+            margin-top: 10px;
         }
     </style>
     <script>
@@ -68,6 +75,7 @@
     </script>
 </head>
 <body>
+    <?php include 'header.php'; ?>
     <div class="container">
         <h1>Benutzerdaten</h1>
         <form name="regForm" action="register.php" method="post" onsubmit="return validateForm()">
@@ -80,6 +88,7 @@
             <button type="submit">Registrieren</button>
         </form>
     </div>
+    <?php include 'footer.php'; ?>     
 </body>
 </html>
 
