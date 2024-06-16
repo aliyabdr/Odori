@@ -4,7 +4,7 @@ include 'db.php'; // Verbindet zur Datenbank
 
 $ad_id = $_GET['id'] ?? 0;
 
-$sql = "SELECT ads.*, users.benutzername AS user_name, users.standort AS user_location
+$sql = "SELECT ads.*, users.username AS user_name, users.location AS user_location
         FROM ads
         JOIN users ON ads.user_id = users.id
         WHERE ads.id = ?";
@@ -37,26 +37,21 @@ if (!$ad) {
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .ad-title {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: black; /* Schwarze Schriftfarbe für den Titel */
-        }
-        .ad-description {
-            margin-bottom: 20px;
-            font-size: 1.2em;
+            display: flex;
+            flex-wrap: wrap;
         }
         .ad-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
         }
         .ad-header h1 {
-            font-size: 1.8em;
+            font-size: 2em;
+            font-weight: bold;
             margin: 0;
-            color: black; /* Schwarze Schriftfarbe für den Titel in der Kopfzeile */
+            color: black; /* Schwarze Schriftfarbe für den Titel */
         }
         .ad-header .price {
             font-size: 1.5em;
@@ -70,13 +65,16 @@ if (!$ad) {
         }
         .ad-body {
             display: flex;
-            margin-top: 20px;
+            flex: 2;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         .ad-body .images {
             flex: 1;
+            max-width: 300px;
         }
         .ad-body .images img {
-            max-width: 100%;
+            width: 100%;
             border-radius: 8px;
             margin-bottom: 10px;
         }
@@ -94,11 +92,25 @@ if (!$ad) {
         }
         .ad-body .details {
             flex: 2;
-            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
         }
-        .ad-body .details .availability {
-            color: #27ae60;
+        .ad-body .details h1 {
+            font-size: 2em;
             font-weight: bold;
+            margin: 0;
+            color: black; /* Schwarze Schriftfarbe für den Titel */
+        }
+        .ad-body .details .price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: black; /* Schwarze Schriftfarbe für den Preis */
+            margin-bottom: 10px;
+        }
+        .ad-body .details .old-price {
+            text-decoration: line-through;
+            color: black;
+            margin-left: 10px;
         }
         .ad-body .details .btn {
             display: inline-block;
@@ -109,6 +121,7 @@ if (!$ad) {
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
+            align-self: flex-start;
         }
         .ad-body .details .btn:hover {
             background-color: #8F9D70;
@@ -120,6 +133,7 @@ if (!$ad) {
             margin-bottom: 10px;
             border-bottom: 1px solid #ddd;
             padding-bottom: 5px;
+            color: black; /* Schwarze Schriftfarbe für den Titel "Beschreibung" */
         }
         .ad-details table {
             width: 100%;
@@ -131,6 +145,14 @@ if (!$ad) {
             text-align: left;
             border-bottom: 1px solid #ddd;
             color: #333; /* Dunkelgraue Schriftfarbe für die Tabelle */
+        }
+        .description {
+            color: black; /* Schwarze Schriftfarbe für die Beschreibung */
+        }
+        .seller-info-container {
+            flex: 1;
+            max-width: 300px;
+            margin-left: 20px;
         }
         .seller-info {
             margin-top: 20px;
@@ -175,15 +197,6 @@ if (!$ad) {
 <body>
     <?php include 'header.php'; ?>
     <div class="container">
-        <div class="ad-header">
-            <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
-            <div class="price">
-                <?php echo htmlspecialchars($ad['price']); ?>€
-                <?php if (!empty($ad['old_price'])): ?>
-                    <span class="old-price"><?php echo htmlspecialchars($ad['old_price']); ?>€</span>
-                <?php endif; ?>
-            </div>
-        </div>
         <div class="ad-body">
             <div class="images">
                 <?php $images = explode(",", $ad['image_url']); ?>
@@ -197,13 +210,17 @@ if (!$ad) {
                 <?php endif; ?>
             </div>
             <div class="details">
+                <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
                 <div class="price">
                     <?php echo htmlspecialchars($ad['price']); ?>€
                     <?php if (!empty($ad['old_price'])): ?>
                         <span class="old-price"><?php echo htmlspecialchars($ad['old_price']); ?>€</span>
                     <?php endif; ?>
                 </div>
-                <button class="btn">Kaufen</button>
+                <form action="kaufen.php" method="post">
+                    <input type="hidden" name="ad_id" value="<?php echo $ad_id; ?>">
+                    <button class="btn" type="submit">Kaufen</button>
+                </form>
                 <div class="ad-details">
                     <table>
                         <tr>
@@ -223,22 +240,32 @@ if (!$ad) {
                             <td><?php echo htmlspecialchars($ad['condition']); ?></td>
                         </tr>
                         <tr>
+                            <th>Kategorie:</th>
+                            <td><?php echo htmlspecialchars($ad['category']); ?></td>
+                        </tr>
+                        <tr>
                             <th>Hochgeladen:</th>
                             <td><?php echo htmlspecialchars($ad['created_at']); ?></td>
                         </tr>
                     </table>
                 </div>
+                <div class="description">
+                    <h3>Beschreibung</h3>
+                    <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                </div>
             </div>
         </div>
-        <div class="seller-info">
-            <img src="path/to/profile/picture.jpg" alt="Profilbild">
-            <div>
-                <h3><?php echo htmlspecialchars($ad['user_name']); ?></h3>
-                <p><?php echo htmlspecialchars($ad['user_location']); ?></p>
-                <button class="contact-btn">Nachricht schicken</button>
-            </div>
-            <div class="save-btn">
-                <i class="fas fa-heart"></i> Speichern
+        <div class="seller-info-container">
+            <div class="seller-info">
+                <img src="path/to/profile/picture.jpg" alt="Profilbild">
+                <div>
+                    <h3><?php echo htmlspecialchars($ad['user_name']); ?></h3>
+                    <p><?php echo htmlspecialchars($ad['user_location']); ?></p>
+                    <button class="contact-btn">Nachricht schicken</button>
+                </div>
+                <div class="save-btn">
+                    <i class="fas fa-heart"></i> Speichern
+                </div>
             </div>
         </div>
     </div>
