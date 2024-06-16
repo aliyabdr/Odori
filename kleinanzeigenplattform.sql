@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 15. Jun 2024 um 12:40
+-- Erstellungszeit: 16. Jun 2024 um 12:26
 -- Server-Version: 10.4.32-MariaDB
 -- PHP-Version: 8.2.12
 
@@ -38,24 +38,37 @@ CREATE TABLE `ads` (
   `location` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `image_url` varchar(255) DEFAULT NULL
+  `image_url` varchar(255) DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Daten für Tabelle `ads`
 --
 
-INSERT INTO `ads` (`id`, `title`, `description`, `price`, `brand`, `color`, `condition`, `location`, `user_id`, `created_at`, `image_url`) VALUES
-(1, 'Leichter Wander-Rucksack', 'Ein leichter und robuster Wander-Rucksack, perfekt für Tagesausflüge.', 45.00, 'Deuter', 'Blau', 'Gebraucht', 'Berlin, Deutschland', 1, '2024-06-14 18:54:15', NULL),
-(2, 'Trekkingzelt für 2 Personen', 'Wetterfestes Zelt für 2 Personen, ideal für längere Trekkingtouren.', 120.00, 'Vaude', 'Grün', 'Neu', 'Hamburg, Deutschland', 2, '2024-06-14 18:54:15', NULL),
-(3, 'Wanderstöcke aus Aluminium', 'Leichte und stabile Wanderstöcke, ausziehbar und mit komfortablen Griffen.', 30.00, 'Leki', 'Schwarz', 'Gebraucht', 'München, Deutschland', 3, '2024-06-14 18:54:15', NULL),
-(4, 'Kletterschuhe Größe 42', 'Bequeme und griffige Kletterschuhe, kaum benutzt.', 60.00, 'La Sportiva', 'Gelb', 'Wie Neu', 'Frankfurt, Deutschland', 4, '2024-06-14 18:54:15', NULL),
-(5, 'Outdoor-Kocher', 'Kompakter und leistungsstarker Kocher, ideal für Camping und Trekking.', 35.00, 'Primus', 'Silber', 'Neu', 'Köln, Deutschland', 5, '2024-06-14 18:54:15', NULL),
-(6, 'Schlafsack für extreme Kälte', 'Hochwertiger Schlafsack, geeignet für sehr niedrige Temperaturen.', 150.00, 'Mammut', 'Rot', 'Wie Neu', 'Stuttgart, Deutschland', 6, '2024-06-14 18:54:15', NULL),
-(7, 'Trinkflasche 1L', 'Robuste und BPA-freie Trinkflasche, perfekt für Outdoor-Aktivitäten.', 15.00, 'Nalgene', 'Transparent', 'Neu', 'Düsseldorf, Deutschland', 7, '2024-06-14 18:54:15', NULL),
-(8, 'Campingstuhl faltbar', 'Bequemer und faltbarer Campingstuhl, leicht zu transportieren.', 25.00, 'Helinox', 'Schwarz', 'Gebraucht', 'Leipzig, Deutschland', 8, '2024-06-14 18:54:15', NULL),
-(9, 'GPS-Uhr', 'Multifunktionale GPS-Uhr mit Höhenmesser und Barometer.', 200.00, 'Garmin', 'Schwarz', 'Neu', 'Dresden, Deutschland', 9, '2024-06-14 18:54:15', NULL),
-(10, 'Wasserdichter Rucksack', 'Wasserdichter Rucksack, ideal für Kajak- und Rafting-Touren.', 80.00, 'Ortlieb', 'Gelb', 'Gebraucht', 'Hannover, Deutschland', 10, '2024-06-14 18:54:15', NULL);
+INSERT INTO `ads` (`id`, `title`, `description`, `price`, `brand`, `color`, `condition`, `location`, `user_id`, `created_at`, `image_url`, `category`) VALUES
+(1, 'Leichter Wander-Rucksack', 'Ein leichter und robuster Wander-Rucksack, perfekt für Tagesausflüge.', 45.00, 'Deuter', 'Blau', 'Gebraucht', 'Berlin, Deutschland', 1, '2024-06-14 18:54:15', NULL, 'Rucksäcke'),
+(2, 'Trekkingzelt für 2 Personen', 'Wetterfestes Zelt für 2 Personen, ideal für längere Trekkingtouren.', 120.00, 'Vaude', 'Grün', 'Neu', 'Hamburg, Deutschland', 2, '2024-06-14 18:54:15', NULL, 'Zelte'),
+(3, 'Wanderstöcke aus Aluminium', 'Leichte und stabile Wanderstöcke, ausziehbar und mit komfortablen Griffen.', 30.00, 'Leki', 'Schwarz', 'Gebraucht', 'München, Deutschland', 3, '2024-06-14 18:54:15', NULL, 'Wanderstöcke'),
+(4, 'Kletterschuhe Größe 42', 'Bequeme und griffige Kletterschuhe, kaum benutzt.', 60.00, 'La Sportiva', 'Gelb', 'Wie Neu', 'Frankfurt, Deutschland', 4, '2024-06-14 18:54:15', NULL, 'Kletterschuhe'),
+(5, 'Outdoor-Kocher', 'Kompakter und leistungsstarker Kocher, ideal für Camping und Trekking.', 35.00, 'Primus', 'Silber', 'Neu', 'Köln, Deutschland', 5, '2024-06-14 18:54:15', NULL, 'Kocher'),
+(6, 'Schlafsack für extreme Kälte', 'Hochwertiger Schlafsack, geeignet für sehr niedrige Temperaturen.', 150.00, 'Mammut', 'Rot', 'Wie Neu', 'Stuttgart, Deutschland', 6, '2024-06-14 18:54:15', NULL, 'Schlafsäcke'),
+(7, 'Trinkflasche 1L', 'Robuste und BPA-freie Trinkflasche, perfekt für Outdoor-Aktivitäten.', 15.00, 'Nalgene', 'Transparent', 'Neu', 'Düsseldorf, Deutschland', 7, '2024-06-14 18:54:15', NULL, 'Trinkflaschen'),
+(8, 'Campingstuhl faltbar', 'Bequemer und faltbarer Campingstuhl, leicht zu transportieren.', 25.00, 'Helinox', 'Schwarz', 'Gebraucht', 'Leipzig, Deutschland', 8, '2024-06-14 18:54:15', NULL, 'Campingmöbel'),
+(9, 'GPS-Uhr', 'Multifunktionale GPS-Uhr mit Höhenmesser und Barometer.', 200.00, 'Garmin', 'Schwarz', 'Neu', 'Dresden, Deutschland', 9, '2024-06-14 18:54:15', NULL, 'Navigation'),
+(10, 'Wasserdichter Rucksack', 'Wasserdichter Rucksack, ideal für Kajak- und Rafting-Touren.', 80.00, 'Ortlieb', 'Gelb', 'Gebraucht', 'Hannover, Deutschland', 10, '2024-06-14 18:54:15', NULL, 'Rucksäcke');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `ad_images`
+--
+
+CREATE TABLE `ad_images` (
+  `id` int(11) NOT NULL,
+  `ad_id` int(11) NOT NULL,
+  `image_url` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -106,21 +119,21 @@ INSERT INTO `reviews` (`id`, `user_id`, `reviewer_id`, `rating`, `review`, `crea
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `benutzername` varchar(255) NOT NULL,
-  `passwort` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `plz` varchar(10) DEFAULT NULL,
-  `standort` varchar(255) DEFAULT NULL,
-  `profilbild` text DEFAULT NULL,
-  `ueber_mich` text DEFAULT NULL,
-  `erstellt_am` timestamp NOT NULL DEFAULT current_timestamp()
+  `postal_code` varchar(10) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `profile_picture` text DEFAULT NULL,
+  `about_me` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` (`id`, `benutzername`, `passwort`, `email`, `plz`, `standort`, `profilbild`, `ueber_mich`, `erstellt_am`) VALUES
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `postal_code`, `location`, `profile_picture`, `about_me`, `created_at`) VALUES
 (1, 'OutdoorQueen02', '$2y$10$UyrOFxaLYZy5NIugbrZE/.a7LxTnCDpUtPJD8PrJE0pDOWZA64Kba', 'aliya02@hotmail.com', '70563', 'Stuttgart', NULL, NULL, '2024-05-28 10:38:18'),
 (2, 'Baerrr555', '$2y$10$AsVii8pMaa0lkwdOYhRTd.Hn95Z3RWWYciOQftHH8u5BNRNNwOMVK', 'natha05@hotmail.com', '70563', 'Stuttgart', NULL, NULL, '2024-05-28 11:00:01'),
 (3, 'maggus42', '$2y$10$IYkFNRHLrBbkbMrvFIPPduShKB82Yt7SpFkv0.qZq.oGROfVvu0iS', 'hallo@googel.com', '71126', 'Gäufelden', NULL, NULL, '2024-05-28 12:17:15'),
@@ -148,6 +161,13 @@ ALTER TABLE `ads`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indizes für die Tabelle `ad_images`
+--
+ALTER TABLE `ad_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ad_id` (`ad_id`);
+
+--
 -- Indizes für die Tabelle `reviews`
 --
 ALTER TABLE `reviews`
@@ -172,6 +192,12 @@ ALTER TABLE `ads`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT für Tabelle `ad_images`
+--
+ALTER TABLE `ad_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT für Tabelle `reviews`
 --
 ALTER TABLE `reviews`
@@ -186,6 +212,12 @@ ALTER TABLE `users`
 --
 -- Constraints der exportierten Tabellen
 --
+
+--
+-- Constraints der Tabelle `ad_images`
+--
+ALTER TABLE `ad_images`
+  ADD CONSTRAINT `ad_images_ibfk_1` FOREIGN KEY (`ad_id`) REFERENCES `ads` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `reviews`
