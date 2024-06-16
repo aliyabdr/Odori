@@ -1,4 +1,3 @@
-<?php
 $host = 'localhost'; // Datenbank-Host, normalerweise 'localhost'
 $db   = 'kleinanzeigenplattform'; // Name der Datenbank
 $user = 'root'; // Datenbank-Benutzername, standardmäßig 'root' für XAMPP
