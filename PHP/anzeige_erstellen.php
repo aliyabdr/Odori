@@ -20,10 +20,11 @@ if (!isset($_SESSION['user_id'])) {
         body {
             font-family: 'Lato', sans-serif;
             padding: 20px;
+            background-color: #f0f0f0;
         }
         .container {
-            max-width: 800px;
-            margin: 100px;
+            width: 800px; 
+            margin: 50px auto; /* zentriert den Container */
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
@@ -36,10 +37,12 @@ if (!isset($_SESSION['user_id'])) {
         form {
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
         label {
             margin-bottom: 5px;
             font-weight: bold;
+            width: 100%; /* Etiketten auf die volle Breite setzen */
         }
         input[type="text"],
         textarea,
@@ -50,8 +53,7 @@ if (!isset($_SESSION['user_id'])) {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            width: 80%;
-            align-self: center;
+            width: 80%; /* Eingabefelder auf volle Breite setzen */
         }
         input[type="submit"] {
             padding: 10px 20px;
@@ -91,11 +93,16 @@ if (!isset($_SESSION['user_id'])) {
             <label for="price">Preis:</label>
             <input type="number" id="price" name="price" min="0" step="0.01" required>
             
-            <label for="price_type">Preistyp:</label>
-            <select id="price_type" name="price_type" required>
-                <option value="festpreis">Festpreis</option>
-                <option value="verhandelbar">Verhandelbar</option>
-                <option value="kostenlos">Kostenlos</option>
+            <label for="color">Farbe:</label>
+            <input type="text" id="color" name="color">
+            
+            <label for="brand">Marke:</label>
+            <input type="text" id="brand" name="brand">
+            
+            <label for="condition">Zustand:</label>
+            <select id="condition" name="condition" required>
+                <option value="neu">Neu</option>
+                <option value="gebraucht">Gebraucht</option>
             </select>
             
             <label for="images">Bilder hochladen:</label>
@@ -107,3 +114,5 @@ if (!isset($_SESSION['user_id'])) {
     <?php include 'footer.php'; ?>
 </body>
 </html>
+
+

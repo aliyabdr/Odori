@@ -48,6 +48,15 @@ $conn->close();
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Hinzugefügt */
+        }
+        .edit-icon {
+            position: absolute; /* Hinzugefügt */
+            top: 20px; /* Hinzugefügt */
+            right: 20px; /* Hinzugefügt */
+            width: 30px; /* Hinzugefügt */
+            height: 30px; /* Hinzugefügt */
+            cursor: pointer; /* Hinzugefügt */
         }
         .profile-header {
             display: flex;
@@ -177,6 +186,7 @@ $conn->close();
     <?php include 'header.php'; ?>
     <div class="container">
         <h1>Mein Profil</h1>
+        <img src="../img/icon_pencil.jpg" alt="Bearbeiten" class="edit-icon" id="editProfile">
         <div class="profile-header">
             <div class="profile-picture" id="profilePicture">
                 <?php if (!empty($user['profile_picture'])): ?>
@@ -272,6 +282,11 @@ $conn->close();
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        }
+
+        // Weiterleitung zur Bearbeitungsseite
+        document.getElementById('editProfile').onclick = function() {
+            window.location.href = 'eigenes_profil_bearbeiten.php';
         }
     </script>
 </body>
