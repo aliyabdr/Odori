@@ -9,6 +9,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
+
+// Erste Abfrage für Benutzerdaten
 $sql = "SELECT username, profile_picture, about_me, location FROM users WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
@@ -17,6 +19,10 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $stmt->close();
 
+// Überprüfen, ob die 'location'-Spalte existiert und nicht leer ist
+$user_location = !empty($user['location']) ? $user['location'] : '';
+
+// Zweite Abfrage für Anzeigen
 $sql_ads = "SELECT * FROM ads WHERE user_id = ?";
 $stmt_ads = $conn->prepare($sql_ads);
 $stmt_ads->bind_param("i", $user_id);
@@ -31,6 +37,7 @@ $conn->close();
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mein Profil</title>
     <link rel="stylesheet" href="../style.css">
     <style>
@@ -41,9 +48,8 @@ $conn->close();
             padding: 0;
         }
         .container {
-            max-width: 1000px;
+            width: 800px;
             margin: 20px auto;
-            margin-bottom: 100px;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
@@ -200,7 +206,7 @@ $conn->close();
                 <?php if (!empty($user['about_me'])): ?>
                     <p><?php echo htmlspecialchars($user['about_me']); ?></p>
                 <?php endif; ?>
-                <p><?php echo htmlspecialchars($user['location']); ?></p>
+                <p><?php echo htmlspecialchars($user_location); ?></p>
             </div>
         </div>
         <div class="tabs">
@@ -217,8 +223,8 @@ $conn->close();
                 <?php else: ?>
                     <?php foreach ($ads as $ad): ?>
                         <div class="ad">
-                            <?php if (!empty($ad['image'])): ?>
-                                <img src="<?php echo htmlspecialchars($ad['image']); ?>" alt="Anzeige Bild">
+                            <?php if (!empty($ad['image_url'])): ?>
+                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
                             <div class="ad-details">
                                 <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
@@ -288,6 +294,25 @@ $conn->close();
         document.getElementById('editProfile').onclick = function() {
             window.location.href = 'eigenes_profil_bearbeiten.php';
         }
+
+        // Debugging-Informationen anzeigen
+        console.log('Anzeigen:', <?php echo json_encode($ads); ?>);
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
