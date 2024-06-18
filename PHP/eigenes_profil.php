@@ -73,6 +73,7 @@ $conn->close();
             width: 150px;
             height: 150px;
             border-radius: 50%;
+            overflow: hidden; /* Hinzugefügt */
             background-color: #a3b18a;
             color: white;
             font-size: 36px;
@@ -81,6 +82,11 @@ $conn->close();
             justify-content: center;
             margin-right: 20px;
             cursor: pointer;
+        }
+        .profile-picture img {
+            width: 100%; /* Hinzugefügt */
+            height: 100%; /* Hinzugefügt */
+            object-fit: cover; /* Hinzugefügt */
         }
         .profile-info h2 {
             margin: 0;
@@ -196,7 +202,7 @@ $conn->close();
         <div class="profile-header">
             <div class="profile-picture" id="profilePicture">
                 <?php if (!empty($user['profile_picture'])): ?>
-                    <img src="<?php echo $user['profile_picture']; ?>" alt="Profilbild" style="width: 100%; height: 100%; border-radius: 50%;">
+                    <img src="<?php echo $user['profile_picture']; ?>" alt="Profilbild">
                 <?php else: ?>
                     <?php echo strtoupper($user['username'][0]); ?>
                 <?php endif; ?>
@@ -231,6 +237,7 @@ $conn->close();
                                 <p>Preis: <?php echo htmlspecialchars($ad['price']); ?> €</p>
                                 <p>Kategorie: <?php echo htmlspecialchars($ad['category']); ?></p>
                                 <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                                <a href="anzeige_bearbeiten.php?id=<?php echo $ad['id']; ?>" class="edit-ad-icon"><img src="../img/icon_pencil.jpg" alt="Bearbeiten" style="width: 20px; height: 20px;"></a>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -300,8 +307,6 @@ $conn->close();
     </script>
 </body>
 </html>
-
-
 
 
 

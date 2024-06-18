@@ -32,7 +32,7 @@ if (!isset($_SESSION['user_id'])) {
         }
         h1 {
             text-align: left;
-            color: #333;
+            color: black;
         }
         form {
             display: flex;
@@ -49,6 +49,7 @@ if (!isset($_SESSION['user_id'])) {
         select,
         input[type="number"],
         input[type="file"] {
+            margin-top: 10px;
             margin-bottom: 15px;
             padding: 10px;
             border: 1px solid #ccc;

@@ -28,7 +28,6 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Odori</title>
-    <link rel="stylesheet" href="../style.css">
     <style>
         .logo-img {
             max-width: 200px;
@@ -94,6 +93,12 @@ if (isset($_SESSION['user_id'])) {
             cursor: pointer;
             position: relative;
         }
+        .user-profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
         .dropdown-content {
             display: none;
             position: absolute;
@@ -102,7 +107,7 @@ if (isset($_SESSION['user_id'])) {
             background-color: #f9f9f9;
             min-width: 100px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+            z-index: 10;
             border-radius: 5px;
         }
         .dropdown-content a, .dropdown-content button {
@@ -182,3 +187,7 @@ if (isset($_SESSION['user_id'])) {
     </script>
 </body>
 </html>
+
+
+
+
