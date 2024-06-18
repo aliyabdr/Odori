@@ -54,15 +54,15 @@ $conn->close();
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Hinzugefügt */
+            position: relative;
         }
         .edit-icon {
-            position: absolute; /* Hinzugefügt */
-            top: 20px; /* Hinzugefügt */
-            right: 20px; /* Hinzugefügt */
-            width: 30px; /* Hinzugefügt */
-            height: 30px; /* Hinzugefügt */
-            cursor: pointer; /* Hinzugefügt */
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
         }
         .profile-header {
             display: flex;
@@ -73,7 +73,7 @@ $conn->close();
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            overflow: hidden; /* Hinzugefügt */
+            overflow: hidden;
             background-color: #a3b18a;
             color: white;
             font-size: 36px;
@@ -84,9 +84,9 @@ $conn->close();
             cursor: pointer;
         }
         .profile-picture img {
-            width: 100%; /* Hinzugefügt */
-            height: 100%; /* Hinzugefügt */
-            object-fit: cover; /* Hinzugefügt */
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .profile-info h2 {
             margin: 0;
@@ -202,15 +202,17 @@ $conn->close();
         <div class="profile-header">
             <div class="profile-picture" id="profilePicture">
                 <?php if (!empty($user['profile_picture'])): ?>
-                    <img src="<?php echo $user['profile_picture']; ?>" alt="Profilbild">
+                    <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profilbild">
                 <?php else: ?>
-                    <?php echo strtoupper($user['username'][0]); ?>
+                    <?php echo strtoupper(htmlspecialchars($user['username'][0])); ?>
                 <?php endif; ?>
             </div>
             <div class="profile-info">
                 <h2><?php echo htmlspecialchars($user['username']); ?></h2>
                 <?php if (!empty($user['about_me'])): ?>
-                    <p><?php echo htmlspecialchars($user['about_me']); ?></p>
+                    <p><?php echo nl2br(htmlspecialchars($user['about_me'])); ?></p>
+                <?php else: ?>
+                    <?php echo ('x'); ?>
                 <?php endif; ?>
                 <p><?php echo htmlspecialchars($user_location); ?></p>
             </div>
@@ -259,9 +261,9 @@ $conn->close();
         <div class="modal-content">
             <span class="close">&times;</span>
             <?php if (!empty($user['profile_picture'])): ?>
-                <img src="<?php echo $user['profile_picture']; ?>" alt="Profilbild">
+                <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profilbild">
             <?php else: ?>
-                <div style="font-size: 100px; color: #a3b18a;"><?php echo strtoupper($user['username'][0]); ?></div>
+                <div style="font-size: 100px; color: #a3b18a;"><?php echo strtoupper(htmlspecialchars($user['username'][0])); ?></div>
             <?php endif; ?>
         </div>
     </div>
@@ -301,12 +303,16 @@ $conn->close();
         document.getElementById('editProfile').onclick = function() {
             window.location.href = 'eigenes_profil_bearbeiten.php';
         }
-
-        // Debugging-Informationen anzeigen
-        console.log('Anzeigen:', <?php echo json_encode($ads); ?>);
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
