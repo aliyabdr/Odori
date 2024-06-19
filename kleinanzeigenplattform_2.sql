@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Jun 2024 um 12:26
--- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.2.12
+-- Erstellungszeit: 19. Jun 2024 um 08:55
+-- Server-Version: 10.4.27-MariaDB
+-- PHP-Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,16 +47,20 @@ CREATE TABLE `ads` (
 --
 
 INSERT INTO `ads` (`id`, `title`, `description`, `price`, `brand`, `color`, `condition`, `location`, `user_id`, `created_at`, `image_url`, `category`) VALUES
-(1, 'Leichter Wander-Rucksack', 'Ein leichter und robuster Wander-Rucksack, perfekt für Tagesausflüge.', 45.00, 'Deuter', 'Blau', 'Gebraucht', 'Berlin, Deutschland', 1, '2024-06-14 18:54:15', NULL, 'Rucksäcke'),
-(2, 'Trekkingzelt für 2 Personen', 'Wetterfestes Zelt für 2 Personen, ideal für längere Trekkingtouren.', 120.00, 'Vaude', 'Grün', 'Neu', 'Hamburg, Deutschland', 2, '2024-06-14 18:54:15', NULL, 'Zelte'),
-(3, 'Wanderstöcke aus Aluminium', 'Leichte und stabile Wanderstöcke, ausziehbar und mit komfortablen Griffen.', 30.00, 'Leki', 'Schwarz', 'Gebraucht', 'München, Deutschland', 3, '2024-06-14 18:54:15', NULL, 'Wanderstöcke'),
-(4, 'Kletterschuhe Größe 42', 'Bequeme und griffige Kletterschuhe, kaum benutzt.', 60.00, 'La Sportiva', 'Gelb', 'Wie Neu', 'Frankfurt, Deutschland', 4, '2024-06-14 18:54:15', NULL, 'Kletterschuhe'),
-(5, 'Outdoor-Kocher', 'Kompakter und leistungsstarker Kocher, ideal für Camping und Trekking.', 35.00, 'Primus', 'Silber', 'Neu', 'Köln, Deutschland', 5, '2024-06-14 18:54:15', NULL, 'Kocher'),
-(6, 'Schlafsack für extreme Kälte', 'Hochwertiger Schlafsack, geeignet für sehr niedrige Temperaturen.', 150.00, 'Mammut', 'Rot', 'Wie Neu', 'Stuttgart, Deutschland', 6, '2024-06-14 18:54:15', NULL, 'Schlafsäcke'),
-(7, 'Trinkflasche 1L', 'Robuste und BPA-freie Trinkflasche, perfekt für Outdoor-Aktivitäten.', 15.00, 'Nalgene', 'Transparent', 'Neu', 'Düsseldorf, Deutschland', 7, '2024-06-14 18:54:15', NULL, 'Trinkflaschen'),
-(8, 'Campingstuhl faltbar', 'Bequemer und faltbarer Campingstuhl, leicht zu transportieren.', 25.00, 'Helinox', 'Schwarz', 'Gebraucht', 'Leipzig, Deutschland', 8, '2024-06-14 18:54:15', NULL, 'Campingmöbel'),
-(9, 'GPS-Uhr', 'Multifunktionale GPS-Uhr mit Höhenmesser und Barometer.', 200.00, 'Garmin', 'Schwarz', 'Neu', 'Dresden, Deutschland', 9, '2024-06-14 18:54:15', NULL, 'Navigation'),
-(10, 'Wasserdichter Rucksack', 'Wasserdichter Rucksack, ideal für Kajak- und Rafting-Touren.', 80.00, 'Ortlieb', 'Gelb', 'Gebraucht', 'Hannover, Deutschland', 10, '2024-06-14 18:54:15', NULL, 'Rucksäcke');
+(1, 'Leichter Wander-Rucksack', 'Ein leichter und robuster Wander-Rucksack, perfekt für Tagesausflüge.', '45.00', 'Deuter', 'Blau', 'Gebraucht', 'Berlin, Deutschland', 1, '2024-06-14 18:54:15', NULL, 'Rucksäcke'),
+(2, 'Trekkingzelt für 2 Personen', 'Wetterfestes Zelt für 2 Personen, ideal für längere Trekkingtouren.', '120.00', 'Vaude', 'Grün', 'Neu', 'Hamburg, Deutschland', 2, '2024-06-14 18:54:15', NULL, 'Zelte'),
+(3, 'Wanderstöcke aus Aluminium', 'Leichte und stabile Wanderstöcke, ausziehbar und mit komfortablen Griffen.', '30.00', 'Leki', 'Schwarz', 'Gebraucht', 'München, Deutschland', 3, '2024-06-14 18:54:15', NULL, 'Wanderstöcke'),
+(4, 'Kletterschuhe Größe 42', 'Bequeme und griffige Kletterschuhe, kaum benutzt.', '60.00', 'La Sportiva', 'Gelb', 'Wie Neu', 'Frankfurt, Deutschland', 4, '2024-06-14 18:54:15', NULL, 'Kletterschuhe'),
+(5, 'Outdoor-Kocher', 'Kompakter und leistungsstarker Kocher, ideal für Camping und Trekking.', '35.00', 'Primus', 'Silber', 'Neu', 'Köln, Deutschland', 5, '2024-06-14 18:54:15', NULL, 'Kocher'),
+(6, 'Schlafsack für extreme Kälte', 'Hochwertiger Schlafsack, geeignet für sehr niedrige Temperaturen.', '150.00', 'Mammut', 'Rot', 'Wie Neu', 'Stuttgart, Deutschland', 6, '2024-06-14 18:54:15', NULL, 'Schlafsäcke'),
+(7, 'Trinkflasche 1L', 'Robuste und BPA-freie Trinkflasche, perfekt für Outdoor-Aktivitäten.', '15.00', 'Nalgene', 'Transparent', 'Neu', 'Düsseldorf, Deutschland', 7, '2024-06-14 18:54:15', NULL, 'Trinkflaschen'),
+(8, 'Campingstuhl faltbar', 'Bequemer und faltbarer Campingstuhl, leicht zu transportieren.', '25.00', 'Helinox', 'Schwarz', 'Gebraucht', 'Leipzig, Deutschland', 8, '2024-06-14 18:54:15', NULL, 'Campingmöbel'),
+(9, 'GPS-Uhr', 'Multifunktionale GPS-Uhr mit Höhenmesser und Barometer.', '200.00', 'Garmin', 'Schwarz', 'Neu', 'Dresden, Deutschland', 9, '2024-06-14 18:54:15', NULL, 'Navigation'),
+(10, 'Wasserdichter Rucksack', 'Wasserdichter Rucksack, ideal für Kajak- und Rafting-Touren.', '80.00', 'Ortlieb', 'Gelb', 'Gebraucht', 'Hannover, Deutschland', 10, '2024-06-14 18:54:15', NULL, 'Rucksäcke'),
+(11, 'Wanderstiefel Lowa in braun', 'Verkaufe Wanderstiefel der Marke Lowa mit einer griffigen Außensohle\r\nGröße: 38\r\nGebraucht aber in gutem Zustand. Sie sind sowohl wasserdicht als auch atmungsaktiv \r\n', '35.00', 'Lowa', 'Braun', 'gebraucht', NULL, 16, '2024-06-17 10:49:45', '../uploads/clay-banks-BSL837tTPAw-unsplash.jpg', 'Wandern'),
+(12, 'Wanderstiefel Lowa in braun', 'Verkaufe Wanderstiefel der Marke Lowa mit einer griffigen Außensohle\r\nGröße: 38\r\nGebraucht aber in gutem Zustand. Sie sind sowohl wasserdicht als auch atmungsaktiv \r\n', '35.00', 'Lowa', 'Braun', 'gebraucht', NULL, 16, '2024-06-17 10:49:53', '../uploads/clay-banks-BSL837tTPAw-unsplash.jpg', 'Wandern'),
+(13, 'Wanderstiefel Lowa in braun', 'Verkaufe Wanderstiefel der Marke Lowa mit einer griffigen Außensohle\r\nGröße: 38\r\nGebraucht aber in gutem Zustand. Sie sind sowohl wasserdicht als auch atmungsaktiv \r\n', '35.00', 'Lowa', 'Braun', 'gebraucht', NULL, 16, '2024-06-17 10:50:44', '../uploads/clay-banks-BSL837tTPAw-unsplash.jpg', 'Wandern'),
+(14, 'Wanderstiefel Lowa in braun', 'Verkaufe Wanderstiefel der Marke Lowa mit einer griffigen Außensohle\r\nGröße: 38\r\nGebraucht aber in gutem Zustand. Sie sind sowohl wasserdicht als auch atmungsaktiv \r\n', '35.00', 'Lowa\r\n', 'Braun', 'gebraucht', NULL, 16, '2024-06-17 11:03:07', '../uploads/clay-banks-BSL837tTPAw-unsplash.jpg', 'Wandern');
 
 -- --------------------------------------------------------
 
@@ -148,7 +152,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `postal_code`, `loca
 (12, 'adventureguy', 'password_hash_7', 'adventureguy@example.com', '40213', 'Düsseldorf, Deutschland', NULL, 'Ich liebe Outdoor-Abenteuer.', '2024-06-14 18:55:53'),
 (13, 'trailblazer', 'password_hash_8', 'trailblazer@example.com', '04109', 'Leipzig, Deutschland', NULL, 'Trailrunning und mehr.', '2024-06-14 18:55:53'),
 (14, 'forestwanderer', 'password_hash_9', 'forestwanderer@example.com', '01067', 'Dresden, Deutschland', NULL, 'Ich wandere gerne durch Wälder.', '2024-06-14 18:55:53'),
-(15, 'wildlifeenthusiast', 'password_hash_10', 'wildlifeenthusiast@example.com', '30159', 'Hannover, Deutschland', NULL, 'Wildlife-Fotografie ist meine Leidenschaft.', '2024-06-14 18:55:53');
+(15, 'wildlifeenthusiast', 'password_hash_10', 'wildlifeenthusiast@example.com', '30159', 'Hannover, Deutschland', NULL, 'Wildlife-Fotografie ist meine Leidenschaft.', '2024-06-14 18:55:53'),
+(16, '1234567890', '$2y$10$gIRiw7qdWp9gbStoHNBf2.TZi18XfmwjALg7d.fcUOsTMV7P4zMaO', '123@hotmail.com', '70569', 'Stuttgart', '../uploads/Imagen de WhatsApp 2024-04-16 a las 11.12.46_88c00d5b.jpg', 'hey! :)', '2024-06-16 11:11:36');
 
 --
 -- Indizes der exportierten Tabellen
@@ -189,7 +194,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT für Tabelle `ads`
 --
 ALTER TABLE `ads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT für Tabelle `ad_images`
@@ -207,7 +212,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints der exportierten Tabellen
