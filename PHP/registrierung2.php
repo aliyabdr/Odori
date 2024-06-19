@@ -6,6 +6,25 @@
     <title>Registrierung - Schritt 2</title>
     <link rel="stylesheet" href="../CSS/style.css">
     <style>
+
+    /* Importiere die Schriftart 'Lato' */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+/* Grundlegendes Layout und Stile */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Lato', sans-serif; /* Anwenden der Schriftart 'Lato' */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: white;
+}
+
         body {
             background-image: url('../CSS/Hintergrundbild.jpg');
             background-size: cover;

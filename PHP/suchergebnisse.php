@@ -45,6 +45,24 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
     <meta charset="UTF-8">
     <title>Suchergebnisse</title>
     <style>
+        /* Importiere die Schriftart 'Lato' */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+/* Grundlegendes Layout und Stile */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Lato', sans-serif; /* Anwenden der Schriftart 'Lato' */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: white;
+}
+
         body.startseite {
             flex: 1;
             position: relative;

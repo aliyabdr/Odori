@@ -10,12 +10,15 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            margin-top: 50px;
+            margin-bottom: 50px;
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
         }
         .gif-container {
             text-align: center;
+            margin-top: 100px;
+            margin-bottom: 50px;
         }
     </style>
 </head>
