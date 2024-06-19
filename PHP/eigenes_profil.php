@@ -55,6 +55,7 @@ $conn->close();
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
+            color: black;
         }
         .edit-icon {
             position: absolute;
@@ -211,8 +212,6 @@ $conn->close();
                 <h2><?php echo htmlspecialchars($user['username']); ?></h2>
                 <?php if (!empty($user['about_me'])): ?>
                     <p><?php echo nl2br(htmlspecialchars($user['about_me'])); ?></p>
-                <?php else: ?>
-                    <?php echo ('x'); ?>
                 <?php endif; ?>
                 <p><?php echo htmlspecialchars($user_location); ?></p>
             </div>

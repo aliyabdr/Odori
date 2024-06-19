@@ -29,6 +29,7 @@ if (!isset($_SESSION['user_id'])) {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: black;
         }
         h1 {
             text-align: left;
@@ -55,6 +56,7 @@ if (!isset($_SESSION['user_id'])) {
             border: 1px solid #ccc;
             border-radius: 5px;
             width: 80%; /* Eingabefelder auf volle Breite setzen */
+            color: black;
         }
         input[type="submit"] {
             padding: 10px 20px;
