@@ -19,7 +19,8 @@ if (!isset($_SESSION['user_id'])) {
          @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
         body {
             font-family: 'Lato', sans-serif;
-            padding: 20px;
+            padding: 0;
+            margin: 0;
             background-color: #f0f0f0;
         }
         .container {

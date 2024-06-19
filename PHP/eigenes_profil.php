@@ -49,7 +49,7 @@ $conn->close();
         }
         .container {
             width: 800px;
-            margin: 20px auto;
+            margin: 50px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
@@ -112,6 +112,7 @@ $conn->close();
             border-radius: 5px;
             padding: 10px;
             margin-bottom: 10px;
+            position: relative;
             display: flex;
             align-items: center;
         }
@@ -130,6 +131,21 @@ $conn->close();
             margin: 5px 0;
             font-size: 16px;
             color: #777;
+        }
+        .ad-details .label {
+            font-weight: bold;
+        }
+        .ad-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .ad-actions img {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
         }
         .no-ads {
             text-align: center;
@@ -163,6 +179,7 @@ $conn->close();
             z-index: 1000;
             left: 0;
             top: 0;
+            padding: 20px;
             width: 100%;
             height: 100%;
             overflow: auto;
@@ -175,6 +192,9 @@ $conn->close();
             border: 1px solid #888;
             width: 80%;
             max-width: 600px;
+            text-align: center;
+            border-radius: 20px;
+            color: black;
         }
         .close {
             color: #aaa;
@@ -193,6 +213,21 @@ $conn->close();
             height: auto;
             border-radius: 10px;
         }
+        .modal-buttons {
+            margin-top: 20px;
+        }
+        .modal-buttons button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #a3b18a;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .modal-buttons button:hover {
+            background-color: #8a9b68;
+        }
     </style>
 </head>
 <body>
@@ -210,9 +245,7 @@ $conn->close();
             </div>
             <div class="profile-info">
                 <h2><?php echo htmlspecialchars($user['username']); ?></h2>
-                <?php if (!empty($user['about_me'])): ?>
-                    <p><?php echo nl2br(htmlspecialchars($user['about_me'])); ?></p>
-                <?php endif; ?>
+                <p><strong>Über mich:</strong> <?php echo !empty($user['about_me']) ? nl2br(htmlspecialchars($user['about_me'])) : ''; ?></p>
                 <p><?php echo htmlspecialchars($user_location); ?></p>
             </div>
         </div>
@@ -235,10 +268,13 @@ $conn->close();
                             <?php endif; ?>
                             <div class="ad-details">
                                 <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
-                                <p>Preis: <?php echo htmlspecialchars($ad['price']); ?> €</p>
-                                <p>Kategorie: <?php echo htmlspecialchars($ad['category']); ?></p>
+                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price']); ?> €</p>
+                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
                                 <p><?php echo htmlspecialchars($ad['description']); ?></p>
-                                <a href="anzeige_bearbeiten.php?id=<?php echo $ad['id']; ?>" class="edit-ad-icon"><img src="../img/icon_pencil.jpg" alt="Bearbeiten" style="width: 20px; height: 20px;"></a>
+                            </div>
+                            <div class="ad-actions">
+                                <a href="anzeige_bearbeiten.php?id=<?php echo $ad['id']; ?>"><img src="../img/icon_pencil.jpg" alt="Bearbeiten"></a>
+                                <img src="../img/icon_delete.jpg" alt="Löschen" class="delete-ad" data-id="<?php echo $ad['id']; ?>">
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -266,6 +302,16 @@ $conn->close();
             <?php endif; ?>
         </div>
     </div>
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Willst du diese Anzeige wirklich löschen?</p>
+            <div class="modal-buttons">
+                <button id="confirmDelete">Ja</button>
+                <button onclick="closeModal()">Nein</button>
+            </div>
+        </div>
+    </div>
     <?php include 'footer.php'; ?>
     <script>
         // Tab-Switcher
@@ -279,22 +325,51 @@ $conn->close();
             });
         });
 
-        // Modal-Funktionalität
-        var modal = document.getElementById("profileModal");
+        // Modal-Funktionalität für Profilbild
+        var profileModal = document.getElementById("profileModal");
         var profilePicture = document.getElementById("profilePicture");
-        var span = document.getElementsByClassName("close")[0];
+        var profileClose = document.getElementsByClassName("close")[0];
 
         profilePicture.onclick = function() {
-            modal.style.display = "block";
+            profileModal.style.display = "block";
         }
 
-        span.onclick = function() {
-            modal.style.display = "none";
+        profileClose.onclick = function() {
+            profileModal.style.display = "none";
         }
 
         window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            if (event.target == profileModal) {
+                profileModal.style.display = "none";
+            }
+        }
+
+        // Modal-Funktionalität für Löschen
+        var deleteModal = document.getElementById("deleteModal");
+        var deleteButtons = document.querySelectorAll('.delete-ad');
+        var confirmDeleteButton = document.getElementById('confirmDelete');
+        var adToDelete;
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                adToDelete = button.getAttribute('data-id');
+                deleteModal.style.display = "block";
+            });
+        });
+
+        confirmDeleteButton.onclick = function() {
+            if (adToDelete) {
+                window.location.href = 'delete_ad.php?id=' + adToDelete;
+            }
+        }
+
+        function closeModal() {
+            deleteModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == deleteModal) {
+                deleteModal.style.display = "none";
             }
         }
 
@@ -305,6 +380,12 @@ $conn->close();
     </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
