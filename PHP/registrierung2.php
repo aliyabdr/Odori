@@ -29,6 +29,7 @@ include '../db_connect.php';
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
         .container {
             background: rgba(255, 255, 255, 0.8);

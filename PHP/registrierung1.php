@@ -25,10 +25,13 @@ include '../db_connect.php';
             background-repeat: no-repeat;
             font-family: 'Lato', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 0;
+            
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
