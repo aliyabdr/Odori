@@ -19,7 +19,8 @@ if (!isset($_SESSION['user_id'])) {
          @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
         body {
             font-family: 'Lato', sans-serif;
-            padding: 20px;
+            padding: 0;
+            margin: 0;
             background-color: #f0f0f0;
         }
         .container {
@@ -29,6 +30,7 @@ if (!isset($_SESSION['user_id'])) {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: black;
         }
         h1 {
             text-align: left;
@@ -55,6 +57,7 @@ if (!isset($_SESSION['user_id'])) {
             border: 1px solid #ccc;
             border-radius: 5px;
             width: 80%; /* Eingabefelder auf volle Breite setzen */
+            color: black;
         }
         input[type="submit"] {
             padding: 10px 20px;

@@ -78,10 +78,12 @@ $conn->close();
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 30px;
         margin-bottom: 80px;
+        color: black;
     }
     h2 {
         font-size: 24px;
         margin-bottom: 20px;
+        color:black;
     }
     input[type="text"], input[type="password"] {
         width: calc(100% - 30px); /* Reduziert die Breite des Eingabefeldes */
@@ -90,6 +92,7 @@ $conn->close();
         border-radius: 20px;
         border: 1px solid #ccc;
         box-sizing: border-box; /* Beinhaltet Padding in der Breite */
+        color: black;
     }
     button {
         padding: 10px 20px;

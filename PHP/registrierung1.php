@@ -25,10 +25,13 @@ include '../db_connect.php';
             background-repeat: no-repeat;
             font-family: 'Lato', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 0;
+            
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
@@ -36,6 +39,7 @@ include '../db_connect.php';
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
+            color: black;
             width: 350px;
             margin-top: 400px;
             margin-bottom: 150px
@@ -47,6 +51,7 @@ include '../db_connect.php';
             border: 1px solid #ccc;
             border-radius: 20px;
             align-items: center;
+            color: black;
         }
         button {
             background-color: #a3b18a;
