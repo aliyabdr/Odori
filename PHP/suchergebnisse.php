@@ -16,7 +16,7 @@ $filters = [
 $user_id = $_SESSION['user_id'] ?? 0;
 
 // SQL Query für Suchergebnisse
-$sql = "SELECT * FROM ads WHERE user_id != ? AND title LIKE ? AND location LIKE ? AND price BETWEEN ? AND ? AND color LIKE ? AND brand LIKE ? AND `condition` LIKE ?";
+$sql = "SELECT * FROM ads WHERE user_id != ? AND title LIKE ? AND location LIKE ? AND price BETWEEN ? AND ? AND color LIKE ? AND brand LIKE ? AND condition LIKE ?";
 
 if ($sort == 'price_asc') {
     $sql .= " ORDER BY price ASC";
@@ -37,7 +37,7 @@ if ($ads === false) {
 // Filteroptionen aus den Daten abrufen
 $colors = $pdo->query("SELECT DISTINCT color FROM ads")->fetchAll(PDO::FETCH_COLUMN);
 $brands = $pdo->query("SELECT DISTINCT brand FROM ads")->fetchAll(PDO::FETCH_COLUMN);
-$conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO::FETCH_COLUMN);
+$conditions = $pdo->query("SELECT DISTINCT condition FROM ads")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -301,4 +301,3 @@ body {
     <?php include 'footer.php'; ?>
 </body>
 </html>
-
