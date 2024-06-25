@@ -144,7 +144,7 @@ if (isset($_SESSION['user_id'])) {
         <div class="icons">
             <a href="anzeige_erstellen.php"><img src="../img/icon-add.jpg" alt="Anzeige erstellen"></a>
             <a href="chat.php"><img src="../img/icon-speech-bubble.jpg" alt="Chat"></a>
-            <a href="gespeichert.php"><img src="../img/icon-fav.jpg" alt="Gespeicherte Anzeigen"></a>
+            <a href="gespeicherte_anzeigen.php"><img src="../img/icon-fav.jpg" alt="Gespeicherte Anzeigen"></a>
             <div class="user-profile" id="userProfile">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <?php if (!empty($_SESSION['user_profile_picture'])): ?>

@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Erste Abfrage für Benutzerdaten
-$sql = "SELECT username, profile_picture, about_me, location FROM users WHERE id = ?";
+$sql = "SELECT username, profile_picture, about_me, location, saved_ads FROM users WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -30,6 +30,22 @@ $stmt_ads->execute();
 $result_ads = $stmt_ads->get_result();
 $ads = $result_ads->fetch_all(MYSQLI_ASSOC);
 $stmt_ads->close();
+
+// Gespeicherte Anzeigen abrufen
+$saved_ads = !empty($user['saved_ads']) ? explode(',', $user['saved_ads']) : [];
+$saved_ads_list = [];
+if (!empty($saved_ads)) {
+    $placeholders = implode(',', array_fill(0, count($saved_ads), '?'));
+    $types = str_repeat('i', count($saved_ads));
+    
+    $sql_saved = "SELECT * FROM ads WHERE id IN ($placeholders)";
+    $stmt_saved = $conn->prepare($sql_saved);
+    $stmt_saved->bind_param($types, ...$saved_ads);
+    $stmt_saved->execute();
+    $result_saved = $stmt_saved->get_result();
+    $saved_ads_list = $result_saved->fetch_all(MYSQLI_ASSOC);
+    $stmt_saved->close();
+}
 
 $conn->close();
 ?>
@@ -287,8 +303,26 @@ $conn->close();
             </div>
         </div>
         <div class="tab-content" id="saved">
-            <div class="no-ads">
-                <p>Noch keine gespeicherten Anzeigen.</p>
+            <div class="ads-section">
+                <?php if (empty($saved_ads_list)): ?>
+                    <div class="no-ads">
+                        <p>Noch keine gespeicherten Anzeigen.</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($saved_ads_list as $ad): ?>
+                        <div class="ad">
+                            <?php if (!empty($ad['image_url'])): ?>
+                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                            <?php endif; ?>
+                            <div class="ad-details">
+                                <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
+                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price']); ?> €</p>
+                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
+                                <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
