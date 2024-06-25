@@ -5,7 +5,7 @@ include 'db.php'; // Verbindet zur Datenbank
 $ad_id = $_GET['id'] ?? 0;
 
 // Anzeige-Daten abrufen
-$sql = "SELECT ads.*, users.username AS user_name, users.location AS user_location
+$sql = "SELECT ads.*, users.username AS user_name, users.location AS user_location, users.profile_picture AS user_profile_picture, users.id AS user_id
         FROM ads
         JOIN users ON ads.user_id = users.id
         WHERE ads.id = ?";
@@ -168,21 +168,23 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
             padding: 20px;
             background-color: #f1f1f1;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            color: #333;
+            text-align: center;
         }
         .seller-info img {
             border-radius: 50%;
             width: 50px;
             height: 50px;
-            margin-right: 20px;
+            margin-bottom: 10px;
         }
         .seller-info h3 {
-            margin-top: 0;
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
         }
         .seller-info p {
             margin: 5px 0;
+            font-size: 0.9em;
+            color: #666;
         }
         .seller-info .contact-btn {
             background-color: #A3B18A;
@@ -191,15 +193,43 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 10px 0;
+            display: block;
+            width: 100%;
         }
         .seller-info .contact-btn:hover {
             background-color: #8F9D70;
         }
+        .seller-info .profile-btn {
+            background-color: transparent;
+            color: #A3B18A;
+            padding: 10px 20px;
+            border: 1px solid #A3B18A;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            display: block;
+            width: 100%;
+        }
+        .seller-info .profile-btn:hover {
+            background-color: #A3B18A;
+            color: white;
+        }
         .seller-info .save-btn {
             color: #e74c3c;
             cursor: pointer;
-            margin-left: auto;
+            margin-top: 10px;
             font-size: 1.2em;
+        }
+        .seller-info .save-btn i {
+            border: 1px solid #e74c3c;
+            border-radius: 50%;
+            padding: 5px;
+            background-color: white;
+        }
+        .seller-info .save-btn i.filled {
+            background-color: #e74c3c;
+            color: white;
         }
     </style>
 </head>
@@ -232,10 +262,6 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
                 <div class="ad-details">
                     <table>
                         <tr>
-                            <th>Preis:</th>
-                            <td>Verhandelbar</td>
-                        </tr>
-                        <tr>
                             <th>Marke:</th>
                             <td><?php echo htmlspecialchars($ad['brand']); ?></td>
                         </tr>
@@ -265,12 +291,11 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <div class="seller-info-container">
             <div class="seller-info">
-                <img src="path/to/profile/picture.jpg" alt="Profilbild">
-                <div>
-                    <h3><?php echo htmlspecialchars($ad['user_name']); ?></h3>
-                    <p><?php echo htmlspecialchars($ad['user_location']); ?></p>
-                    <button class="contact-btn">Nachricht schicken</button>
-                </div>
+                <img src="<?php echo htmlspecialchars($ad['user_profile_picture']); ?>" alt="Profilbild">
+                <h3><?php echo htmlspecialchars($ad['user_name']); ?></h3>
+                <p><?php echo htmlspecialchars($ad['user_location']); ?></p>
+                <button class="contact-btn">Nachricht schicken</button>
+                <button class="profile-btn" onclick="window.location.href='nutzer_profil.php?user_id=<?php echo $ad['user_id']; ?>'">Profil des Verkäufers</button>
                 <div class="save-btn">
                     <i class="fas fa-heart"></i> Speichern
                 </div>
