@@ -3,7 +3,6 @@ session_start();
 include 'db.php'; // Verbindet zur Datenbank
 
 $search = $_GET['artikel'] ?? '';
-$location = $_GET['ort'] ?? '';
 $sort = $_GET['sort'] ?? 'newest';
 $filters = [
     'price_min' => $_GET['price_min'] ?? 0,
@@ -16,7 +15,7 @@ $filters = [
 $user_id = $_SESSION['user_id'] ?? 0;
 
 // SQL Query für Suchergebnisse
-$sql = "SELECT * FROM ads WHERE user_id != ? AND title LIKE ? AND location LIKE ? AND price BETWEEN ? AND ? AND color LIKE ? AND brand LIKE ? AND condition LIKE ?";
+$sql = "SELECT * FROM ads WHERE user_id != ? AND title LIKE ? AND price BETWEEN ? AND ? AND color LIKE ? AND brand LIKE ? AND `condition` LIKE ?";
 
 if ($sort == 'price_asc') {
     $sql .= " ORDER BY price ASC";
@@ -27,7 +26,7 @@ if ($sort == 'price_asc') {
 }
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute([$user_id, "%$search%", "%$location%", $filters['price_min'], $filters['price_max'], "%{$filters['color']}%", "%{$filters['brand']}%", "%{$filters['condition']}%"]);
+$stmt->execute([$user_id, "%$search%", $filters['price_min'], $filters['price_max'], "%{$filters['color']}%", "%{$filters['brand']}%", "%{$filters['condition']}%"]);
 $ads = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($ads === false) {
@@ -37,7 +36,7 @@ if ($ads === false) {
 // Filteroptionen aus den Daten abrufen
 $colors = $pdo->query("SELECT DISTINCT color FROM ads")->fetchAll(PDO::FETCH_COLUMN);
 $brands = $pdo->query("SELECT DISTINCT brand FROM ads")->fetchAll(PDO::FETCH_COLUMN);
-$conditions = $pdo->query("SELECT DISTINCT condition FROM ads")->fetchAll(PDO::FETCH_COLUMN);
+$conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -46,22 +45,22 @@ $conditions = $pdo->query("SELECT DISTINCT condition FROM ads")->fetchAll(PDO::F
     <title>Suchergebnisse</title>
     <style>
         /* Importiere die Schriftart 'Lato' */
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
-/* Grundlegendes Layout und Stile */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Lato', sans-serif; /* Anwenden der Schriftart 'Lato' */
-}
+        /* Grundlegendes Layout und Stile */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Lato', sans-serif; /* Anwenden der Schriftart 'Lato' */
+        }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    color: white;
-}
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: white;
+        }
 
         body.startseite {
             flex: 1;
@@ -237,7 +236,6 @@ body {
             <!-- Filter-Formulare und Sortieroptionen -->
             <form method="GET">
                 <input type="hidden" name="artikel" value="<?php echo htmlspecialchars($search); ?>">
-                <input type="hidden" name="ort" value="<?php echo htmlspecialchars($location); ?>">
                 <div>
                     <label for="price_min">Preis von:</label>
                     <input type="number" id="price_min" name="price_min" placeholder="Min" value="<?php echo htmlspecialchars($filters['price_min']); ?>"> Euro

@@ -107,15 +107,6 @@
         .navigation ul li {
             display: inline;
         }
-        .navigation ul li a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px 15px;
-            transition: color 0.3s;
-        }
-        .navigation ul li a:hover {
-            color: #A3B18A;
-        }
         .icons {
             display: flex;
             gap: 15px;
@@ -209,7 +200,6 @@
             <form action="suchergebnisse.php" method="GET">
                 <div class="search-bar">
                     <input type="text" id="artikel" name="artikel" placeholder="Was suchst du?">
-                    <input type="text" id="ort" name="ort" placeholder="Postleitzahl / Ort">
                     <button type="submit">Finden</button>
                 </div>
             </form>
