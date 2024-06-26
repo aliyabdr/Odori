@@ -131,6 +131,8 @@ $conn->close();
             position: relative;
             display: flex;
             align-items: center;
+            text-decoration: none;
+            color: black;
         }
         .ad img {
             max-width: 100px;
@@ -244,6 +246,9 @@ $conn->close();
         .modal-buttons button:hover {
             background-color: #8a9b68;
         }
+        .ad:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
@@ -309,7 +314,7 @@ $conn->close();
                     </div>
                 <?php else: ?>
                     <?php foreach ($saved_ads_list as $ad): ?>
-                        <div class="ad">
+                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" class="ad">
                             <?php if (!empty($ad['image_url'])): ?>
                                 <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
@@ -319,7 +324,7 @@ $conn->close();
                                 <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
                                 <p><?php echo htmlspecialchars($ad['description']); ?></p>
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
@@ -413,6 +418,7 @@ $conn->close();
     </script>
 </body>
 </html>
+
 
 
 
