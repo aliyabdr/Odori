@@ -1,2 +1,0 @@
-#Hier ein Test 
-prinmt ()
