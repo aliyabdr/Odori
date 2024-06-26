@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Erste Abfrage für Benutzerdaten
-$sql = "SELECT username, profile_picture, about_me, location, saved_ads FROM users WHERE id = ?";
+$sql = "SELECT username, profile_picture, location, saved_ads FROM users WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -261,7 +261,6 @@ $conn->close();
             </div>
             <div class="profile-info">
                 <h2><?php echo htmlspecialchars($user['username']); ?></h2>
-                <p><strong>Über mich:</strong> <?php echo !empty($user['about_me']) ? nl2br(htmlspecialchars($user['about_me'])) : ''; ?></p>
                 <p><?php echo htmlspecialchars($user_location); ?></p>
             </div>
         </div>
