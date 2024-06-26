@@ -2,38 +2,39 @@
 session_start();
 include '../db_connect.php'; // Verbindung zur Datenbank herstellen
 
+// Überprüfen, ob der Benutzer eingeloggt ist
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
+    header('Location: login.php'); // Weiterleitung zur Login-Seite, falls nicht eingeloggt
+    exit;
 }
 
 $user_id = $_SESSION['user_id'];
 
-// Gespeicherte Anzeigen abrufen
-$sql = "SELECT saved_ads FROM users WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+// Abfrage für gespeicherte Anzeigen
+$sql_user = "SELECT saved_ads FROM users WHERE id = ?";
+$stmt_user = $conn->prepare($sql_user);
+$stmt_user->bind_param("i", $user_id);
+$stmt_user->execute();
+$result_user = $stmt_user->get_result();
+$user = $result_user->fetch_assoc();
+$stmt_user->close();
+
 $saved_ads = explode(',', $user['saved_ads']);
 
-if (empty($saved_ads[0])) {
-    $saved_ads = []; // Wenn keine Anzeigen gespeichert sind, leeres Array
-}
-
-$ads = [];
-if (!empty($saved_ads)) {
+// Anzeigeninformationen abrufen
+if (!empty($saved_ads[0])) {
     $placeholders = implode(',', array_fill(0, count($saved_ads), '?'));
-    $types = str_repeat('i', count($saved_ads));
-
     $sql_ads = "SELECT * FROM ads WHERE id IN ($placeholders)";
     $stmt_ads = $conn->prepare($sql_ads);
-    $stmt_ads->bind_param($types, ...$saved_ads);
+    
+    // Dynamisches Binden der Parameter
+    $stmt_ads->bind_param(str_repeat('i', count($saved_ads)), ...$saved_ads);
     $stmt_ads->execute();
     $result_ads = $stmt_ads->get_result();
     $ads = $result_ads->fetch_all(MYSQLI_ASSOC);
     $stmt_ads->close();
+} else {
+    $ads = [];
 }
 
 $conn->close();
@@ -124,3 +125,5 @@ $conn->close();
     <?php include 'footer.php'; ?>
 </body>
 </html>
+
+    

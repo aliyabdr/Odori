@@ -296,9 +296,10 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
                 <p><?php echo htmlspecialchars($ad['user_location']); ?></p>
                 <button class="contact-btn">Nachricht schicken</button>
                 <button class="profile-btn" onclick="window.location.href='nutzer_profil.php?user_id=<?php echo $ad['user_id']; ?>'">Profil des Verkäufers</button>
-                <div class="save-btn">
-                    <i class="fas fa-heart"></i> Speichern
-                </div>
+                <form action="save_ad.php" method="post">
+                    <input type="hidden" name="ad_id" value="<?php echo $ad['id']; ?>">
+                    <button type="submit" class="save-btn"><i class="fas fa-heart"></i> Speichern</button>
+                </form>
             </div>
         </div>
     </div>
@@ -306,3 +307,4 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 </body>
 </html>
+
