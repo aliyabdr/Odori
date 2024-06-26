@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 include 'db.php'; // Verbindet zur Datenbank
 
 $user_id = $_GET['user_id'] ?? 0;
-$stmt = $pdo->prepare("SELECT username, profile_picture, about_me, location FROM users WHERE id = ?");
+$stmt = $pdo->prepare("SELECT username, profile_picture, location FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -218,7 +218,6 @@ if (isset($_SESSION['user_id'])) {
             </div>
             <div class="profile-info">
                 <h2><?php echo htmlspecialchars($user['username']); ?></h2>
-                <p><strong>Über mich:</strong> <?php echo !empty($user['about_me']) ? nl2br(htmlspecialchars($user['about_me'])) : ''; ?></p>
                 <p><?php echo htmlspecialchars($user_location); ?></p>
             </div>
         </div>
