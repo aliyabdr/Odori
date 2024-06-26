@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Benutzerinformationen abrufen
-$sql = "SELECT username, profile_picture, about_me, location, postal_code FROM users WHERE id = ?";
+$sql = "SELECT username, profile_picture, location, postal_code FROM users WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -24,7 +24,6 @@ $conn->close();
 // Standardwerte setzen, falls Felder nicht vorhanden sind
 $username = isset($user['username']) ? $user['username'] : '';
 $profile_picture = isset($user['profile_picture']) ? $user['profile_picture'] : '';
-$about_me = isset($user['about_me']) ? $user['about_me'] : '';
 $location = isset($user['location']) ? $user['location'] : '';
 $postal_code = isset($user['postal_code']) ? $user['postal_code'] : '';
 ?>
@@ -98,10 +97,7 @@ $postal_code = isset($user['postal_code']) ? $user['postal_code'] : '';
         <form action="update_profile.php" method="post" enctype="multipart/form-data">
             <label for="username">Mitgliedsname:</label>
             <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
-            
-            <label for="about_me">Über mich:</label>
-            <textarea id="about_me" name="about_me" rows="4"><?php echo htmlspecialchars($about_me); ?></textarea>
-            
+ 
             <label for="postal_code">Postleitzahl:</label>
             <input type="text" id="postal_code" name="postal_code" value="<?php echo htmlspecialchars($postal_code); ?>" required>
             

@@ -12,7 +12,6 @@ $user_id = $_SESSION['user_id'];
 
 // Benutzerinformationen aus dem Formular abrufen
 $username = $_POST['username'];
-$about_me = $_POST['about_me'];
 $postal_code = $_POST['postal_code'];
 $location = $_POST['location'];
 
@@ -35,13 +34,13 @@ if (!empty($profile_picture)) {
 
 // SQL-Update-Anweisung
 if (!empty($profile_picture)) {
-    $sql = "UPDATE users SET username = ?, about_me = ?, postal_code = ?, location = ?, profile_picture = ? WHERE id = ?";
+    $sql = "UPDATE users SET username = ?, postal_code = ?, location = ?, profile_picture = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $username, $about_me, $postal_code, $location, $target_file, $user_id);
+    $stmt->bind_param("sssssi", $username, $postal_code, $location, $target_file, $user_id);
 } else {
-    $sql = "UPDATE users SET username = ?, about_me = ?, postal_code = ?, location = ? WHERE id = ?";
+    $sql = "UPDATE users SET username = ?, postal_code = ?, location = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssi", $username, $about_me, $postal_code, $location, $user_id);
+    $stmt->bind_param("sssi", $username, $postal_code, $location, $user_id);
 }
 
 if ($stmt->execute()) {
