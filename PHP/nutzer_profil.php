@@ -21,6 +21,9 @@ $stmt_ads = $pdo->prepare($sql_ads);
 $stmt_ads->execute([$user_id]);
 $ads = $stmt_ads->fetchAll(PDO::FETCH_ASSOC);
 
+// Überprüfen, ob die 'location'-Spalte existiert und nicht leer ist
+$user_location = !empty($user['location']) ? $user['location'] : '';
+
 // Bewertungen des Nutzers abrufen
 $reviews_stmt = $pdo->prepare("SELECT reviews.*, reviewer.username AS reviewer_name FROM reviews JOIN users AS reviewer ON reviews.reviewer_id = reviewer.id WHERE reviews.user_id = ?");
 $reviews_stmt->execute([$user_id]);
@@ -216,7 +219,7 @@ if (isset($_SESSION['user_id'])) {
             <div class="profile-info">
                 <h2><?php echo htmlspecialchars($user['username']); ?></h2>
                 <p><strong>Über mich:</strong> <?php echo !empty($user['about_me']) ? nl2br(htmlspecialchars($user['about_me'])) : ''; ?></p>
-                <p><?php echo htmlspecialchars($user['location']); ?></p>
+                <p><?php echo htmlspecialchars($user_location); ?></p>
             </div>
         </div>
         <div class="tabs">
