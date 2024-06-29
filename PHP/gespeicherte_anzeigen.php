@@ -72,8 +72,7 @@ $conn->close();
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            text-decoration: none;
-            color: black;
+            justify-content: space-between;
         }
         .ad img {
             max-width: 100px;
@@ -99,6 +98,50 @@ $conn->close();
         .ad:hover {
             background-color: #f0f0f0;
         }
+        .delete-icon {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            top: 10px;
+            right: 10px;
+            margin-bottom: 70px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-content .confirm {
+            background-color: #a3b18a;
+            color: white;
+        }
+        .modal-content .cancel {
+            background-color: #ccc;
+        }
     </style>
 </head>
 <body>
@@ -112,22 +155,76 @@ $conn->close();
                 </div>
             <?php else: ?>
                 <?php foreach ($ads as $ad): ?>
-                    <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" class="ad">
-                        <?php if (!empty($ad['image_url'])): ?>
-                            <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
-                        <?php endif; ?>
-                        <div class="ad-details">
-                            <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
-                            <p>Preis: <?php echo htmlspecialchars($ad['price']); ?> €</p>
-                            <p>Kategorie: <?php echo htmlspecialchars($ad['category']); ?></p>
-                            <p><?php echo htmlspecialchars($ad['description']); ?></p>
-                        </div>
-                    </a>
+                    <div class="ad">
+                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" style="flex: 1; display: flex; align-items: center; text-decoration: none; color: black;">
+                            <?php if (!empty($ad['image_url'])): ?>
+                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                            <?php endif; ?>
+                            <div class="ad-details">
+                                <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
+                                <p>Preis: <?php echo htmlspecialchars($ad['price']); ?> €</p>
+                                <p>Kategorie: <?php echo htmlspecialchars($ad['category']); ?></p>
+                                <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                            </div>
+                        </a>
+                        <img src="../img/icon_delete.jpg" class="delete-icon" data-ad-id="<?php echo $ad['id']; ?>" alt="Löschen">
+                    </div>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
     </div>
     <?php include 'footer.php'; ?>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <p>Möchten Sie diese Anzeige wirklich aus den gespeicherten Anzeigen entfernen?</p>
+            <button class="confirm">Ja</button>
+            <button class="cancel">Nein</button>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.delete-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                const adId = icon.getAttribute('data-ad-id');
+                const modal = document.getElementById('deleteModal');
+                modal.style.display = 'block';
+
+                const confirmBtn = modal.querySelector('.confirm');
+                const cancelBtn = modal.querySelector('.cancel');
+
+                confirmBtn.onclick = () => {
+                    fetch('remove_saved_ad.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ ad_id: adId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Fehler beim Entfernen der Anzeige.');
+                        }
+                    });
+                };
+
+                cancelBtn.onclick = () => {
+                    modal.style.display = 'none';
+                };
+            });
+        });
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+    </script>
 </body>
 </html>
+
 
