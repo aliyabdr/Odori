@@ -36,7 +36,7 @@ if (!empty($profile_picture)) {
 if (!empty($profile_picture)) {
     $sql = "UPDATE users SET username = ?, postal_code = ?, location = ?, profile_picture = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $username, $postal_code, $location, $target_file, $user_id);
+    $stmt->bind_param("ssssi", $username, $postal_code, $location, $target_file, $user_id);
 } else {
     $sql = "UPDATE users SET username = ?, postal_code = ?, location = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
