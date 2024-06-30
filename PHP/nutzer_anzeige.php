@@ -87,18 +87,6 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 8px;
             margin-bottom: 10px;
         }
-        .ad-body .images .thumbnail {
-            display: flex;
-            gap: 5px;
-            margin-top: 10px;
-        }
-        .ad-body .images .thumbnail img {
-            width: 50px;
-            height: 50px;
-            border-radius: 4px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-        }
         .ad-body .details {
             flex: 2;
             display: flex;
@@ -172,9 +160,10 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
         }
         .seller-info img {
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 80px;
+            height: 80px;
             margin-bottom: 10px;
+            object-fit: cover;
         }
         .seller-info h3 {
             margin: 0;
@@ -241,14 +230,9 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <div class="ad-body">
             <div class="images">
-                <?php if (count($images) > 0): ?>
-                    <img id="mainImage" src="<?php echo htmlspecialchars($images[0]['image_url']); ?>" alt="Bild">
-                    <div class="thumbnail">
-                        <?php foreach ($images as $image): ?>
-                            <img src="<?php echo htmlspecialchars($image['image_url']); ?>" alt="Bild" onclick="document.getElementById('mainImage').src='<?php echo htmlspecialchars($image['image_url']); ?>'">
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+                 <?php if (!empty($ad['image_url'])): ?>
+                    <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                    <?php endif; ?>
             </div>
             <div class="details">
                 <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
