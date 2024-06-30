@@ -9,6 +9,11 @@ if (isset($_SESSION['user_id'])) {
 
 include '../db_connect.php';
 
+// Speichern der PLZ und des Ortes in der Session
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $_SESSION['postal_code'] = $_POST['postal_code'];
+    $_SESSION['location'] = $_POST['location'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -94,8 +99,8 @@ include '../db_connect.php';
     <div class="container">
         <h1>Benutzerdaten</h1>
         <form name="regForm" action="register.php" method="post" onsubmit="return validateForm()">
-            <input type="hidden" name="plz" value="<?php echo htmlspecialchars($_POST['plz']); ?>">
-            <input type="hidden" name="ort" value="<?php echo htmlspecialchars($_POST['ort']); ?>">
+            <input type="hidden" name="postal_code" value="<?php echo htmlspecialchars($_SESSION['postal_code']); ?>">
+            <input type="hidden" name="location" value="<?php echo htmlspecialchars($_SESSION['location']); ?>">
             <input type="text" name="username" placeholder="Benutzername" required>
             <input type="email" name="email" placeholder="E-Mail" required>
             <input type="password" name="password" placeholder="Passwort" required>
@@ -106,3 +111,4 @@ include '../db_connect.php';
     <?php include 'footer.php'; ?>     
 </body>
 </html>
+

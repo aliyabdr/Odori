@@ -8,7 +8,6 @@ if (isset($_SESSION['user_id'])) {
 }
 
 include '../db_connect.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -31,7 +30,6 @@ include '../db_connect.php';
             height: 100vh;
             margin: 0;
             padding: 0;
-            
         }
         .container {
             background: rgba(255, 255, 255, 0.8);
@@ -42,7 +40,7 @@ include '../db_connect.php';
             color: black;
             width: 350px;
             margin-top: 400px;
-            margin-bottom: 150px
+            margin-bottom: 150px;
         }
         input[type="text"] {
             width: 90%;
@@ -68,11 +66,11 @@ include '../db_connect.php';
     <div class="container">
         <h1>Ort</h1>
         <form action="registrierung2.php" method="post">
-            <input type="text" name="plz" placeholder="PLZ" pattern="\d{5}" title="Bitte geben Sie genau 5 Ziffern ein" required>
-            <input type="text" name="ort" placeholder="Ort" pattern="[A-Za-zÄäÖöÜüß\s]+" title="Bitte geben Sie nur Buchstaben ein" required>
+            <input type="text" name="postal_code" placeholder="PLZ" pattern="\d{5}" title="Bitte geben Sie genau 5 Ziffern ein" required>
+            <input type="text" name="location" placeholder="Ort" pattern="[A-Za-zÄäÖöÜüß\s]+" title="Bitte geben Sie nur Buchstaben ein" required>
             <button type="submit">Weiter</button>
         </form>
     </div>
-<?php include 'footer.php'; ?>     
+    <?php include 'footer.php'; ?>     
 </body>
 </html>
