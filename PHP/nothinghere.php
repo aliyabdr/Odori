@@ -2,22 +2,23 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Danke für Ihren Kauf!</title>
+    <title>Nothing to see here</title>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Lato', sans-serif;
+        }
         body {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin-top: 50px;
-            margin-bottom: 50px;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            min-height: 100vh;
+            color: white;
         }
         .gif-container {
             text-align: center;
-            margin-top: 100px;
+            margin-top: 50px;
             margin-bottom: 50px;
         }
     </style>

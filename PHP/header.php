@@ -137,15 +137,15 @@ if (isset($_SESSION['user_id'])) {
         </div> 
         <nav class="navigation">
             <ul>
-                <li><a href="bekleidung.php">BEKLEIDUNG</a></li>
-                <li><a href="ausruestung.php">AUSRÜSTUNG</a></li>
-                <li><a href="aktivitaeten.php">AKTIVITÄTEN</a></li>
-                <li><a href="marken.php">MARKEN</a></li>
+                <li><a href="nothinghere.php">BEKLEIDUNG</a></li>
+                <li><a href="nothinghere.php">AUSRÜSTUNG</a></li>
+                <li><a href="nothinghere.php">AKTIVITÄTEN</a></li>
+                <li><a href="nothinghere.php">MARKEN</a></li>
             </ul>
         </nav>
         <div class="icons">
             <a href="anzeige_erstellen.php"><img src="../img/icon-add.png" alt="Anzeige erstellen"></a>
-            <a href="chat.php"><img src="../img/icon-chat.png" alt="Chat"></a>
+            <a href="nothinghere.php"><img src="../img/icon-chat.png" alt="Chat"></a>
             <a href="gespeicherte_anzeigen.php"><img src="../img/icon-saved.png" alt="Gespeicherte Anzeigen"></a>
             <div class="user-profile" id="userProfile">
                 <?php if (isset($_SESSION['user_id'])): ?>
