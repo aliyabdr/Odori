@@ -81,6 +81,7 @@
             transition: background-color 0.3s;
             margin: 0 5px;
         }
+        
         .search-bar button:hover {
             background-color: #8F9D70;
         }

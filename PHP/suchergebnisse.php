@@ -162,7 +162,25 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             flex-direction: column;
         }
 
+        .filter-bar .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-bar .input-container input {
+            padding-right: 20px; /* Platz für das Euro-Symbol */
+        }
+
+        .filter-bar .input-container .euro-symbol {
+            position: absolute;
+            right: 10px;
+            pointer-events: none; /* Klicks durchlassen */
+        }
+
         .filter-bar button, .filter-bar input, .filter-bar select {
+            margin-top: 5px;
+            margin-bottom: 5px;
             padding: 10px;
             border: none;
             border-radius: 25px;
@@ -175,6 +193,24 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             background-color: #e0e0e0;
         }
 
+        .filter-bar button {
+            margin-top: 23px;
+            margin-bottom: 5px;
+            height: 38px; /* Gleiche Breite wie die anderen Filterfelder */
+            padding: 0px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 25px;
+            background-color: #A3B18A;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .filter-bar button:hover {
+            background-color: #8F9D70;
+        }
+
         .sort-bar {
             display: flex;
             justify-content: flex-end;
@@ -185,7 +221,6 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: space-between;
         }
 
         .ad-item-link {
@@ -203,27 +238,46 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             width: 100%; /* Breite des übergeordneten Links */
             box-sizing: border-box;
             transition: box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Links ausgerichtet */
+        }
+
+        .ad-item .img-container {
+            width: 100%;
+            padding-top: 100%; /* 1:1 Verhältnis */
+            position: relative;
+            overflow: hidden;
         }
 
         .ad-item img {
-            max-width: 100%;
-            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Bild wird zentriert und beschnitten, um das Verhältnis beizubehalten */
+            object-position: center; /* Bild wird zentriert */
             border-bottom: 1px solid #ddd;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .ad-item:hover {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
+        .ad-item h3, .ad-item p {
+            margin: 5px 0;
+            text-align: left; /* Links ausgerichtet */
+        }
+
         .ad-item h3 {
-            margin: 0;
-            font-size: 1.2em;
+            margin-top: 15px;
+            font-size: 1.5em;
             color: #333;
         }
 
         .ad-item p {
-            margin: 5px 0;
             font-size: 0.9em;
             color: #666;
         }
@@ -239,24 +293,28 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
                 <input type="hidden" name="artikel" value="<?php echo htmlspecialchars($search); ?>">
                 <div>
                     <label for="price_min">Preis von:</label>
-                    <input type="number" id="price_min" name="price_min" placeholder="Min" value="<?php echo htmlspecialchars($filters['price_min']); ?>"> Euro
+                    <div class="input-container">
+                        <input type="number" id="price_min" name="price_min" placeholder="Min" value="<?php echo htmlspecialchars($filters['price_min']); ?>">
+                    </div>
                 </div>
                 <div>
                     <label for="price_max">Preis bis:</label>
-                    <input type="number" id="price_max" name="price_max" placeholder="Max" value="<?php echo htmlspecialchars($filters['price_max']); ?>"> Euro
+                    <div class="input-container">
+                        <input type="number" id="price_max" name="price_max" placeholder="Max" value="<?php echo htmlspecialchars($filters['price_max']); ?>">
+                    </div>
                 </div>
                 <div>
                     <label for="color">Farbe:</label>
-                        <select id="color" name="color">
+                    <select id="color" name="color">
                         <option value="">Alle</option>
                         <?php foreach ($colors as $color): ?>
-                            <option value="<?php echo htmlspecialchars($color); ?>" <?php if ($filters['color'] == $color ) echo 'selected'; ?>><?php echo htmlspecialchars($color); ?></option>
+                            <option value="<?php echo htmlspecialchars($color); ?>" <?php if ($filters['color'] == $color) echo 'selected'; ?>><?php echo htmlspecialchars($color); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div>
                     <label for="brand">Marke:</label>
-                        <select id="brand" name="brand">
+                    <select id="brand" name="brand">
                         <option value="">Alle</option>
                         <?php foreach ($brands as $brand): ?>
                             <option value="<?php echo htmlspecialchars($brand); ?>" <?php if ($filters['brand'] == $brand) echo 'selected'; ?>><?php echo htmlspecialchars($brand); ?></option>
@@ -287,10 +345,12 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             <?php foreach ($ads as $ad): ?>
                 <a class="ad-item-link" href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>">
                     <div class="ad-item">
-                        <?php $images = explode(",", $ad['image_url']); ?>
-                        <?php if (count($images) > 0): ?>
-                            <img src="<?php echo htmlspecialchars($images[0]); ?>" alt="Bild">
-                        <?php endif; ?>
+                        <div class="img-container">
+                            <?php $images = explode(",", $ad['image_url']); ?>
+                            <?php if (count($images) > 0): ?>
+                                <img src="<?php echo htmlspecialchars($images[0]); ?>" alt="Bild">
+                            <?php endif; ?>
+                        </div>
                         <h3><?php echo htmlspecialchars($ad['title']); ?></h3>
                         <p><?php echo htmlspecialchars($ad['description']); ?></p>
                         <p>Preis: <?php echo htmlspecialchars($ad['price']); ?>€</p>
@@ -302,6 +362,3 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
     <?php include 'footer.php'; ?>
 </body>
 </html>
-
-
-
