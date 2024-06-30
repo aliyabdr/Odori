@@ -122,7 +122,8 @@ if (isset($_SESSION['user_id'])) {
             color: inherit;
         }
         .ad img {
-            max-width: 100px;
+            width: 100px;
+            height: 100px;
             margin-right: 20px;
         }
         .ad-details, .review-details {

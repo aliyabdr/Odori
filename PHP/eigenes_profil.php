@@ -134,7 +134,8 @@ $conn->close();
             color: black;
         }
         .ad img {
-            max-width: 100px;
+            width: 100px;
+            height: 100px;
             margin-right: 20px;
         }
         .ad-details {
@@ -417,31 +418,3 @@ $conn->close();
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
