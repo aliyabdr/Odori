@@ -235,6 +235,7 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             border: 1px solid #ddd;
             border-radius: 5px;
             padding: 10px;
+            height: 510px;
             width: 100%; /* Breite des übergeordneten Links */
             box-sizing: border-box;
             transition: box-shadow 0.3s;

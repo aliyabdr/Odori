@@ -124,6 +124,8 @@ if (isset($_SESSION['user_id'])) {
         .ad img {
             width: 100px;
             height: 100px;
+            object-fit: cover;
+            object-position: center;
             margin-right: 20px;
         }
         .ad-details, .review-details {

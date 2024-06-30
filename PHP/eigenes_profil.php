@@ -137,6 +137,8 @@ $conn->close();
             width: 100px;
             height: 100px;
             margin-right: 20px;
+            object-fit: cover;
+            object-position: center;
         }
         .ad-details {
             flex: 1;

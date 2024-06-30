@@ -32,6 +32,7 @@ if (isset($_SESSION['user_id'])) {
         .logo-img {
             max-width: 200px;
             height: auto;
+            margin-left: 20px;
         }
         header {
             display: flex;
