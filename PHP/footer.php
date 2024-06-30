@@ -5,8 +5,8 @@
     <title>Odori</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-    /* Footer-Stile */
-    footer {
+        /* Footer-Stile */
+        footer {
             background-color: #f8f8f8;
             color: #333;
             padding: 20px 0;
@@ -31,7 +31,8 @@
         }
 
         .footer-logo {
-            width: 100px; /* Größe des Logos anpassen */
+            height: 70px;
+            width: auto;
             margin-bottom: 10px;
         }
 
@@ -60,6 +61,11 @@
         .footer-bottom p {
             margin: 0;
             color: #333;
+        }
+
+        .footer-column p {
+            text-align: left; /* Text linksbündig */
+            margin: 0; /* Entfernt den Standardabstand */
         }
 
         @media (max-width: 768px) {

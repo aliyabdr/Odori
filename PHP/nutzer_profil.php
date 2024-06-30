@@ -147,7 +147,7 @@ if (isset($_SESSION['user_id'])) {
         }
         .tabs {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             margin-top: 20px;
             border-bottom: 1px solid #ddd;
         }
@@ -179,6 +179,7 @@ if (isset($_SESSION['user_id'])) {
         .review-form select, .review-form textarea {
             width: 100%;
             margin-bottom: 10px;
+            margin-right: 10px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
