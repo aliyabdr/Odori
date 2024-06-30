@@ -241,14 +241,9 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <div class="ad-body">
             <div class="images">
-                <?php if (count($images) > 0): ?>
-                    <img id="mainImage" src="<?php echo htmlspecialchars($images[0]['image_url']); ?>" alt="Bild">
-                    <div class="thumbnail">
-                        <?php foreach ($images as $image): ?>
-                            <img src="<?php echo htmlspecialchars($image['image_url']); ?>" alt="Bild" onclick="document.getElementById('mainImage').src='<?php echo htmlspecialchars($image['image_url']); ?>'">
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+                 <?php if (!empty($ad['image_url'])): ?>
+                    <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                    <?php endif; ?>
             </div>
             <div class="details">
                 <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
