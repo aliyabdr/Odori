@@ -42,7 +42,7 @@ $conn->close();
             background-color: #f0f0f0;
         }
         .container {
-            width: 800px; 
+            width: 1000px; 
             margin: 50px auto; /* zentriert den Container */
             padding: 20px;
             background-color: #fff;
