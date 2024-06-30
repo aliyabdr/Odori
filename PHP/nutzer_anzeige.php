@@ -212,17 +212,20 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
             width: 100%;
         }
         .seller-info .profile-btn:hover {
-            background-color: #A3B18A;
+            background-color: #304A1E;
             color: white;
         }
         .seller-info .save-btn {
+            border: 0pt;
+            border-color: white;
             color: #e74c3c;
             cursor: pointer;
             margin-top: 10px;
             font-size: 1.2em;
         }
         .seller-info .save-btn i {
-            border: 1px solid #e74c3c;
+            border: 0pt;
+            border-color: white;
             border-radius: 50%;
             padding: 5px;
             background-color: white;
