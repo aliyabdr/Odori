@@ -144,9 +144,9 @@ if (isset($_SESSION['user_id'])) {
             </ul>
         </nav>
         <div class="icons">
-            <a href="anzeige_erstellen.php"><img src="../img/icon-add.jpg" alt="Anzeige erstellen"></a>
-            <a href="chat.php"><img src="../img/icon-speech-bubble.jpg" alt="Chat"></a>
-            <a href="gespeicherte_anzeigen.php"><img src="../img/icon-fav.jpg" alt="Gespeicherte Anzeigen"></a>
+            <a href="anzeige_erstellen.php"><img src="../img/icon-add.png" alt="Anzeige erstellen"></a>
+            <a href="chat.php"><img src="../img/icon-chat.png" alt="Chat"></a>
+            <a href="gespeicherte_anzeigen.php"><img src="../img/icon-saved.png" alt="Gespeicherte Anzeigen"></a>
             <div class="user-profile" id="userProfile">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <?php if (!empty($_SESSION['user_profile_picture'])): ?>
@@ -161,7 +161,7 @@ if (isset($_SESSION['user_id'])) {
                         </form>
                     </div>
                 <?php else: ?>
-                    <a href="login.php"><img src="../img/icon-image.jpg" alt="Profil"></a>
+                    <a href="login.php"><img src="../img/icon-profile.png" alt="Profil"></a>
                 <?php endif; ?>
             </div>
         </div>
