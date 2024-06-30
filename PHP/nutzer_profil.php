@@ -5,12 +5,15 @@ if (session_status() == PHP_SESSION_NONE) {
 
 include 'db.php'; // Verbindet zur Datenbank
 
-$user_id = $_GET['user_id'] ?? 0;
-$stmt = $pdo->prepare("SELECT username, profile_picture, location FROM users WHERE id = ?");
-$stmt->execute([$user_id]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+// Verwende die user_id aus der URL, falls vorhanden
+$profile_user_id = $_GET['user_id'] ?? 0;
 
-if (!$user) {
+// Benutzerinformationen des angezeigten Profils abrufen
+$stmt = $pdo->prepare("SELECT username, profile_picture, location FROM users WHERE id = ?");
+$stmt->execute([$profile_user_id]);
+$profile_user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$profile_user) {
     echo "Benutzer nicht gefunden.";
     exit;
 }
@@ -18,15 +21,15 @@ if (!$user) {
 // Anzeigen des Nutzers abrufen
 $sql_ads = "SELECT * FROM ads WHERE user_id = ?";
 $stmt_ads = $pdo->prepare($sql_ads);
-$stmt_ads->execute([$user_id]);
+$stmt_ads->execute([$profile_user_id]);
 $ads = $stmt_ads->fetchAll(PDO::FETCH_ASSOC);
 
 // Überprüfen, ob die 'location'-Spalte existiert und nicht leer ist
-$user_location = !empty($user['location']) ? $user['location'] : '';
+$profile_user_location = !empty($profile_user['location']) ? $profile_user['location'] : '';
 
 // Bewertungen des Nutzers abrufen
 $reviews_stmt = $pdo->prepare("SELECT reviews.*, reviewer.username AS reviewer_name FROM reviews JOIN users AS reviewer ON reviews.reviewer_id = reviewer.id WHERE reviews.user_id = ?");
-$reviews_stmt->execute([$user_id]);
+$reviews_stmt->execute([$profile_user_id]);
 $reviews = $reviews_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Überprüfung, ob der Benutzer eingeloggt ist und Benutzerdaten abrufen
@@ -48,7 +51,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($user['username']); ?>'s Profil</title>
+    <title><?php echo htmlspecialchars($profile_user['username']); ?>'s Profil</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         body {
@@ -210,15 +213,15 @@ if (isset($_SESSION['user_id'])) {
     <div class="container">
         <div class="profile-header">
             <div class="profile-picture">
-                <?php if (!empty($user['profile_picture'])): ?>
-                    <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profilbild">
+                <?php if (!empty($profile_user['profile_picture'])): ?>
+                    <img src="<?php echo htmlspecialchars($profile_user['profile_picture']); ?>" alt="Profilbild">
                 <?php else: ?>
-                    <?php echo strtoupper(htmlspecialchars($user['username'][0])); ?>
+                    <?php echo strtoupper(htmlspecialchars($profile_user['username'][0])); ?>
                 <?php endif; ?>
             </div>
             <div class="profile-info">
-                <h2><?php echo htmlspecialchars($user['username']); ?></h2>
-                <p><?php echo htmlspecialchars($user_location); ?></p>
+                <h2><?php echo htmlspecialchars($profile_user['username']); ?></h2>
+                <p><?php echo htmlspecialchars($profile_user_location); ?></p>
             </div>
         </div>
         <div class="tabs">
@@ -266,11 +269,11 @@ if (isset($_SESSION['user_id'])) {
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
-            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $user_id): ?>
+            <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $profile_user_id): ?>
                 <div class="review-form">
                     <h3>Rezension schreiben</h3>
                     <form action="submit_review.php" method="POST">
-                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                        <input type="hidden" name="user_id" value="<?php echo $profile_user_id; ?>">
                         <label for="rating">Bewertung:</label>
                         <select name="rating" id="rating" required>
                             <option value="1">1 Stern</option>
