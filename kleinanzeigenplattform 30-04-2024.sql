@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 26. Jun 2024 um 09:21
--- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.2.12
+-- Erstellungszeit: 30. Jun 2024 um 17:41
+-- Server-Version: 10.4.27-MariaDB
+-- PHP-Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,18 +46,18 @@ CREATE TABLE `ads` (
 --
 
 INSERT INTO `ads` (`id`, `title`, `description`, `price`, `brand`, `color`, `condition`, `user_id`, `created_at`, `image_url`, `category`) VALUES
-(1, 'Leichter Wander-Rucksack', 'Ein leichter und robuster Wander-Rucksack, perfekt für Tagesausflüge.', 45.00, 'Deuter', 'Blau', 'Gebraucht', 1, '2024-06-14 18:54:15', NULL, 'Rucksäcke'),
-(2, 'Trekkingzelt für 2 Personen', 'Wetterfestes Zelt für 2 Personen, ideal für längere Trekkingtouren.', 120.00, 'Vaude', 'Grün', 'Neu', 2, '2024-06-14 18:54:15', NULL, 'Zelte'),
-(3, 'Wanderstöcke aus Aluminium', 'Leichte und stabile Wanderstöcke, ausziehbar und mit komfortablen Griffen.', 30.00, 'Leki', 'Schwarz', 'Gebraucht', 3, '2024-06-14 18:54:15', NULL, 'Wanderstöcke'),
-(4, 'Kletterschuhe Größe 42', 'Bequeme und griffige Kletterschuhe, kaum benutzt.', 60.00, 'La Sportiva', 'Gelb', 'Wie Neu', 4, '2024-06-14 18:54:15', NULL, 'Kletterschuhe'),
-(5, 'Outdoor-Kocher', 'Kompakter und leistungsstarker Kocher, ideal für Camping und Trekking.', 35.00, 'Primus', 'Silber', 'Neu', 5, '2024-06-14 18:54:15', NULL, 'Kocher'),
-(6, 'Schlafsack für extreme Kälte', 'Hochwertiger Schlafsack, geeignet für sehr niedrige Temperaturen.', 150.00, 'Mammut', 'Rot', 'Wie Neu', 6, '2024-06-14 18:54:15', NULL, 'Schlafsäcke'),
-(7, 'Trinkflasche 1L', 'Robuste und BPA-freie Trinkflasche, perfekt für Outdoor-Aktivitäten.', 15.00, 'Nalgene', 'Transparent', 'Neu', 7, '2024-06-14 18:54:15', NULL, 'Trinkflaschen'),
-(8, 'Campingstuhl faltbar', 'Bequemer und faltbarer Campingstuhl, leicht zu transportieren.', 25.00, 'Helinox', 'Schwarz', 'Gebraucht', 8, '2024-06-14 18:54:15', NULL, 'Campingmöbel'),
-(9, 'GPS-Uhr', 'Multifunktionale GPS-Uhr mit Höhenmesser und Barometer.', 200.00, 'Garmin', 'Schwarz', 'Neu', 9, '2024-06-14 18:54:15', NULL, 'Navigation'),
-(10, 'Wasserdichter Rucksack', 'Wasserdichter Rucksack, ideal für Kajak- und Rafting-Touren.', 80.00, 'Ortlieb', 'Gelb', 'Gebraucht', 10, '2024-06-14 18:54:15', NULL, 'Rucksäcke'),
-(11, 'Wanderstiefel Lowa in braun', 'Verkaufe Wanderstiefel der Marke Lowa mit einer griffigen Außensohle\r\nGröße: 38\r\nGebraucht aber in gutem Zustand. Sie sind sowohl wasserdicht als auch atmungsaktiv \r\n', 35.00, '0', 'Braun', 'gebraucht', 16, '2024-06-17 10:49:45', '../uploads/clay-banks-BSL837tTPAw-unsplash.jpg', 'Wandern'),
-(15, 'blauer Wander- und Skirucksack', 'Blauer Ortovox Rucksack, perfekt fürs Wandern oder als Skiruckssack.', 50.00, '0', 'Blau', 'gebraucht', 16, '2024-06-24 11:44:09', '../uploads/Imagen de WhatsApp 2024-04-08 a las 10.44.14_3215be80.jpg', 'Wandern');
+(1, 'Leichter Wander-Rucksack', 'Ein leichter und robuster Wander-Rucksack, perfekt für Tagesausflüge.', '45.00', 'Deuter', 'Blau', 'gebraucht', 1, '2024-06-14 18:54:15', '../uploads/Diseño sin título.jpg', 'Rucksäcke'),
+(2, 'Trekkingzelt für 2 Personen', 'Wetterfestes Zelt für 2 Personen, ideal für längere Trekkingtouren.', '120.00', 'Vaude', 'Grün', 'neu', 2, '2024-06-14 18:54:15', '../uploads/pexels-uriel-mont-6271505.jpg', 'Zelte'),
+(3, 'Wanderstöcke aus Aluminium', 'Leichte und stabile Wanderstöcke, ausziehbar und mit komfortablen Griffen.', '30.00', 'Leki', 'Schwarz', 'gebraucht', 3, '2024-06-14 18:54:15', '../uploads/pexels-anastasia-shuraeva-8795587.jpg', 'Wanderstöcke'),
+(4, 'Kletterschuhe Größe 42', 'Bequeme und griffige Kletterschuhe, kaum benutzt.', '60.00', 'La Sportiva', 'Gelb', 'neu', 4, '2024-06-14 18:54:15', '../uploads/pexels-pavel-danilyuk-7591328.jpg', 'Kletterschuhe'),
+(5, 'Outdoor-Kocher', 'Kompakter und leistungsstarker Kocher, ideal für Camping und Trekking.', '35.00', 'Primus', 'Silber', 'neu', 5, '2024-06-14 18:54:15', '../uploads/pexels-taryn-elliott-8052670.jpg', 'Kocher'),
+(6, 'Schlafsack für extreme Kälte', 'Hochwertiger Schlafsack, geeignet für sehr niedrige Temperaturen.', '150.00', 'Mammut', 'Rot', 'neu', 6, '2024-06-14 18:54:15', '../uploads/pexels-tima-miroshnichenko-7010173.jpg', 'Schlafsäcke'),
+(7, 'Trinkflasche 1L', 'Robuste und BPA-freie Trinkflasche, perfekt für Outdoor-Aktivitäten.', '15.00', 'Nalgene', 'Transparent', 'neu', 7, '2024-06-14 18:54:15', '../uploads/pexels-gabriel-peter-219375-1188649.jpg', 'Trinkflaschen'),
+(8, 'Campingstuhl faltbar', 'Bequemer und faltbarer Campingstuhl, leicht zu transportieren.', '25.00', 'Helinox', 'Schwarz', 'gebraucht', 8, '2024-06-14 18:54:15', '../uploads/pexels-rdne-7348607.jpg', 'Campingmöbel'),
+(9, 'GPS-Uhr', 'Multifunktionale GPS-Uhr mit Höhenmesser und Barometer.', '200.00', 'Garmin', 'Schwarz', 'neu', 9, '2024-06-14 18:54:15', '../uploads/pexels-mikebirdy-3683938.jpg', 'Navigation'),
+(10, 'Wasserdichter Rucksack', 'Wasserdichter Rucksack, ideal für Kajak- und Rafting-Touren.', '80.00', 'Ortlieb', 'Gelb', 'gebraucht', 14, '2024-06-14 18:54:15', '../uploads/pexels-rafal-bubala-243126766-19503239.jpg', 'Rucksäcke'),
+(11, 'Wanderstiefel Lowa in braun', 'Verkaufe Wanderstiefel der Marke Lowa mit einer griffigen Außensohle\r\nGröße: 38\r\nGebraucht aber in gutem Zustand. Sie sind sowohl wasserdicht als auch atmungsaktiv \r\n', '35.00', '0', 'Braun', 'gebraucht', 16, '2024-06-17 10:49:45', '../uploads/clay-banks-BSL837tTPAw-unsplash.jpg', 'Wandern'),
+(15, 'blauer Wander- und Skirucksack', 'Blauer Ortovox Rucksack, perfekt fürs Wandern oder als Skiruckssack.', '50.00', '0', 'Blau', 'gebraucht', 16, '2024-06-24 11:44:09', '../uploads/Imagen de WhatsApp 2024-04-08 a las 10.44.14_3215be80.jpg', 'Wandern');
 
 -- --------------------------------------------------------
 
@@ -135,22 +135,22 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `postal_code`, `location`, `profile_picture`, `created_at`, `saved_ads`) VALUES
-(1, 'OutdoorQueen02', '$2y$10$UyrOFxaLYZy5NIugbrZE/.a7LxTnCDpUtPJD8PrJE0pDOWZA64Kba', 'aliya02@hotmail.com', '70563', 'Stuttgart', NULL, '2024-05-28 10:38:18', NULL),
-(2, 'Baerrr555', '$2y$10$AsVii8pMaa0lkwdOYhRTd.Hn95Z3RWWYciOQftHH8u5BNRNNwOMVK', 'natha05@hotmail.com', '70563', 'Stuttgart', NULL, '2024-05-28 11:00:01', NULL),
-(3, 'maggus42', '$2y$10$IYkFNRHLrBbkbMrvFIPPduShKB82Yt7SpFkv0.qZq.oGROfVvu0iS', 'hallo@googel.com', '71126', 'Gäufelden', NULL, '2024-05-28 12:17:15', NULL),
-(4, 'outdoorenthusiast', 'password_hash_4', 'outdoorenthusiast@example.com', '60311', 'Frankfurt, Deutschland', NULL, '2024-06-14 19:04:16', NULL),
+(1, 'OutdoorQueen02', '$2y$10$UyrOFxaLYZy5NIugbrZE/.a7LxTnCDpUtPJD8PrJE0pDOWZA64Kba', 'aliya02@hotmail.com', '70563', 'Stuttgart', '../uploads/pexels-brenda-lelis-1006720-2899744.jpg', '2024-05-28 10:38:18', NULL),
+(2, 'Baerrr555', '$2y$10$AsVii8pMaa0lkwdOYhRTd.Hn95Z3RWWYciOQftHH8u5BNRNNwOMVK', 'natha05@hotmail.com', '70563', 'Stuttgart', '../uploads/pexels-cottonbro-3205777.jpg', '2024-05-28 11:00:01', NULL),
+(3, 'maggus42', '$2y$10$IYkFNRHLrBbkbMrvFIPPduShKB82Yt7SpFkv0.qZq.oGROfVvu0iS', 'hallo@googel.com', '71126', 'Gäufelden', '../uploads/pexels-cottonbro-4911006.jpg', '2024-05-28 12:17:15', NULL),
+(4, 'outdoorenthusiast', 'password_hash_4', 'outdoorenthusiast@example.com', '60311', 'Frankfurt', '../uploads/pexels-jangogh-418924060-15272230.jpg', '2024-06-14 19:04:16', NULL),
 (5, 'ingridv9', '$2y$10$V4dS8SgeQhgfiNOminXhEOlnRok6mfxLvUQOUO0rWyyQx5EzHsnTy', 'iv010@hdm-stuttgart.de', '70569', 'Stuttgart', NULL, '2024-06-12 07:09:16', NULL),
-(6, 'miaw0405', 'password_hash_1', 'miaw0405@example.com', '10115', 'Berlin, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(7, 'hiker123', 'password_hash_2', 'hiker123@example.com', '20095', 'Hamburg, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(8, 'mountainlover', 'password_hash_3', 'mountainlover@example.com', '80331', 'München, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(9, 'naturefan', 'password_hash_4', 'naturefan@example.com', '60311', 'Frankfurt, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(10, 'trekker', 'password_hash_5', 'trekker@example.com', '50667', 'Köln, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(11, 'climber', 'password_hash_6', 'climber@example.com', '70173', 'Stuttgart, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(12, 'adventureguy', 'password_hash_7', 'adventureguy@example.com', '40213', 'Düsseldorf, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(13, 'trailblazer', 'password_hash_8', 'trailblazer@example.com', '04109', 'Leipzig, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(14, 'forestwanderer', 'password_hash_9', 'forestwanderer@example.com', '01067', 'Dresden, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(15, 'wildlifeenthusiast', 'password_hash_10', 'wildlifeenthusiast@example.com', '30159', 'Hannover, Deutschland', NULL, '2024-06-14 18:55:53', NULL),
-(16, '1234567890', '$2y$10$gIRiw7qdWp9gbStoHNBf2.TZi18XfmwjALg7d.fcUOsTMV7P4zMaO', '123@hotmail.com', '70569', 'Stuttgart', '../uploads/Imagen de WhatsApp 2024-04-16 a las 11.12.46_88c00d5b.jpg', '2024-06-16 11:11:36', ',10');
+(6, 'miaw0405', 'password_hash_1', 'miaw0405@example.com', '10115', 'Berlin', '../uploads/pexels-cottonbro-4911143.jpg', '2024-06-14 18:55:53', NULL),
+(7, 'hiker123', 'password_hash_2', 'hiker123@example.com', '20095', 'Hamburg', '../uploads/pexels-lukas-rodriguez-1845331-3680219.jpg', '2024-06-14 18:55:53', NULL),
+(8, 'mountainlover', 'password_hash_3', 'mountainlover@example.com', '80331', 'München', '../uploads/pexels-itislit-2866784.jpg', '2024-06-14 18:55:53', NULL),
+(9, 'naturefan', 'password_hash_4', 'naturefan@example.com', '60311', 'Frankfurt', '../uploads/pexels-cottonbro-4911143.jpg', '2024-06-14 18:55:53', NULL),
+(10, 'trekker', 'password_hash_5', 'trekker@example.com', '50667', 'Köln', '../uploads/pexels-dariabuntaria-2938922.jpg', '2024-06-14 18:55:53', NULL),
+(11, 'climber', 'password_hash_6', 'climber@example.com', '70173', 'Stuttgart', '../uploads/pexels-snoopy42-20761797.jpg', '2024-06-14 18:55:53', NULL),
+(12, 'adventureguy', 'password_hash_7', 'adventureguy@example.com', '40213', 'Düsseldorf', '../uploads/pexels-vome-15444465.jpg', '2024-06-14 18:55:53', NULL),
+(13, 'trailblazer', 'password_hash_8', 'trailblazer@example.com', '04109', 'Leipzig', '../uploads/pexels-tugce-acikyurek-3099881-20693559.jpg', '2024-06-14 18:55:53', NULL),
+(14, 'forestwanderer', 'password_hash_9', 'forestwanderer@example.com', '01067', 'Dresden', NULL, '2024-06-14 18:55:53', NULL),
+(15, 'wildlifeenthusiast', 'password_hash_10', 'wildlifeenthusiast@example.com', '30159', 'Hannover', NULL, '2024-06-14 18:55:53', NULL),
+(16, '1234567890', '$2y$10$gIRiw7qdWp9gbStoHNBf2.TZi18XfmwjALg7d.fcUOsTMV7P4zMaO', '123@hotmail.com', '70569', 'Stuttgart', '../uploads/Imagen de WhatsApp 2024-04-16 a las 11.12.46_88c00d5b.jpg', '2024-06-16 11:11:36', ',1');
 
 --
 -- Indizes der exportierten Tabellen
