@@ -61,7 +61,7 @@ if (isset($_SESSION['user_id'])) {
             padding: 0;
         }
         .container {
-            width: 800px;
+            width: 1000px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;

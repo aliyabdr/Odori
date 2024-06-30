@@ -37,18 +37,18 @@ $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             margin: 0;
-            padding: 20px;
-            color: #333;
+            padding: 0;
         }
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin: 50px auto;
             background-color: #fff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             display: flex;
             flex-wrap: wrap;
+            color:black;
         }
         .ad-header {
             display: flex;
