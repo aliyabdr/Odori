@@ -33,8 +33,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anzeige bearbeiten</title>
     <style>
-         /* Importiere die Schriftart 'Lato' */
-         @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+        /* Importiere die Schriftart 'Lato' */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
         body {
             font-family: 'Lato', sans-serif;
             padding: 0;
@@ -118,10 +118,35 @@ $conn->close();
             <input type="number" id="price" name="price" value="<?php echo htmlspecialchars($ad['price']); ?>" min="0" step="0.01" required>
             
             <label for="color">Farbe:</label>
-            <input type="text" id="color" name="color" value="<?php echo htmlspecialchars($ad['color']); ?>">
+            <select id="color" name="color" required>
+                <option value="Blau" <?php if ($ad['color'] == 'Blau') echo 'selected'; ?>>Blau</option>
+                <option value="Braun" <?php if ($ad['color'] == 'Braun') echo 'selected'; ?>>Braun</option>
+                <option value="Gelb" <?php if ($ad['color'] == 'Gelb') echo 'selected'; ?>>Gelb</option>
+                <option value="Gold" <?php if ($ad['color'] == 'Gold') echo 'selected'; ?>>Gold</option>
+                <option value="Grün" <?php if ($ad['color'] == 'Grün') echo 'selected'; ?>>Grün</option>
+                <option value="Rosa" <?php if ($ad['color'] == 'Rosa') echo 'selected'; ?>>Rosa</option>
+                <option value="Rot" <?php if ($ad['color'] == 'Rot') echo 'selected'; ?>>Rot</option>
+                <option value="Schwarz" <?php if ($ad['color'] == 'Schwarz') echo 'selected'; ?>>Schwarz</option>
+                <option value="Silber" <?php if ($ad['color'] == 'Silber') echo 'selected'; ?>>Silber</option>
+                <option value="Transparent" <?php if ($ad['color'] == 'Transparent') echo 'selected'; ?>>Transparent</option>
+                <option value="Weiss" <?php if ($ad['color'] == 'Weiss') echo 'selected'; ?>>Weiss</option>
+                <option value="Andere" <?php if ($ad['color'] == 'Andere') echo 'selected'; ?>>Andere</option>
+            </select>
             
             <label for="brand">Marke:</label>
-            <input type="text" id="brand" name="brand" value="<?php echo htmlspecialchars($ad['brand']); ?>">
+            <select id="brand" name="brand" required>
+                <option value="Deuter" <?php if ($ad['brand'] == 'Deuter') echo 'selected'; ?>>Deuter</option>
+                <option value="Garmin" <?php if ($ad['brand'] == 'Garmin') echo 'selected'; ?>>Garmin</option>
+                <option value="Helinox" <?php if ($ad['brand'] == 'Helinox') echo 'selected'; ?>>Helinox</option>
+                <option value="La Sportiva" <?php if ($ad['brand'] == 'La Sportiva') echo 'selected'; ?>>La Sportiva</option>
+                <option value="Leki" <?php if ($ad['brand'] == 'Leki') echo 'selected'; ?>>Leki</option>
+                <option value="Mammut" <?php if ($ad['brand'] == 'Mammut') echo 'selected'; ?>>Mammut</option>
+                <option value="Nalgene" <?php if ($ad['brand'] == 'Nalgene') echo 'selected'; ?>>Nalgene</option>
+                <option value="Ortlieb" <?php if ($ad['brand'] == 'Ortlieb') echo 'selected'; ?>>Ortlieb</option>
+                <option value="Primus" <?php if ($ad['brand'] == 'Primus') echo 'selected'; ?>>Primus</option>
+                <option value="Vaude" <?php if ($ad['brand'] == 'Vaude') echo 'selected'; ?>>Vaude</option>
+                <option value="Andere" <?php if ($ad['brand'] == 'Andere') echo 'selected'; ?>>Andere</option>
+            </select>
             
             <label for="condition">Zustand:</label>
             <select id="condition" name="condition" required>
@@ -129,8 +154,8 @@ $conn->close();
                 <option value="gebraucht" <?php if ($ad['condition'] == 'gebraucht') echo 'selected'; ?>>Gebraucht</option>
             </select>
             
-            <label for="image">Bild ändern:</label>
-            <input type="file" id="image" name="image" accept="image/*">
+            <label for="images">Bilder ändern:</label>
+            <input type="file" id="images" name="images[]" accept="image/*" multiple>
             
             <input type="submit" value="Anzeige aktualisieren">
         </form>
@@ -138,4 +163,5 @@ $conn->close();
     <?php include 'footer.php'; ?>
 </body>
 </html>
+
 

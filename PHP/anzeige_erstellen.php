@@ -98,10 +98,35 @@ if (!isset($_SESSION['user_id'])) {
             <input type="number" id="price" name="price" min="0" step="0.01" required>
             
             <label for="color">Farbe:</label>
-            <input type="text" id="color" name="color">
+            <select id="color" name="color" required>
+                <option value="Blau">Blau</option>
+                <option value="Braun">Braun</option>
+                <option value="Gelb">Gelb</option>
+                <option value="Gold">Gold</option>
+                <option value="Grün">Grün</option>
+                <option value="Rosa">Rosa</option>
+                <option value="Rot">Rot</option>
+                <option value="Schwarz">Schwarz</option>
+                <option value="Silber">Silber</option>
+                <option value="Transparent">Transparent</option>
+                <option value="Weiss">Weiss</option>
+                <option value="Andere">Andere</option>
+            </select>
             
             <label for="brand">Marke:</label>
-            <input type="text" id="brand" name="brand">
+            <select id="brand" name="brand" required>
+                <option value="Deuter">Deuter</option>
+                <option value="Garmin">Garmin</option>
+                <option value="Helinox">Helinox</option>
+                <option value="La Sportiva">La Sportiva</option>
+                <option value="Leki">Leki</option>
+                <option value="Mammut">Mammut</option>
+                <option value="Nalgene">Nalgene</option>
+                <option value="Ortlieb">Ortlieb</option>
+                <option value="Primus">Primus</option>
+                <option value="Vaude">Vaude</option>
+                <option value="Andere">Andere</option>
+            </select>
             
             <label for="condition">Zustand:</label>
             <select id="condition" name="condition" required>

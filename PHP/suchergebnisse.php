@@ -34,9 +34,9 @@ if ($ads === false) {
 }
 
 // Filteroptionen aus den Daten abrufen
-$colors = $pdo->query("SELECT DISTINCT color FROM ads")->fetchAll(PDO::FETCH_COLUMN);
-$brands = $pdo->query("SELECT DISTINCT brand FROM ads")->fetchAll(PDO::FETCH_COLUMN);
-$conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO::FETCH_COLUMN);
+$colors = ["Blau", "Braun", "Gelb", "Gold", "Grün", "Rosa", "Rot", "Schwarz", "Silber", "Transparent", "Weiss", "Andere"];
+$brands = ["Deuter", "Garmin", "Helinox", "La Sportiva", "Leki", "Mammut", "Nalgene", "Ortlieb", "Primus", "Vaude", "Andere"];
+$conditions = ["gebraucht", "neu"];
 ?>
 <!DOCTYPE html>
 <html lang="de">
