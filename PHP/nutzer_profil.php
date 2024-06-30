@@ -118,6 +118,8 @@ if (isset($_SESSION['user_id'])) {
             margin-bottom: 10px;
             display: flex;
             align-items: center;
+            text-decoration: none;
+            color: inherit;
         }
         .ad img {
             max-width: 100px;
@@ -236,7 +238,7 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 <?php else: ?>
                     <?php foreach ($ads as $ad): ?>
-                        <div class="ad">
+                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" class="ad">
                             <?php if (!empty($ad['image_url'])): ?>
                                 <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
@@ -246,13 +248,36 @@ if (isset($_SESSION['user_id'])) {
                                 <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
                                 <p><?php echo htmlspecialchars($ad['description']); ?></p>
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
         </div>
         <div class="tab-content" id="reviews">
-            
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $profile_user_id): ?>
+                <div class="review-form">
+                    <h3>Rezension schreiben</h3>
+                    <form action="submit_review.php" method="POST">
+                        <input type="hidden" name="user_id" value="<?php echo $profile_user_id; ?>">
+                        <label for="rating">Bewertung:</label>
+                        <select name="rating" id="rating" required>
+                            <option value="1">1 Stern</option>
+                            <option value="2">2 Sterne</option>
+                            <option value="3">3 Sterne</option>
+                            <option value="4">4 Sterne</option>
+                            <option value="5">5 Sterne</option>
+                        </select>
+                        <label for="review">Rezension:</label>
+                        <textarea name="review" id="review" required></textarea>
+                        <button type="submit">Abschicken</button>
+                    </form>
+                </div>
+            <?php else: ?>
+                <div class="login-prompt">
+                    <p>Loggen Sie sich ein, um eine Rezension zu schreiben.</p>
+                    <a href="login.php">Login</a>
+                </div>
+            <?php endif; ?>
             <div class="reviews-section">
                 <?php if (empty($reviews)): ?>
                     <div class="no-content">
@@ -287,3 +312,4 @@ if (isset($_SESSION['user_id'])) {
     </script>
 </body>
 </html>
+
