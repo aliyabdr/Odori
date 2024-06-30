@@ -246,20 +246,22 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
                     <input type="number" id="price_max" name="price_max" placeholder="Max" value="<?php echo htmlspecialchars($filters['price_max']); ?>"> Euro
                 </div>
                 <div>
-                    <input type="text" id="color" name="color" list="colors" placeholder="Farbe" value="<?php echo htmlspecialchars($filters['color']); ?>">
-                    <datalist id="colors">
+                    <label for="color">Farbe:</label>
+                        <select id="color" name="color">
+                        <option value="">Alle</option>
                         <?php foreach ($colors as $color): ?>
-                            <option value="<?php echo htmlspecialchars($color); ?>">
+                            <option value="<?php echo htmlspecialchars($color); ?>" <?php if ($filters['color'] == $color ) echo 'selected'; ?>><?php echo htmlspecialchars($color); ?></option>
                         <?php endforeach; ?>
-                    </datalist>
+                    </select>
                 </div>
                 <div>
-                    <input type="text" id="brand" name="brand" list="brands" placeholder="Marke" value="<?php echo htmlspecialchars($filters['brand']); ?>">
-                    <datalist id="brands">
+                    <label for="brand">Marke:</label>
+                        <select id="brand" name="brand">
+                        <option value="">Alle</option>
                         <?php foreach ($brands as $brand): ?>
-                            <option value="<?php echo htmlspecialchars($brand); ?>">
+                            <option value="<?php echo htmlspecialchars($brand); ?>" <?php if ($filters['brand'] == $brand) echo 'selected'; ?>><?php echo htmlspecialchars($brand); ?></option>
                         <?php endforeach; ?>
-                    </datalist>
+                    </select>
                 </div>
                 <div>
                     <label for="condition">Zustand:</label>
