@@ -55,7 +55,6 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mein Profil</title>
-    <link rel="stylesheet" href="../style.css">
     <style>
         body {
             font-family: 'Lato', sans-serif;

@@ -112,7 +112,7 @@ if (isset($_SESSION['user_id'])) {
         }
         .dropdown-content a, .dropdown-content button {
             color: black;
-            padding: 12px 16px;
+            padding: 12px 16px; 
             text-decoration: none;
             display: block;
             text-align: left;
@@ -120,6 +120,8 @@ if (isset($_SESSION['user_id'])) {
             border: none;
             width: 100%;
             cursor: pointer;
+            font-size: 14px;
+            box-sizing: border-box;
         }
         .dropdown-content a:hover, .dropdown-content button:hover {
             background-color: #ddd;
@@ -187,7 +189,3 @@ if (isset($_SESSION['user_id'])) {
     </script>
 </body>
 </html>
-
-
-
-
