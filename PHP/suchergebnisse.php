@@ -185,12 +185,14 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center;
+            justify-content: space-between;
         }
 
         .ad-item-link {
             text-decoration: none;
             color: inherit;
+            flex-basis: calc(33.333% - 20px); /* Drei Anzeigen pro Zeile */
+            box-sizing: border-box;
         }
 
         .ad-item {
@@ -198,8 +200,7 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
             border: 1px solid #ddd;
             border-radius: 5px;
             padding: 10px;
-            width: calc(50% - 20px); /* Adjust this value to control the width of each ad item */
-            max-width: 700px; /* Optional: Set a max-width to limit the size of each ad item */
+            width: 100%; /* Breite des übergeordneten Links */
             box-sizing: border-box;
             transition: box-shadow 0.3s;
         }
@@ -299,3 +300,6 @@ $conditions = $pdo->query("SELECT DISTINCT `condition` FROM ads")->fetchAll(PDO:
     <?php include 'footer.php'; ?>
 </body>
 </html>
+
+
+
