@@ -252,23 +252,6 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
         <div class="tab-content" id="reviews">
-            <div class="reviews-section">
-                <?php if (empty($reviews)): ?>
-                    <div class="no-content">
-                        <p>Noch keine Bewertungen.</p>
-                    </div>
-                <?php else: ?>
-                    <?php foreach ($reviews as $review): ?>
-                        <div class="review">
-                            <div class="review-details">
-                                <h4>Bewertung von <?php echo htmlspecialchars($review['reviewer_name']); ?></h4>
-                                <p><?php echo htmlspecialchars($review['review']); ?></p>
-                                <p><span class="label">Bewertung:</span> <?php echo htmlspecialchars($review['rating']); ?> Sterne</p>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
             <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $profile_user_id): ?>
                 <div class="review-form">
                     <h3>Rezension schreiben</h3>
@@ -293,6 +276,23 @@ if (isset($_SESSION['user_id'])) {
                     <a href="login.php">Login</a>
                 </div>
             <?php endif; ?>
+            <div class="reviews-section">
+                <?php if (empty($reviews)): ?>
+                    <div class="no-content">
+                        <p>Noch keine Bewertungen.</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($reviews as $review): ?>
+                        <div class="review">
+                            <div class="review-details">
+                                <h4>Bewertung von <?php echo htmlspecialchars($review['reviewer_name']); ?></h4>
+                                <p><?php echo htmlspecialchars($review['review']); ?></p>
+                                <p><span class="label">Bewertung:</span> <?php echo htmlspecialchars($review['rating']); ?> Sterne</p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     <?php include 'footer.php'; ?>
