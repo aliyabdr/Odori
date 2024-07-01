@@ -54,7 +54,7 @@ $conn->close();
     body {
         background-image: url('../img/Hintergrundbild.jpg');
         margin: 0;
-        padding: 0;
+        padding-bottom: 20px;
         font-family: 'Lato', sans-serif;
         background-size: cover;
         background-position: center;
@@ -68,6 +68,7 @@ $conn->close();
         display: flex;
         justify-content: center;
         margin-top: 5%; /* Erhöht den Abstand vom oberen Rand */
+        padding-top: 2px;
     }
     .login-box {
         background-color: rgba(255, 255, 255, 0.8);
@@ -77,7 +78,7 @@ $conn->close();
         text-align: center;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 30px;
-        margin-bottom: 80px;
+        margin-bottom: 30px;
         color: black;
     }
     h2 {
