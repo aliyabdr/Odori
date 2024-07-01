@@ -289,7 +289,7 @@ $conn->close();
                                 <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
                             <div class="ad-details">
-                                <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
+                                <h4><a href="eigene_anzeige.php?id=<?php echo $ad['id']; ?>"><?php echo htmlspecialchars($ad['title']); ?></a></h4>
                                 <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price']); ?> €</p>
                                 <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
                                 <p><?php echo htmlspecialchars($ad['description']); ?></p>

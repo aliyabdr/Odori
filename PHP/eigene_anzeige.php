@@ -1,195 +1,322 @@
 <?php
-include '../db_connect.php';
+session_start();
+include 'db.php'; // Verbindet zur Datenbank
 
-// ID der Anzeige
-$ad_id = 1; // Die ID der Anzeige, die dargestellt werden soll
+$ad_id = $_GET['id'] ?? 0;
+$user_id = $_SESSION['user_id'] ?? 0;
 
-// Anzeige aus der Datenbank abrufen
-$sql = "SELECT * FROM ads WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $ad_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$ad = $result->fetch_assoc();
+// Anzeige-Daten abrufen
+$sql = "SELECT ads.*, users.username AS user_name, users.location AS user_location, users.profile_picture AS user_profile_picture, users.id AS user_id
+        FROM ads
+        JOIN users ON ads.user_id = users.id
+        WHERE ads.id = ? AND ads.user_id = ?";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$ad_id, $user_id]);
+$ad = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Überprüfen, ob die Anzeige existiert
 if (!$ad) {
-    die("Anzeige nicht gefunden.");
+    echo "Anzeige nicht gefunden oder Sie haben keine Berechtigung, diese Anzeige zu bearbeiten.";
+    exit;
 }
 
-// Bilder aus JSON-Daten extrahieren
-$images = json_decode($ad['bilder'], true);
+// Bilder-Daten abrufen
+$sql_images = "SELECT image_url FROM ad_images WHERE ad_id = ?";
+$stmt_images = $pdo->prepare($sql_images);
+$stmt_images->execute([$ad_id]);
+$images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meine Anzeige</title>
+    <title><?php echo htmlspecialchars($ad['title']); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 0;
         }
         .container {
             max-width: 1000px;
-            margin: 0 auto;
+            margin: 50px auto;
+            background-color: #fff;
             padding: 20px;
-            background-color:#a3b18a ;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2, h3, p {
-            color: white; /* Ensure headings and paragraphs are in white */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            color: black;
         }
         .ad-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        .ad-header h2 {
-            margin: 0;
-        }
-        .ad-images {
-            display: flex;
-            gap: 10px;
             margin-bottom: 20px;
+            width: 100%;
         }
-        .ad-images img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .ad-details {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .ad-details p {
+        .ad-header h1 {
+            font-size: 2em;
+            font-weight: bold;
             margin: 0;
+            color: black;
         }
-        .ad-actions {
+        .ad-header .price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: black;
+        }
+        .ad-header .old-price {
+            text-decoration: line-through;
+            color: black;
+            margin-left: 10px;
+        }
+        .ad-body {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .ad-actions button, .ad-actions a {
-            padding: 10px 20px;
-            background-color: white;
-            color: #a3b18a;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .ad-actions button:hover, .ad-actions a:hover {
-            background-color: #8a9b68;
-        }
-        .ad-info {
-            display: flex;
+            flex: 2;
+            flex-wrap: wrap;
             gap: 20px;
         }
-        .ad-info .ad-image {
+        .ad-body .images {
             flex: 1;
             max-width: 300px;
         }
-        .ad-info .ad-description {
+        .ad-body .images img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .ad-body .details {
             flex: 2;
             display: flex;
             flex-direction: column;
-            gap: 10px;
         }
-        .toggle-button {
-            display: inline-flex;
-            align-items: center;
+        .ad-body .details h1 {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0;
+            color: black;
+        }
+        .ad-body .details .price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: black;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        .ad-body .details .old-price {
+            text-decoration: line-through;
+            color: black;
+            margin-left: 10px;
+        }
+        .ad-body .details .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #A3B18A;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            background-color: #ccc;
-            border-radius: 12px;
-            width: 50px;
-            height: 25px;
-            position: relative;
+            margin-top: 10px;
+            align-self: flex-start;
         }
-        .toggle-button input {
+        .ad-body .details .btn:hover {
+            background-color: #8F9D70;
+        }
+        .ad-details {
+            margin-top: 20px;
+        }
+        .ad-details h3 {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            color: black;
+        }
+        .ad-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .ad-details table th,
+        .ad-details table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            color: #333;
+        }
+        .description {
+            color: black;
+        }
+        .actions-container {
+            flex: 1;
+            max-width: 300px;
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 32px;
+        }
+        .actions-container .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #A3B18A;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+            margin-left: 50px;
+            width: 200px;
+        }
+        .actions-container .btn:hover {
+            background-color: #8F9D70;
+        }
+        /* Modal-Stile */
+        .modal {
             display: none;
-        }
-        .toggle-button .slider {
-            position: absolute;
-            top: 0;
+            position: fixed;
+            z-index: 1000;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            border-radius: 12px;
-            transition: .4s;
+            top: 0;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
         }
-        .toggle-button .slider:before {
-            position: absolute;
-            content: "";
-            height: 19px;
-            width: 19px;
-            border-radius: 50%;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            border-radius: 20px;
+            color: black;
         }
-        .toggle-button input:checked + .slider {
-            background-color: #66bb6a;
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
         }
-        .toggle-button input:checked + .slider:before {
-            transform: translateX(24px);
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-buttons {
+            margin-top: 20px;
+        }
+        .modal-buttons button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #A3B18A;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .modal-buttons button:hover {
+            background-color: #8a9b68;
         }
     </style>
 </head>
 <body>
     <?php include 'header.php'; ?>
     <div class="container">
-        <h1>Meine Anzeige</h1>
-        <div class="ad-info">
-            <div class="ad-image">
-                <img src="<?php echo htmlspecialchars($images[0]); ?>" alt="Bild" style="width: 300px; height: auto;">
-                <div class="ad-images">
-                    <?php foreach ($images as $image): ?>
-                        <img src="<?php echo htmlspecialchars($image); ?>" alt="Bild">
-                    <?php endforeach; ?>
+        <div class="ad-body">
+            <div class="images">
+                 <?php if (!empty($ad['image_url'])): ?>
+                    <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                    <?php endif; ?>
+            </div>
+            <div class="details">
+                <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
+                <div class="price">
+                    <?php echo htmlspecialchars($ad['price']); ?>€
+                    <?php if (!empty($ad['old_price'])): ?>
+                        <span class="old-price"><?php echo htmlspecialchars($ad['old_price']); ?>€</span>
+                    <?php endif; ?>
+                </div>
+                <div class="ad-details">
+                    <table>
+                        <tr>
+                            <th>Marke:</th>
+                            <td><?php echo htmlspecialchars($ad['brand']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Farbe:</th>
+                            <td><?php echo htmlspecialchars($ad['color']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Zustand:</th>
+                            <td><?php echo htmlspecialchars($ad['condition']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Kategorie:</th>
+                            <td><?php echo htmlspecialchars($ad['category']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Hochgeladen:</th>
+                            <td><?php echo htmlspecialchars($ad['created_at']); ?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="description">
+                    <h3>Beschreibung</h3>
+                    <p><?php echo htmlspecialchars($ad['description']); ?></p>
                 </div>
             </div>
-            <div class="ad-description">
-                <h2><?php echo htmlspecialchars($ad['titel']); ?></h2>
-                <p><strong>Preis:</strong> <?php echo number_format($ad['preis'], 2, ',', '.'); ?>€</p>
-                <p><strong>Preistyp:</strong> <?php echo htmlspecialchars($ad['preistyp']); ?></p>
-                <h3>Beschreibung</h3>
-                <p><?php echo nl2br(htmlspecialchars($ad['beschreibung'])); ?></p>
-                <div class="ad-actions">
-                    <form action="anzeige_bearbeiten.php" method="get">
-                        <input type="hidden" name="id" value="<?php echo $ad_id; ?>">
-                        <button type="submit">Anzeige bearbeiten</button>
-                    </form>
-                    <form action="pop-up_anzeige_loeschen.php" method="get">
-                        <input type="hidden" name="id" value="<?php echo $ad_id; ?>">
-                        <button type="submit">Anzeige löschen</button>
-                    </form>
-                </div>
-                <div class="ad-status">
-                    <label class="toggle-button">
-                        <input type="checkbox" <?php if ($ad['status'] == 1) echo 'checked'; ?>>
-                        <span class="slider"></span>
-                    </label>
-                    <span>Anzeige aktiv</span>
-                </div>
+        </div>
+        <div class="actions-container">
+            <button class="btn" id="editAd" onclick="window.location.href='anzeige_bearbeiten.php?id=<?php echo $ad_id; ?>'">Anzeige bearbeiten</button>
+            <button class="btn" id="deleteAd">Anzeige löschen</button>
+        </div>
+    </div>
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Willst du diese Anzeige wirklich löschen?</p>
+            <div class="modal-buttons">
+                <button id="confirmDelete">Ja</button>
+                <button onclick="closeModal()">Nein</button>
             </div>
         </div>
     </div>
     <?php include 'footer.php'; ?>
+    <script>
+        // Modal-Funktionalität für Löschen
+        var deleteModal = document.getElementById("deleteModal");
+        var deleteButton = document.getElementById('deleteAd');
+        var confirmDeleteButton = document.getElementById('confirmDelete');
+        var adToDelete = "<?php echo $ad_id; ?>";
+
+        deleteButton.onclick = function() {
+            deleteModal.style.display = "block";
+        }
+
+        confirmDeleteButton.onclick = function() {
+            if (adToDelete) {
+                window.location.href = 'delete_ad.php?id=' + adToDelete;
+            }
+        }
+
+        function closeModal() {
+            deleteModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == deleteModal) {
+                deleteModal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
-<?php
-$stmt->close();
-$conn->close();
-?>
+
+
