@@ -243,7 +243,7 @@ $conditions = ["gebraucht", "neu"];
             border: 1px solid #ddd;
             border-radius: 5px;
             padding: 10px;
-            height: 510px;
+            height: 510px; 
             width: 100%; /* Breite des übergeordneten Links */
             box-sizing: border-box;
             transition: box-shadow 0.3s;
@@ -289,6 +289,12 @@ $conditions = ["gebraucht", "neu"];
         .ad-item p {
             font-size: 0.9em;
             color: #666;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 3em; /* Höhe basierend auf der Anzahl der Zeilen, die du anzeigen möchtest (hier 2 Zeilen bei einer Zeilenhöhe von 1.5em) */
         }
     </style>
 </head>
