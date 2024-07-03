@@ -8,36 +8,42 @@ include 'db.php'; // Verbindet zur Datenbank
 // Verwende die user_id aus der URL, falls vorhanden
 $profile_user_id = $_GET['user_id'] ?? 0;
 
-// Benutzerinformationen des angezeigten Profils abrufen
-$stmt = $pdo->prepare("SELECT username, profile_picture, location FROM users WHERE id = ?");
-$stmt->execute([$profile_user_id]);
-$profile_user = $stmt->fetch(PDO::FETCH_ASSOC);
+try {
+    // Benutzerinformationen des angezeigten Profils abrufen
+    $stmt = $pdo->prepare("SELECT username, profile_picture, location FROM users WHERE id = :id");
+    $stmt->bindParam(':id', $profile_user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $profile_user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$profile_user) {
-    echo "Benutzer nicht gefunden.";
+    if (!$profile_user) {
+        echo "Benutzer nicht gefunden.";
+        exit;
+    }
+
+    // Anzeigen des Nutzers abrufen
+    $sql_ads = "SELECT * FROM ads WHERE user_id = :user_id";
+    $stmt_ads = $pdo->prepare($sql_ads);
+    $stmt_ads->bindParam(':user_id', $profile_user_id, PDO::PARAM_INT);
+    $stmt_ads->execute();
+    $ads = $stmt_ads->fetchAll(PDO::FETCH_ASSOC);
+
+    // Bewertungen des Nutzers abrufen
+    $reviews_stmt = $pdo->prepare("SELECT reviews.*, reviewer.username AS reviewer_name FROM reviews JOIN users AS reviewer ON reviews.reviewer_id = reviewer.id WHERE reviews.user_id = :user_id");
+    $reviews_stmt->bindParam(':user_id', $profile_user_id, PDO::PARAM_INT);
+    $reviews_stmt->execute();
+    $reviews = $reviews_stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
     exit;
 }
-
-// Anzeigen des Nutzers abrufen
-$sql_ads = "SELECT * FROM ads WHERE user_id = ?";
-$stmt_ads = $pdo->prepare($sql_ads);
-$stmt_ads->execute([$profile_user_id]);
-$ads = $stmt_ads->fetchAll(PDO::FETCH_ASSOC);
-
-// Überprüfen, ob die 'location'-Spalte existiert und nicht leer ist
-$profile_user_location = !empty($profile_user['location']) ? $profile_user['location'] : '';
-
-// Bewertungen des Nutzers abrufen
-$reviews_stmt = $pdo->prepare("SELECT reviews.*, reviewer.username AS reviewer_name FROM reviews JOIN users AS reviewer ON reviews.reviewer_id = reviewer.id WHERE reviews.user_id = ?");
-$reviews_stmt->execute([$profile_user_id]);
-$reviews = $reviews_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Überprüfung, ob der Benutzer eingeloggt ist und Benutzerdaten abrufen
 if (isset($_SESSION['user_id'])) {
     $current_user_id = $_SESSION['user_id'];
-    $sql = "SELECT username, profile_picture FROM users WHERE id = ?";
+    $sql = "SELECT username, profile_picture FROM users WHERE id = :id";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$current_user_id]);
+    $stmt->bindParam(':id', $current_user_id, PDO::PARAM_INT);
+    $stmt->execute();
     $current_user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($current_user) {
@@ -227,7 +233,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
             <div class="profile-info">
                 <h2><?php echo htmlspecialchars($profile_user['username']); ?></h2>
-                <p><?php echo htmlspecialchars($profile_user_location); ?></p>
+                <p><?php echo htmlspecialchars($profile_user['location']); ?></p>
             </div>
         </div>
         <div class="tabs">

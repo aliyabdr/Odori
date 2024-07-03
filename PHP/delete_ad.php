@@ -14,22 +14,27 @@ if (isset($_GET['id'])) {
 
     // Überprüfen, ob die Anzeige dem aktuellen Benutzer gehört
     $user_id = $_SESSION['user_id'];
-    $sql = "DELETE FROM ads WHERE id = ? AND user_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $ad_id, $user_id);
 
-    if ($stmt->execute()) {
-        // Erfolgreich gelöscht
-        header('Location: eigenes_profil.php');
-    } else {
-        // Fehler beim Löschen
-        echo "Fehler beim Löschen der Anzeige: " . $stmt->error;
+    try {
+        $sql = "DELETE FROM ads WHERE id = :id AND user_id = :user_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $ad_id, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            // Erfolgreich gelöscht
+            header('Location: eigenes_profil.php');
+        } else {
+            // Fehler beim Löschen
+            echo "Fehler beim Löschen der Anzeige.";
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-
-    $stmt->close();
 } else {
     echo "Keine Anzeige-ID angegeben.";
 }
 
-$conn->close();
+$pdo = null;
 ?>
+

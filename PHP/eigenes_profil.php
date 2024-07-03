@@ -10,44 +10,44 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Erste Abfrage für Benutzerdaten
-$sql = "SELECT username, profile_picture, location, saved_ads FROM users WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-$stmt->close();
+try {
+    // Erste Abfrage für Benutzerdaten
+    $sql = "SELECT username, profile_picture, location, saved_ads FROM users WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Überprüfen, ob die 'location'-Spalte existiert und nicht leer ist
-$user_location = !empty($user['location']) ? $user['location'] : '';
+    // Überprüfen, ob die 'location'-Spalte existiert und nicht leer ist
+    $user_location = !empty($user['location']) ? $user['location'] : '';
 
-// Zweite Abfrage für Anzeigen
-$sql_ads = "SELECT * FROM ads WHERE user_id = ?";
-$stmt_ads = $conn->prepare($sql_ads);
-$stmt_ads->bind_param("i", $user_id);
-$stmt_ads->execute();
-$result_ads = $stmt_ads->get_result();
-$ads = $result_ads->fetch_all(MYSQLI_ASSOC);
-$stmt_ads->close();
+    // Zweite Abfrage für Anzeigen
+    $sql_ads = "SELECT * FROM ads WHERE user_id = :user_id";
+    $stmt_ads = $pdo->prepare($sql_ads);
+    $stmt_ads->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt_ads->execute();
+    $ads = $stmt_ads->fetchAll(PDO::FETCH_ASSOC);
 
-// Gespeicherte Anzeigen abrufen
-$saved_ads = !empty($user['saved_ads']) ? explode(',', $user['saved_ads']) : [];
-$saved_ads_list = [];
-if (!empty($saved_ads)) {
-    $placeholders = implode(',', array_fill(0, count($saved_ads), '?'));
-    $types = str_repeat('i', count($saved_ads));
-    
-    $sql_saved = "SELECT * FROM ads WHERE id IN ($placeholders)";
-    $stmt_saved = $conn->prepare($sql_saved);
-    $stmt_saved->bind_param($types, ...$saved_ads);
-    $stmt_saved->execute();
-    $result_saved = $stmt_saved->get_result();
-    $saved_ads_list = $result_saved->fetch_all(MYSQLI_ASSOC);
-    $stmt_saved->close();
+    // Gespeicherte Anzeigen abrufen
+    $saved_ads = !empty($user['saved_ads']) ? explode(',', $user['saved_ads']) : [];
+    $saved_ads_list = [];
+    if (!empty($saved_ads)) {
+        $placeholders = implode(',', array_fill(0, count($saved_ads), '?'));
+
+        $sql_saved = "SELECT * FROM ads WHERE id IN ($placeholders)";
+        $stmt_saved = $pdo->prepare($sql_saved);
+        foreach ($saved_ads as $k => $id) {
+            $stmt_saved->bindValue(($k+1), $id, PDO::PARAM_INT);
+        }
+        $stmt_saved->execute();
+        $saved_ads_list = $stmt_saved->fetchAll(PDO::FETCH_ASSOC);
+    }
+} catch (PDOException $e) {
+    echo 'Error: ' . $e->getMessage();
+    exit;
 }
 
-$conn->close();
+$pdo = null; // Verbindung schließen
 ?>
 <!DOCTYPE html>
 <html lang="de">

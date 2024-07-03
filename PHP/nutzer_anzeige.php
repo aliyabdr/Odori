@@ -4,26 +4,34 @@ include 'db.php'; // Verbindet zur Datenbank
 
 $ad_id = $_GET['id'] ?? 0;
 
-// Anzeige-Daten abrufen
-$sql = "SELECT ads.*, users.username AS user_name, users.location AS user_location, users.profile_picture AS user_profile_picture, users.id AS user_id
-        FROM ads
-        JOIN users ON ads.user_id = users.id
-        WHERE ads.id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$ad_id]);
-$ad = $stmt->fetch(PDO::FETCH_ASSOC);
+try {
+    // Anzeige-Daten abrufen
+    $sql = "SELECT ads.*, users.username AS user_name, users.location AS user_location, users.profile_picture AS user_profile_picture, users.id AS user_id
+            FROM ads
+            JOIN users ON ads.user_id = users.id
+            WHERE ads.id = :ad_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':ad_id', $ad_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $ad = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$ad) {
-    echo "Anzeige nicht gefunden.";
+    if (!$ad) {
+        echo "Anzeige nicht gefunden.";
+        exit;
+    }
+
+    // Bilder-Daten abrufen
+    $sql_images = "SELECT image_url FROM ad_images WHERE ad_id = :ad_id";
+    $stmt_images = $pdo->prepare($sql_images);
+    $stmt_images->bindParam(':ad_id', $ad_id, PDO::PARAM_INT);
+    $stmt_images->execute();
+    $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
     exit;
 }
 
-// Bilder-Daten abrufen
-$sql_images = "SELECT image_url FROM ad_images WHERE ad_id = ?";
-$stmt_images = $pdo->prepare($sql_images);
-$stmt_images->execute([$ad_id]);
-$images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
-
+$pdo = null; // Verbindung schließen
 ?>
 <!DOCTYPE html>
 <html lang="de">

@@ -10,24 +10,26 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Benutzerinformationen abrufen
-$sql = "SELECT username, profile_picture, location, postal_code FROM users WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-$stmt->close();
+try {
+    // Benutzerinformationen abrufen
+    $sql = "SELECT username, profile_picture, location, postal_code FROM users WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$conn->close();
+    // Standardwerte setzen, falls Felder nicht vorhanden sind
+    $username = $user['username'] ?? '';
+    $profile_picture = $user['profile_picture'] ?? '';
+    $location = $user['location'] ?? '';
+    $postal_code = $user['postal_code'] ?? '';
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+    exit;
+}
 
-// Standardwerte setzen, falls Felder nicht vorhanden sind
-$username = isset($user['username']) ? $user['username'] : '';
-$profile_picture = isset($user['profile_picture']) ? $user['profile_picture'] : '';
-$location = isset($user['location']) ? $user['location'] : '';
-$postal_code = isset($user['postal_code']) ? $user['postal_code'] : '';
+$pdo = null; // Verbindung schließen
 ?>
-
 <!DOCTYPE html>
 <html lang="de">
 <head>

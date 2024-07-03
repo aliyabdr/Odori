@@ -34,24 +34,31 @@ if (!empty($profile_picture)) {
 
 // SQL-Update-Anweisung
 if (!empty($profile_picture)) {
-    $sql = "UPDATE users SET username = ?, postal_code = ?, location = ?, profile_picture = ? WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssi", $username, $postal_code, $location, $target_file, $user_id);
+    $sql = "UPDATE users SET username = :username, postal_code = :postal_code, location = :location, profile_picture = :profile_picture WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':username' => $username,
+        ':postal_code' => $postal_code,
+        ':location' => $location,
+        ':profile_picture' => $target_file,
+        ':id' => $user_id
+    ]);
 } else {
-    $sql = "UPDATE users SET username = ?, postal_code = ?, location = ? WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssi", $username, $postal_code, $location, $user_id);
+    $sql = "UPDATE users SET username = :username, postal_code = :postal_code, location = :location WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':username' => $username,
+        ':postal_code' => $postal_code,
+        ':location' => $location,
+        ':id' => $user_id
+    ]);
 }
 
-if ($stmt->execute()) {
+if ($stmt->rowCount() > 0) {
     // Erfolgreich aktualisiert
     header('Location: eigenes_profil.php');
 } else {
     // Fehler bei der Aktualisierung
-    echo "Fehler beim Aktualisieren des Profils: " . $stmt->error;
+    echo "Fehler beim Aktualisieren des Profils.";
 }
-
-$stmt->close();
-$conn->close();
 ?>
-

@@ -33,24 +33,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Die Anzeige in der Datenbank aktualisieren
     if ($image_path) {
-        $sql = "UPDATE ads SET title = ?, description = ?, category = ?, price = ?, color = ?, brand = ?, `condition` = ?, image_url = ? WHERE id = ? AND user_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssdsdssii", $title, $description, $category, $price, $color, $brand, $condition, $image_path, $ad_id, $user_id);
+        $sql = "UPDATE ads SET title = :title, description = :description, category = :category, price = :price, color = :color, brand = :brand, `condition` = :condition, image_url = :image_url WHERE id = :id AND user_id = :user_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':title' => $title,
+            ':description' => $description,
+            ':category' => $category,
+            ':price' => $price,
+            ':color' => $color,
+            ':brand' => $brand,
+            ':condition' => $condition,
+            ':image_url' => $image_path,
+            ':id' => $ad_id,
+            ':user_id' => $user_id
+        ]);
     } else {
-        $sql = "UPDATE ads SET title = ?, description = ?, category = ?, price = ?, color = ?, brand = ?, `condition` = ? WHERE id = ? AND user_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssdsdsii", $title, $description, $category, $price, $color, $brand, $condition, $ad_id, $user_id);
+        $sql = "UPDATE ads SET title = :title, description = :description, category = :category, price = :price, color = :color, brand = :brand, `condition` = :condition WHERE id = :id AND user_id = :user_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':title' => $title,
+            ':description' => $description,
+            ':category' => $category,
+            ':price' => $price,
+            ':color' => $color,
+            ':brand' => $brand,
+            ':condition' => $condition,
+            ':id' => $ad_id,
+            ':user_id' => $user_id
+        ]);
     }
     
-    if ($stmt->execute()) {
+    if ($stmt->rowCount() > 0) {
         header('Location: eigenes_profil.php');
         exit();
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error: Die Anzeige konnte nicht aktualisiert werden.";
     }
-
-    $stmt->close();
 }
-
-$conn->close();
 ?>

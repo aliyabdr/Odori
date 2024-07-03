@@ -15,7 +15,7 @@ $filters = [
 $user_id = $_SESSION['user_id'] ?? 0;
 
 // SQL Query für Suchergebnisse
-$sql = "SELECT * FROM ads WHERE user_id != ? AND title LIKE ? AND price BETWEEN ? AND ? AND color LIKE ? AND brand LIKE ? AND `condition` LIKE ?";
+$sql = "SELECT * FROM ads WHERE user_id != :user_id AND title LIKE :search AND price BETWEEN :price_min AND :price_max AND color LIKE :color AND brand LIKE :brand AND `condition` LIKE :condition";
 
 if ($sort == 'price_asc') {
     $sql .= " ORDER BY price ASC";
@@ -26,7 +26,15 @@ if ($sort == 'price_asc') {
 }
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute([$user_id, "%$search%", $filters['price_min'], $filters['price_max'], "%{$filters['color']}%", "%{$filters['brand']}%", "%{$filters['condition']}%"]);
+$stmt->execute([
+    ':user_id' => $user_id,
+    ':search' => "%$search%",
+    ':price_min' => $filters['price_min'],
+    ':price_max' => $filters['price_max'],
+    ':color' => "%{$filters['color']}%",
+    ':brand' => "%{$filters['brand']}%",
+    ':condition' => "%{$filters['condition']}%"
+]);
 $ads = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($ads === false) {

@@ -18,58 +18,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $condition = $_POST['condition'];
     $user_id = $_SESSION['user_id'];
 
+    try {
+        // Benutzerinformationen aus der Datenbank abrufen
+        $sql_user = "SELECT location FROM users WHERE id = :id";
+        $stmt_user = $pdo->prepare($sql_user);
+        $stmt_user->bindParam(':id', $user_id, PDO::PARAM_INT);
+        $stmt_user->execute();
+        $user = $stmt_user->fetch(PDO::FETCH_ASSOC);
+        $location = $user['location'];
 
-    // Benutzerinformationen aus der Datenbank abrufen
-    $sql_user = "SELECT location FROM users WHERE id = ?";
-    $stmt_user = $conn->prepare($sql_user);
-    $stmt_user->bind_param("i", $user_id);
-    $stmt_user->execute();
-    $result_user = $stmt_user->get_result();
-    $user = $result_user->fetch_assoc();
-    $stmt_user->close();
+        // Bild-Upload bearbeiten
+        $upload_directory = '../uploads/';
+        $file_name = basename($_FILES['images']['name'][0]);
+        $target_file = $upload_directory . $file_name;
+        if (move_uploaded_file($_FILES['images']['tmp_name'][0], $target_file)) {
+            $image_url = $target_file;
+        } else {
+            $image_url = ''; // Setze einen leeren String, wenn der Bild-Upload fehlschlägt
+        }
 
-    $location = $user['location'];
-    
-    
-    // Benutzerinformationen aus der Datenbank abrufen
-    $sql_user = "SELECT location FROM users WHERE id = ?";
-    $stmt_user = $conn->prepare($sql_user);
-    $stmt_user->bind_param("i", $user_id);
-    $stmt_user->execute();
-    $result_user = $stmt_user->get_result();
-    $user = $result_user->fetch_assoc();
-    $stmt_user->close();
-
-    $location = $user['location'];
-    
-    // Bild-Upload bearbeiten
-    $upload_directory = '../uploads/';
-    $file_name = basename($_FILES['images']['name'][0]);
-    $target_file = $upload_directory . $file_name;
-    if (move_uploaded_file($_FILES['images']['tmp_name'][0], $target_file)) {
-        $image_url = $target_file;
-    } else {
-        $image_url = ''; // Setze einen leeren String, wenn der Bild-Upload fehlschlägt
+        // Die Anzeige in die Datenbank einfügen
+        $sql = "INSERT INTO ads (title, description, category, price, color, brand, `condition`, image_url, user_id) 
+                VALUES (:title, :description, :category, :price, :color, :brand, :condition, :image_url, :user_id)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+        $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+        $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+        $stmt->bindParam(':price', $price, PDO::PARAM_STR);
+        $stmt->bindParam(':color', $color, PDO::PARAM_STR);
+        $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
+        $stmt->bindParam(':condition', $condition, PDO::PARAM_STR);
+        $stmt->bindParam(':image_url', $image_url, PDO::PARAM_STR);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        
+        if ($stmt->execute()) {
+            header('Location: eigenes_profil.php');
+            exit();
+        } else {
+            echo "Error: " . $stmt->errorInfo()[2];
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-
-    // Die Anzeige in die Datenbank einfügen
-    $sql = "INSERT INTO ads (title, description, category, price, color, brand, `condition`, image_url, user_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssdsdssi", $title, $description, $category, $price, $color, $brand, $condition, $image_url, $user_id);
-    
-    if ($stmt->execute()) {
-        header('Location: eigenes_profil.php');
-        exit();
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
 }
 
-$conn->close();
+$pdo = null;
 ?>
+
 
 
 

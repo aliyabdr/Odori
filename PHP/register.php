@@ -25,34 +25,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Das Passwort verschlüsseln
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Überprüfen, ob der Benutzername oder die E-Mail bereits existieren
-    $sql_check = "SELECT * FROM users WHERE username = ? OR email = ?";
-    $stmt_check = $conn->prepare($sql_check);
-    $stmt_check->bind_param("ss", $username, $email);
-    $stmt_check->execute();
-    $result_check = $stmt_check->get_result();
+    try {
+        // Überprüfen, ob der Benutzername oder die E-Mail bereits existieren
+        $sql_check = "SELECT * FROM users WHERE username = :username OR email = :email";
+        $stmt_check = $pdo->prepare($sql_check);
+        $stmt_check->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt_check->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt_check->execute();
 
-    if ($result_check->num_rows > 0) {
-        die("Benutzername oder E-Mail ist bereits vergeben.");
+        if ($stmt_check->rowCount() > 0) {
+            die("Benutzername oder E-Mail ist bereits vergeben.");
+        }
+
+        // Benutzer in die Datenbank einfügen
+        $sql = "INSERT INTO users (username, password, email, postal_code, location) VALUES (:username, :password, :email, :postal_code, :location)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $hashed_password, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':postal_code', $postal_code, PDO::PARAM_STR);
+        $stmt->bindParam(':location', $location, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            echo "Registrierung erfolgreich!";
+            header('Location: login.php'); // Weiterleitung zur Login-Seite
+            exit;
+        } else {
+            echo "Fehler: " . $stmt->errorInfo()[2];
+        }
+    } catch (PDOException $e) {
+        echo "Fehler: " . $e->getMessage();
     }
 
-    $stmt_check->close();
-
-    // Benutzer in die Datenbank einfügen
-    $sql = "INSERT INTO users (username, password, email, postal_code, location) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $username, $hashed_password, $email, $postal_code, $location);
-
-    if ($stmt->execute()) {
-        echo "Registrierung erfolgreich!";
-        header('Location: login.php'); // Weiterleitung zur Login-Seite
-        exit;
-    } else {
-        echo "Fehler: " . $stmt->error;
-    }
-
-    $stmt->close();
-    $conn->close();
+    $pdo = null; // Verbindung schließen
 } else {
     echo "Ungültige Anforderung.";
 }

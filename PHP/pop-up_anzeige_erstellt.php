@@ -1,33 +1,43 @@
 <?php
 session_start();
-include 'db.php'; // Verbindet zur Datenbank
+include 'db_connect.php'; // Verbindet zur Datenbank
 
 // Holen Sie sich die Benutzer-ID aus der URL
 $user_id = $_GET['id'] ?? 0;
 
-// SQL-Query, um die Details des Benutzers abzurufen
-$sql = "SELECT * FROM users WHERE id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$user_id]);
-$user = $stmt->fetch();
+try {
+    // SQL-Query, um die Details des Benutzers abzurufen
+    $sql = "SELECT * FROM users WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Überprüfen, ob der Benutzer existiert
-if (!$user) {
-    echo "Benutzer nicht gefunden!";
+    // Überprüfen, ob der Benutzer existiert
+    if (!$user) {
+        echo "Benutzer nicht gefunden!";
+        exit;
+    }
+
+    // SQL-Query, um die Anzeigen des Benutzers abzurufen
+    $ads_sql = "SELECT * FROM ads WHERE user_id = :user_id";
+    $ads_stmt = $pdo->prepare($ads_sql);
+    $ads_stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $ads_stmt->execute();
+    $ads = $ads_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // SQL-Query, um die Rezensionen des Benutzers abzurufen
+    $reviews_sql = "SELECT * FROM reviews WHERE user_id = :user_id";
+    $reviews_stmt = $pdo->prepare($reviews_sql);
+    $reviews_stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $reviews_stmt->execute();
+    $reviews = $reviews_stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
     exit;
 }
 
-// SQL-Query, um die Anzeigen des Benutzers abzurufen
-$ads_sql = "SELECT * FROM ads WHERE user_id = ?";
-$ads_stmt = $pdo->prepare($ads_sql);
-$ads_stmt->execute([$user_id]);
-$ads = $ads_stmt->fetchAll();
-
-// SQL-Query, um die Rezensionen des Benutzers abzurufen
-$reviews_sql = "SELECT * FROM reviews WHERE user_id = ?";
-$reviews_stmt = $pdo->prepare($reviews_sql);
-$reviews_stmt->execute([$user_id]);
-$reviews = $reviews_stmt->fetchAll();
+$pdo = null; // Verbindung schließen
 ?>
 <!DOCTYPE html>
 <html lang="de">

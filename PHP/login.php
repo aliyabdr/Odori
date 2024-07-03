@@ -1,5 +1,5 @@
 <?php
-    session_start(); // Startet die Session nur, wenn noch keine aktive Session vorhanden ist
+session_start(); // Startet die Session nur, wenn noch keine aktive Session vorhanden ist
 
 // Überprüfung, ob der Benutzer eingeloggt ist
 if (isset($_SESSION['user_id'])) {
@@ -13,34 +13,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Benutzerdaten aus der Datenbank abrufen
-    $sql = "SELECT * FROM users WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    try {
+        // Benutzerdaten aus der Datenbank abrufen
+        $sql = "SELECT * FROM users WHERE username = :username";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        // Überprüfen, ob das eingegebene Passwort mit dem in der Datenbank übereinstimmt
-        if (password_verify($password, $row['password'])) {
-            // Setzen von Session-Variablen
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['user_profile_picture'] = $row['profile_picture'];
-            header('Location: startseite.php'); // Weiterleitung zur Startseite
-            exit; // Beendet die Skriptausführung nach der Weiterleitung
+        if ($user) {
+            // Überprüfen, ob das eingegebene Passwort mit dem in der Datenbank übereinstimmt
+            if (password_verify($password, $user['password'])) {
+                // Setzen von Session-Variablen
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['user_profile_picture'] = $user['profile_picture'];
+                header('Location: startseite.php'); // Weiterleitung zur Startseite
+                exit; // Beendet die Skriptausführung nach der Weiterleitung
+            } else {
+                echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
+            }
         } else {
             echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
         }
-    } else {
-        echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
-
-    $stmt->close();
 }
 
-$conn->close();
+$pdo = null;
 ?>
 <!DOCTYPE html>
 <html lang="de">

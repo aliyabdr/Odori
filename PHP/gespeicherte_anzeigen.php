@@ -10,34 +10,34 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Abfrage für gespeicherte Anzeigen
-$sql_user = "SELECT saved_ads FROM users WHERE id = ?";
-$stmt_user = $conn->prepare($sql_user);
-$stmt_user->bind_param("i", $user_id);
-$stmt_user->execute();
-$result_user = $stmt_user->get_result();
-$user = $result_user->fetch_assoc();
-$stmt_user->close();
+try {
+    // Abfrage für gespeicherte Anzeigen
+    $sql_user = "SELECT saved_ads FROM users WHERE id = :id";
+    $stmt_user = $pdo->prepare($sql_user);
+    $stmt_user->bindParam(':id', $user_id, PDO::PARAM_INT);
+    $stmt_user->execute();
+    $user = $stmt_user->fetch(PDO::FETCH_ASSOC);
+    $saved_ads = !empty($user['saved_ads']) ? explode(',', $user['saved_ads']) : [];
 
-$saved_ads = !empty($user['saved_ads']) ? explode(',', $user['saved_ads']) : [];
-
-// Anzeigeninformationen abrufen
-if (!empty($saved_ads)) {
-    $placeholders = implode(',', array_fill(0, count($saved_ads), '?'));
-    $types = str_repeat('i', count($saved_ads));
-    
-    $sql_ads = "SELECT * FROM ads WHERE id IN ($placeholders)";
-    $stmt_ads = $conn->prepare($sql_ads);
-    $stmt_ads->bind_param($types, ...$saved_ads);
-    $stmt_ads->execute();
-    $result_ads = $stmt_ads->get_result();
-    $ads = $result_ads->fetch_all(MYSQLI_ASSOC);
-    $stmt_ads->close();
-} else {
-    $ads = [];
+    // Anzeigeninformationen abrufen
+    if (!empty($saved_ads)) {
+        $placeholders = implode(',', array_fill(0, count($saved_ads), '?'));
+        $sql_ads = "SELECT * FROM ads WHERE id IN ($placeholders)";
+        $stmt_ads = $pdo->prepare($sql_ads);
+        foreach ($saved_ads as $k => $id) {
+            $stmt_ads->bindValue(($k+1), $id, PDO::PARAM_INT);
+        }
+        $stmt_ads->execute();
+        $ads = $stmt_ads->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $ads = [];
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+    exit;
 }
 
-$conn->close();
+$pdo = null;
 ?>
 <!DOCTYPE html>
 <html lang="de">

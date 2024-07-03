@@ -8,19 +8,16 @@ include '../db_connect.php'; // Verbindung zur Datenbank herstellen
 // Überprüfung, ob der Benutzer eingeloggt ist und Benutzerdaten abrufen
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT username, profile_picture FROM users WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $user_id);
+    $sql = "SELECT username, profile_picture FROM users WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $user = $stmt->fetch();
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+    if ($user) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['user_profile_picture'] = $user['profile_picture'];
     }
-
-    $stmt->close();
 }
 ?>
 <!DOCTYPE html>

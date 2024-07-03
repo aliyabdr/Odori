@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../db_connect.php'; // Verbindet zur Datenbank
+include '../db_connect.php'; // Verbindung zur Datenbank herstellen
 
 // Überprüfen, ob der Benutzer eingeloggt ist
 if (!isset($_SESSION['user_id'])) {
@@ -11,20 +11,25 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $ad_id = $_GET['id'] ?? 0;
 
-// Anzeige-Daten abrufen
-$sql = "SELECT * FROM ads WHERE id = ? AND user_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $ad_id, $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$ad = $result->fetch_assoc();
+try {
+    // Anzeige-Daten abrufen
+    $sql = "SELECT * FROM ads WHERE id = :id AND user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $ad_id, PDO::PARAM_INT);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $ad = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$ad) {
-    echo "Anzeige nicht gefunden oder Sie haben keine Berechtigung, diese Anzeige zu bearbeiten.";
+    if (!$ad) {
+        echo "Anzeige nicht gefunden oder Sie haben keine Berechtigung, diese Anzeige zu bearbeiten.";
+        exit;
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
     exit;
 }
-$stmt->close();
-$conn->close();
+
+$pdo = null; // Verbindung schließen
 ?>
 <!DOCTYPE html>
 <html lang="de">
