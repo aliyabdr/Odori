@@ -24,6 +24,7 @@ if (isset($_SESSION['user_id'])) {
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Odori</title>
     <style>
         .logo-img {
@@ -46,9 +47,8 @@ if (isset($_SESSION['user_id'])) {
             box-sizing: border-box;
         }
         .logo {
-            max-width: 150px;
-            width: 100%;
-            height: auto;
+            display: flex;
+            align-items: center;
         }
         .navigation ul {
             list-style: none;
@@ -124,17 +124,59 @@ if (isset($_SESSION['user_id'])) {
         .dropdown-content a:hover, .dropdown-content button:hover {
             background-color: #ddd;
         }
-    </style>
+        .menu-toggle {
+            display: none;
+        }
+        .hamburger {
+            display: inline-block;
+            cursor: pointer;
+        }
+        .hamburger .line {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px 0;
+        }
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .navigation ul {
+                display: none; /* Hide navigation on small screens */
+                flex-direction: column;
+                gap: 10px;
+                background-color: #f8f8f8;
+                position: absolute;
+                top: 110px;
+                left: 0;
+                width: 100%;
+                padding: 20px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+            .navigation ul.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+                cursor: pointer;
+                margin-right: 20px;
+            }
+</style>
 </head>
 <body>
     <header>
         <div class="logo">
+            <div class="menu-toggle" id="menuToggle">
+                <div class="hamburger">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
             <a href="startseite.php">
                 <img src="../img/odori-logo-quer.png" alt="Logo" class="logo-img">
             </a>
-        </div> 
+        </div>
         <nav class="navigation">
-            <ul>
+            <ul id="navMenu">
                 <li><a href="nothinghere.php">BEKLEIDUNG</a></li>
                 <li><a href="nothinghere.php">AUSRÜSTUNG</a></li>
                 <li><a href="nothinghere.php">AKTIVITÄTEN</a></li>
@@ -182,6 +224,18 @@ if (isset($_SESSION['user_id'])) {
 
         // Verhindert, dass das Dropdown-Menü verschwindet, wenn innerhalb geklickt wird
         document.getElementById('dropdownContent').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+
+        // Funktion zum Anzeigen/Ausblenden des Navigationsmenüs
+        document.getElementById('menuToggle').addEventListener('click', function(event) {
+            event.stopPropagation();
+            var navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('show');
+        });
+
+        // Verhindert das Schließen des Navigationsmenüs, wenn innerhalb des Menüs geklickt wird
+        document.getElementById('navMenu').addEventListener('click', function(event) {
             event.stopPropagation();
         });
     </script>

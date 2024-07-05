@@ -229,6 +229,7 @@ $conditions = ["gebraucht", "neu"];
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
+            align-items: stretch; /* Alle Elemente in der gleichen Höhe */
         }
 
         .ad-item-link {
@@ -236,6 +237,7 @@ $conditions = ["gebraucht", "neu"];
             color: inherit;
             flex-basis: calc(33.333% - 20px); /* Drei Anzeigen pro Zeile */
             box-sizing: border-box;
+            max-width: 100%;
         }
 
         .ad-item {
@@ -243,13 +245,15 @@ $conditions = ["gebraucht", "neu"];
             border: 1px solid #ddd;
             border-radius: 5px;
             padding: 10px;
-            height: 510px; 
+            height: 100%;
             width: 100%; /* Breite des übergeordneten Links */
             box-sizing: border-box;
             transition: box-shadow 0.3s;
             display: flex;
             flex-direction: column;
             align-items: flex-start; /* Links ausgerichtet */
+            max-width: none;
+            flex-wrap: wrap;
         }
 
         .ad-item .img-container {
@@ -294,7 +298,25 @@ $conditions = ["gebraucht", "neu"];
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-height: 3em; /* Höhe basierend auf der Anzahl der Zeilen, die du anzeigen möchtest (hier 2 Zeilen bei einer Zeilenhöhe von 1.5em) */
+        }
+        /* Media Queries for responsive design */
+        @media (max-width: 850px) {
+            .ad-item-link {
+                flex-basis: calc(50% - 20px); /* Zwei Anzeigen pro Zeile für Tablets */
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .ads-list {
+                display: flex;
+                flex-direction: column; /* Anzeigen untereinander */
+            }
+
+            .ad-item-link {
+                flex-basis: 100%; /* Anzeigen nehmen die gesamte Breite ein */
+                max-width: 100%; /* Maximale Breite für Handys */
+            }
         }
     </style>
 </head>

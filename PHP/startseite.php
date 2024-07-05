@@ -5,6 +5,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Startseite</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -20,18 +21,20 @@
             min-height: 100vh;
             color: white;
         }
+
+        
         body.startseite {
+            background: rgba(0, 0, 0, 0.5);
             flex: 1;
             position: relative;
+        }
+        .overlay {
             background-image: url('../img/startseite.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-        }
-        .overlay {
             position: relative;
             flex: 1;
-            background: rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -194,7 +197,7 @@
     </style>
     <?php include 'header.php'; ?>
 </head>
-<body class="startseite" style="background-image: url('../img/startseite.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative;">
+<body class="startseite">
     <div class="overlay">
         <div class="container">
             <h1>Kaufe und verkaufe <br> gebrauchtes Outdoor-Equipment <br><span class="typewriter-dash">–</span><span class="typewriter-container"><span id="typewriter" class="typewriter"></span></span></h1>
