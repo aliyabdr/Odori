@@ -47,7 +47,7 @@ $pdo = null; // Verbindung schließen
             background-color: #f0f0f0;
         }
         .container {
-            width: 1000px; 
+            max-width: 1000px; 
             margin: 50px auto; /* zentriert den Container */
             padding: 20px;
             background-color: #fff;
@@ -79,8 +79,9 @@ $pdo = null; // Verbindung schließen
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            width: 80%; /* Eingabefelder auf volle Breite setzen */
+            width: 100%; /* Eingabefelder auf volle Breite setzen */
             color: black;
+            max-width: 90%;
         }
         input[type="submit"] {
             padding: 10px 20px;
@@ -94,6 +95,29 @@ $pdo = null; // Verbindung schließen
         }
         input[type="submit"]:hover {
             background-color: #8a9b68;
+        }
+        @media (max-width: 1000px) {
+            .container {
+                width: 90%;
+                margin: 20px auto;
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.2em;
+                text-align: center;
+            }
+            form {
+                width: 100%;
+                padding: 0;
+            }
+            input[type="submit"] {
+                width: 100%;
+            }
         }
     </style>
 </head>

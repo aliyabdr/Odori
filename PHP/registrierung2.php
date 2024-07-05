@@ -65,6 +65,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             cursor: pointer;
             align-items: center;
             margin-top: 10px;
+            width: 100%;
+        }
+        @media (max-width: 600px) {
+            body {
+                height: auto;
+                padding: 20px;   
+            }
+            .container {
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
         }
     </style>
     <script>

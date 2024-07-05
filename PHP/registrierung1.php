@@ -16,8 +16,8 @@ include '../db_connect.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrierung</title>
     <style>
-          /* Importiere die Schriftart 'Lato' */
-          @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+        /* Importiere die Schriftart 'Lato' */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
         body {
             background-image: url('../img/Hintergrundbild.jpg');
             background-size: cover;
@@ -38,7 +38,7 @@ include '../db_connect.php';
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
             color: black;
-            width: 350px;
+            max-width: 350px;
             margin-top: 400px;
             margin-bottom: 150px;
         }
@@ -48,8 +48,8 @@ include '../db_connect.php';
             margin: 10px;
             border: 1px solid #ccc;
             border-radius: 20px;
-            align-items: center;
             color: black;
+            align-items: center;
         }
         button {
             background-color: #a3b18a;
@@ -58,6 +58,18 @@ include '../db_connect.php';
             border: none;
             border-radius: 20px;
             cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            body {
+                height: auto;
+                padding: 20px;   
+            }
+            .container {
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
         }
     </style>
 </head>

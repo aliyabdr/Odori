@@ -68,7 +68,6 @@ $pdo = null;
         width: 100%;
         display: flex;
         justify-content: center;
-        margin-top: 5%; /* Erhöht den Abstand vom oberen Rand */
         padding-top: 2px;
     }
     .login-box {
