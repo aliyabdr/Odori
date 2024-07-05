@@ -90,7 +90,8 @@ $pdo = null; // Verbindung schließen
         }
         .ad-body .images {
             flex: 1;
-            max-width: 300px;
+            max-width: 100%;
+            margin: 0 auto;
         }
         .ad-body .images img {
             width: 100%;
@@ -101,6 +102,7 @@ $pdo = null; // Verbindung schließen
             flex: 2;
             display: flex;
             flex-direction: column;
+            max-width: 100%;
         }
         .ad-body .details h1 {
             font-size: 2em;
@@ -159,12 +161,12 @@ $pdo = null; // Verbindung schließen
         }
         .actions-container {
             flex: 1;
-            max-width: 300px;
-            margin-left: 20px;
+            max-width: 100%;
+            margin: 20px 0;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 32px;
+            align-items: center;
         }
         .actions-container .btn {
             display: inline-block;
@@ -176,8 +178,8 @@ $pdo = null; // Verbindung schließen
             cursor: pointer;
             text-align: center;
             margin-top: 10px;
-            margin-left: 50px;
-            width: 200px;
+            width: 100%;
+            max-width: 200px;
         }
         .actions-container .btn:hover {
             background-color: #8F9D70;
@@ -232,6 +234,51 @@ $pdo = null; // Verbindung schließen
         }
         .modal-buttons button:hover {
             background-color: #8a9b68;
+        }
+        @media (max-width: 1000px) {
+            .container {
+                width: 90%;
+                margin: 20px auto;
+                padding: 10px;
+            }
+            .ad-header h1, .ad-body .details h1 {
+                font-size: 1.5em;
+            }
+            .ad-header .price, .ad-body .details .price {
+                font-size: 1.2em;
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                margin: 10px auto;
+                padding: 5px;
+                flex-direction: column;
+            }
+            .ad-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .ad-body {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .ad-body .details, .ad-body .images {
+                max-width: 100%;
+                width: 100%;
+            }
+            .actions-container {
+                flex-direction: column;
+                align-items: stretch;
+                margin: 10px 0;
+            }
+            .actions-container .btn {
+                width: 100%;
+                max-width: none;
+            }
+            .modal-content {
+                width: 95%;
+            }
         }
     </style>
 </head>

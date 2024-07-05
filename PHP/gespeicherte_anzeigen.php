@@ -53,7 +53,7 @@ $pdo = null;
             padding: 0;
         }
         .container {
-            width: 1000px;
+            max-width: 1000px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
@@ -70,25 +70,34 @@ $pdo = null;
             border-radius: 5px;
             padding: 10px;
             margin-bottom: 10px;
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            text-decoration: none;
+            color: black;
         }
         .ad img {
             max-width: 100px;
             margin-right: 20px;
+            object-fit: cover;
+            object-position: center;
         }
         .ad-details {
             flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         .ad-details h4 {
-            margin: 0;
+            margin-right: 20px;
             font-size: 20px;
         }
         .ad-details p {
             margin: 5px 0;
             font-size: 16px;
             color: #777;
+        }
+        .ad-details .label {
+            font-weight: bold;
         }
         .no-ads {
             text-align: center;
@@ -102,9 +111,9 @@ $pdo = null;
             cursor: pointer;
             width: 20px;
             height: 20px;
+            position: absolute;
             top: 10px;
             right: 10px;
-            margin-bottom: 70px;
         }
         .modal {
             display: none;
@@ -142,6 +151,49 @@ $pdo = null;
         .modal-content .cancel {
             background-color: #ccc;
         }
+        @media (max-width: 1000px) {
+            .container {
+                width: 90%;
+                margin: 20px auto;
+                padding: 10px;
+            }
+            .ad-details h4 {
+                font-size: 18px;
+            }
+            .ad-details p {
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin: 10px auto;
+                padding: 5px;
+            }
+            .ad {
+                position: relative;
+                display: flex;
+                align-items: center;
+            }
+            .ad img {
+                height: auto;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+            .ad-details {
+                width: 100%;
+            }
+            .ad-details h4 {
+                font-size: 16px;
+            }
+            .ad-details p {
+                font-size: 12px;
+            }
+            .delete-icon {
+                top: 10px;
+                right: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -156,14 +208,14 @@ $pdo = null;
             <?php else: ?>
                 <?php foreach ($ads as $ad): ?>
                     <div class="ad">
-                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" style="flex: 1; display: flex; align-items: center; text-decoration: none; color: black;">
+                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>"style="display: flex; align-items: center; text-decoration: none; color: black;"></a> </a>
                             <?php if (!empty($ad['image_url'])): ?>
                                 <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
                             <div class="ad-details">
                                 <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
-                                <p>Preis: <?php echo htmlspecialchars($ad['price']); ?> €</p>
-                                <p>Kategorie: <?php echo htmlspecialchars($ad['category']); ?></p>
+                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price']); ?> €</p>
+                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
                                 <p><?php echo htmlspecialchars($ad['description']); ?></p>
                             </div>
                         </a>

@@ -63,7 +63,7 @@ $pdo = null; // Verbindung schließen
             padding: 0;
         }
         .container {
-            width: 1000px;
+            max-width: 1000px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
@@ -136,6 +136,8 @@ $pdo = null; // Verbindung schließen
         .ad img {
             width: 100px;
             height: 100px;
+            max-width: 100px;
+            max-height: 100px;
             margin-right: 20px;
             object-fit: cover;
             object-position: center;
@@ -165,6 +167,8 @@ $pdo = null; // Verbindung schließen
         .ad-actions img {
             width: 20px;
             height: 20px;
+            max-width: 20px;
+            max-height: 20px;
             cursor: pointer;
         }
         .no-ads {
@@ -250,6 +254,72 @@ $pdo = null; // Verbindung schließen
         }
         .ad:hover {
             background-color: #f0f0f0;
+        }
+        @media (max-width: 1000px) {
+            .container {
+                width: 90%;
+                margin: 20px auto;
+                padding: 10px;
+            }
+            .profile-info h2 {
+                font-size: 30px;
+            }
+            .profile-info p {
+                font-size: 16px;
+            }
+            .tabs div {
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+            .ad-details h4 {
+                font-size: 18px;
+            }
+            .ad-details p {
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 600px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            .profile-picture {
+                width: 100px;
+                height: 100px;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .profile-info h2 {
+                font-size: 24px;
+            }
+            .profile-info p {
+                font-size: 14px;
+            }
+            .ad {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .ad img {
+                width: 100%;
+                height: auto;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .tabs div {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+            .ad-details h4 {
+                font-size: 16px;
+            }
+            .ad-details p {
+                font-size: 12px;
+            }
+            .container {
+                width: 95%;
+                margin: 10px auto;
+                padding: 5px;
+            }
         }
     </style>
 </head>
