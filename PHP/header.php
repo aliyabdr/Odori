@@ -71,6 +71,7 @@ if (isset($_SESSION['user_id'])) {
         .navigation ul li a:hover {
             color: #A3B18A;
         }
+
         .icons {
             display: flex;
             gap: 15px;
@@ -210,37 +211,40 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </header>
     <script>
+    
         // Funktion zum Anzeigen/Ausblenden des Dropdown-Menüs
-        document.getElementById('userProfile').addEventListener('click', function(event) {
-            event.stopPropagation();
-            var dropdown = document.getElementById('dropdownContent');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
+    document.getElementById('userProfile').addEventListener('click', function(event) {
+        event.stopPropagation();
+        var dropdown = document.getElementById('dropdownContent');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
 
-        // Funktion zum Ausblenden des Dropdown-Menüs, wenn außerhalb geklickt wird
-        document.addEventListener('click', function(event) {
-            var dropdown = document.getElementById('dropdownContent');
-            if (dropdown.style.display === 'block') {
-                dropdown.style.display = 'none';
-            }
-        });
+    // Funktion zum Ausblenden des Dropdown-Menüs, wenn außerhalb geklickt wird
+    document.addEventListener('click', function(event) {
+        var dropdown = document.getElementById('dropdownContent');
+        if (dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        }
+    });
 
-        // Verhindert, dass das Dropdown-Menü verschwindet, wenn innerhalb geklickt wird
-        document.getElementById('dropdownContent').addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
+    // Verhindert, dass das Dropdown-Menü verschwindet, wenn innerhalb geklickt wird
+    document.getElementById('dropdownContent').addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
 
-        // Funktion zum Anzeigen/Ausblenden des Navigationsmenüs
-        document.getElementById('menuToggle').addEventListener('click', function(event) {
-            event.stopPropagation();
-            var navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('show');
-        });
+    // Funktion zum Anzeigen/Ausblenden des Navigationsmenüs
+    document.getElementById('menuToggle').addEventListener('click', function(event) {
+        event.stopPropagation();
+        var navMenu = document.getElementById('navMenu');
+        navMenu.classList.toggle('show');
+    });
 
-        // Verhindert das Schließen des Navigationsmenüs, wenn innerhalb des Menüs geklickt wird
-        document.getElementById('navMenu').addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
-    </script>
+    // Verhindert das Schließen des Navigationsmenüs, wenn innerhalb des Menüs geklickt wird
+    document.getElementById('navMenu').addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+});
+</script>
+
 </body>
 </html>

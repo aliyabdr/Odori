@@ -21,9 +21,9 @@ try {
     }
 
     // Bilder-Daten abrufen
-    $sql_images = "SELECT image_url FROM ad_images WHERE ad_id = :ad_id";
+    $sql_images = "SELECT image_url FROM ads WHERE id = :id";
     $stmt_images = $pdo->prepare($sql_images);
-    $stmt_images->bindParam(':ad_id', $ad_id, PDO::PARAM_INT);
+    $stmt_images->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt_images->execute();
     $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
