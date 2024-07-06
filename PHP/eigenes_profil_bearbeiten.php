@@ -19,12 +19,12 @@ try {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Standardwerte setzen, falls Felder nicht vorhanden sind
-    $username = $user['username'] ?? '';
-    $profile_picture = $user['profile_picture'] ?? '';
-    $location = $user['location'] ?? '';
-    $postal_code = $user['postal_code'] ?? '';
+    $username = htmlspecialchars($user['username'] ?? '', ENT_QUOTES, 'UTF-8');
+    $profile_picture = htmlspecialchars($user['profile_picture'] ?? '', ENT_QUOTES, 'UTF-8');
+    $location = htmlspecialchars($user['location'] ?? '', ENT_QUOTES, 'UTF-8');
+    $postal_code = htmlspecialchars($user['postal_code'] ?? '', ENT_QUOTES, 'UTF-8');
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
 }
 
@@ -122,13 +122,13 @@ $pdo = null; // Verbindung schließen
         <h1>Profil bearbeiten</h1>
         <form action="update_profile.php" method="post" enctype="multipart/form-data">
             <label for="username">Mitgliedsname:</label>
-            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
+            <input type="text" id="username" name="username" value="<?php echo $username; ?>" required>
  
             <label for="postal_code">Postleitzahl:</label>
-            <input type="text" id="postal_code" name="postal_code" value="<?php echo htmlspecialchars($postal_code); ?>" required>
+            <input type="text" id="postal_code" name="postal_code" value="<?php echo $postal_code; ?>" required>
             
             <label for="location">Standort:</label>
-            <input type="text" id="location" name="location" value="<?php echo htmlspecialchars($location); ?>" required>
+            <input type="text" id="location" name="location" value="<?php echo $location; ?>" required>
             
             <label for="profile_picture">Profilbild ändern:</label>
             <input type="file" id="profile_picture" name="profile_picture">
@@ -139,6 +139,7 @@ $pdo = null; // Verbindung schließen
     <?php include 'footer.php'; ?>
 </body>
 </html>
+
 
 
 

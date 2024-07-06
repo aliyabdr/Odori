@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -21,7 +21,6 @@
             min-height: 100vh;
             color: white;
         }
-
         
         body.startseite {
             background: rgba(0, 0, 0, 0.5);
@@ -249,3 +248,4 @@
     </script>
 </body>
 </html>
+

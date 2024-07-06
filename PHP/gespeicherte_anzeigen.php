@@ -2,6 +2,11 @@
 session_start();
 include '../db_connect.php'; // Verbindung zur Datenbank herstellen
 
+// Funktion zum Escapen von HTML-Ausgabe
+function escape($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
 // Überprüfen, ob der Benutzer eingeloggt ist
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php'); // Weiterleitung zur Login-Seite, falls nicht eingeloggt
@@ -33,7 +38,7 @@ try {
         $ads = [];
     }
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Error: " . escape($e->getMessage());
     exit;
 }
 
@@ -216,18 +221,18 @@ $pdo = null;
             <?php else: ?>
                 <?php foreach ($ads as $ad): ?>
                     <div class="ad">
-                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" style="flex: 1; display: flex; align-items: center; text-decoration: none; color: black;">
+                        <a href="nutzer_anzeige.php?id=<?php echo escape($ad['id']); ?>" style="flex: 1; display: flex; align-items: center; text-decoration: none; color: black;">
                             <?php if (!empty($ad['image_url'])): ?>
-                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                                <img src="<?php echo escape($ad['image_url']); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
                             <div class="ad-details">
-                                <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
-                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price']); ?> €</p>
-                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
-                                <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                                <h4><?php echo escape($ad['title']); ?></h4>
+                                <p><span class="label">Preis:</span> <?php echo escape($ad['price']); ?> €</p>
+                                <p><span class="label">Kategorie:</span> <?php echo escape($ad['category']); ?></p>
+                                <p><?php echo escape($ad['description']); ?></p>
                             </div>
                         </a>
-                        <img src="../img/icon_delete.jpg" class="delete-icon" data-ad-id="<?php echo $ad['id']; ?>" alt="Löschen">
+                        <img src="../img/icon_delete.jpg" class="delete-icon" data-ad-id="<?php echo escape($ad['id']); ?>" alt="Löschen">
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>

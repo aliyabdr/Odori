@@ -9,13 +9,14 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $category = $_POST['category'];
-    $price = $_POST['price'];
-    $color = $_POST['color'];
-    $brand = $_POST['brand'];
-    $condition = $_POST['condition'];
+    // Benutzereingaben sichern gegen XSS
+    $title = htmlspecialchars($_POST['title']);
+    $description = htmlspecialchars($_POST['description']);
+    $category = htmlspecialchars($_POST['category']);
+    $price = htmlspecialchars($_POST['price']);
+    $color = htmlspecialchars($_POST['color']);
+    $brand = htmlspecialchars($_POST['brand']);
+    $condition = htmlspecialchars($_POST['condition']);
     $user_id = $_SESSION['user_id'];
 
     try {
@@ -31,8 +32,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $upload_directory = '../uploads/';
         $file_name = basename($_FILES['images']['name'][0]);
         $target_file = $upload_directory . $file_name;
+
+        // Sicherstellen, dass das Verzeichnis existiert
+        if (!is_dir($upload_directory)) {
+            mkdir($upload_directory, 0755, true);
+        }
+
         if (move_uploaded_file($_FILES['images']['tmp_name'][0], $target_file)) {
-            $image_url = $target_file;
+            $image_url = htmlspecialchars($target_file);
         } else {
             $image_url = ''; // Setze einen leeren String, wenn der Bild-Upload fehlschlägt
         }
@@ -58,12 +65,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: " . $stmt->errorInfo()[2];
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        echo "Error: " . htmlspecialchars($e->getMessage());
     }
 }
 
 $pdo = null;
 ?>
+
 
 
 

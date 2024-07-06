@@ -2,7 +2,10 @@
 session_start();
 include 'db.php'; // Verbindet zur Datenbank
 
-$ad_id = $_GET['id'] ?? 0;
+$ad_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$ad_id) {
+    die("Ungültige Anzeige ID.");
+}
 
 try {
     // Anzeige-Daten abrufen
@@ -20,14 +23,14 @@ try {
         exit;
     }
 
-    // Bilder-Daten abrufen
+    // Bilder-Daten abrufen (falls nötig)
     $sql_images = "SELECT image_url FROM ads WHERE id = :id";
     $stmt_images = $pdo->prepare($sql_images);
-    $stmt_images->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt_images->bindParam(':id', $ad_id, PDO::PARAM_INT); // Korrigierte Variable
     $stmt_images->execute();
     $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
 }
 
@@ -38,7 +41,7 @@ $pdo = null; // Verbindung schließen
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($ad['title']); ?></title>
+    <title><?php echo htmlspecialchars($ad['title'], ENT_QUOTES, 'UTF-8'); ?></title>
     <style>
         /* CSS bleibt unverändert */
         body {
@@ -56,7 +59,7 @@ $pdo = null; // Verbindung schließen
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             display: flex;
             flex-wrap: wrap;
-            color:black;
+            color: black;
         }
         .ad-header {
             display: flex;
@@ -289,61 +292,61 @@ $pdo = null; // Verbindung schließen
     <div class="container">
         <div class="ad-body">
             <div class="images">
-                 <?php if (!empty($ad['image_url'])): ?>
-                    <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
-                    <?php endif; ?>
+                <?php if (!empty($ad['image_url'])): ?>
+                    <img src="<?php echo htmlspecialchars($ad['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="Anzeige Bild">
+                <?php endif; ?>
             </div>
             <div class="details">
-                <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
+                <h1><?php echo htmlspecialchars($ad['title'], ENT_QUOTES, 'UTF-8'); ?></h1>
                 <div class="price">
-                    <?php echo htmlspecialchars($ad['price']); ?>€
+                    <?php echo htmlspecialchars($ad['price'], ENT_QUOTES, 'UTF-8'); ?>€
                     <?php if (!empty($ad['old_price'])): ?>
-                        <span class="old-price"><?php echo htmlspecialchars($ad['old_price']); ?>€</span>
+                        <span class="old-price"><?php echo htmlspecialchars($ad['old_price'], ENT_QUOTES, 'UTF-8'); ?>€</span>
                     <?php endif; ?>
                 </div>
                 <form action="kaufen.php" method="post">
-                    <input type="hidden" name="ad_id" value="<?php echo $ad_id; ?>">
+                    <input type="hidden" name="ad_id" value="<?php echo htmlspecialchars($ad_id, ENT_QUOTES, 'UTF-8'); ?>">
                     <button class="btn" type="submit">Kaufen</button>
                 </form>
                 <div class="ad-details">
                     <table>
                         <tr>
                             <th>Marke:</th>
-                            <td><?php echo htmlspecialchars($ad['brand']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['brand'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <th>Farbe:</th>
-                            <td><?php echo htmlspecialchars($ad['color']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['color'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <th>Zustand:</th>
-                            <td><?php echo htmlspecialchars($ad['condition']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['condition'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <th>Kategorie:</th>
-                            <td><?php echo htmlspecialchars($ad['category']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['category'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <th>Hochgeladen:</th>
-                            <td><?php echo htmlspecialchars($ad['created_at']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['created_at'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                     </table>
                 </div>
                 <div class="description">
                     <h3>Beschreibung</h3>
-                    <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                    <p><?php echo htmlspecialchars($ad['description'], ENT_QUOTES, 'UTF-8'); ?></p>
                 </div>
             </div>
         </div>
         <div class="seller-info-container">
             <div class="seller-info">
-                <img src="<?php echo htmlspecialchars($ad['user_profile_picture']); ?>" alt="Profilbild">
-                <h3><?php echo htmlspecialchars($ad['user_name']); ?></h3>
-                <p><?php echo htmlspecialchars($ad['user_location']); ?></p>
+                <img src="<?php echo htmlspecialchars($ad['user_profile_picture'], ENT_QUOTES, 'UTF-8'); ?>" alt="Profilbild">
+                <h3><?php echo htmlspecialchars($ad['user_name'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                <p><?php echo htmlspecialchars($ad['user_location'], ENT_QUOTES, 'UTF-8'); ?></p>
                 <button class="contact-btn">Nachricht schicken</button>
-                <button class="profile-btn" onclick="window.location.href='nutzer_profil.php?user_id=<?php echo $ad['user_id']; ?>'">Profil des Verkäufers</button>
+                <button class="profile-btn" onclick="window.location.href='nutzer_profil.php?user_id=<?php echo htmlspecialchars($ad['user_id'], ENT_QUOTES, 'UTF-8'); ?>'">Profil des Verkäufers</button>
                 <form action="save_ad.php" method="post">
-                    <input type="hidden" name="ad_id" value="<?php echo $ad['id']; ?>">
+                    <input type="hidden" name="ad_id" value="<?php echo htmlspecialchars($ad['id'], ENT_QUOTES, 'UTF-8'); ?>">
                     <button type="submit" class="save-btn"><i class="fas fa-heart"></i> Speichern</button>
                 </form>
             </div>
@@ -353,3 +356,4 @@ $pdo = null; // Verbindung schließen
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 </body>
 </html>
+

@@ -10,34 +10,39 @@ if (isset($_SESSION['user_id'])) {
 include '../db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // Eingabedaten bereinigen und validieren
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
-    try {
-        // Benutzerdaten aus der Datenbank abrufen
-        $sql = "SELECT * FROM users WHERE username = :username";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$username || !$password) {
+        echo "<script>alert('Ungültiger Benutzername oder Passwort!');</script>";
+    } else {
+        try {
+            // Benutzerdaten aus der Datenbank abrufen
+            $sql = "SELECT * FROM users WHERE username = :username";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            // Überprüfen, ob das eingegebene Passwort mit dem in der Datenbank übereinstimmt
-            if (password_verify($password, $user['password'])) {
-                // Setzen von Session-Variablen
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['user_profile_picture'] = $user['profile_picture'];
-                header('Location: startseite.php'); // Weiterleitung zur Startseite
-                exit; // Beendet die Skriptausführung nach der Weiterleitung
+            if ($user) {
+                // Überprüfen, ob das eingegebene Passwort mit dem in der Datenbank übereinstimmt
+                if (password_verify($password, $user['password'])) {
+                    // Setzen von Session-Variablen
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['user_profile_picture'] = $user['profile_picture'];
+                    header('Location: startseite.php'); // Weiterleitung zur Startseite
+                    exit; // Beendet die Skriptausführung nach der Weiterleitung
+                } else {
+                    echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
+                }
             } else {
                 echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
             }
-        } else {
-            echo "<script>alert('Falscher Benutzername oder Passwort!');</script>";
+        } catch (PDOException $e) {
+            echo "Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
         }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -131,4 +136,3 @@ $pdo = null;
     <?php include 'footer.php'; ?>
 </body>
 </html>
-

@@ -2,14 +2,19 @@
 include '../db_connect.php'; // Verbindung zur Datenbank herstellen
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $postal_code = $_POST['postal_code'];
-    $location = $_POST['location'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $password_repeat = $_POST['password_repeat'];
+    // Eingabedaten bereinigen und validieren
+    $postal_code = filter_input(INPUT_POST, 'postal_code', FILTER_SANITIZE_STRING);
+    $location = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_STRING);
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+    $password_repeat = filter_input(INPUT_POST, 'password_repeat', FILTER_SANITIZE_STRING);
 
     // Server-seitige Validierung
+    if (!$email) {
+        die("Ungültige E-Mail-Adresse.");
+    }
+
     if (!preg_match("/^[a-zA-Z0-9]+$/", $username)) {
         die("Benutzername darf nur Buchstaben und Zahlen enthalten.");
     }
@@ -51,10 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Location: login.php'); // Weiterleitung zur Login-Seite
             exit;
         } else {
-            echo "Fehler: " . $stmt->errorInfo()[2];
+            echo "Fehler: " . htmlspecialchars($stmt->errorInfo()[2], ENT_QUOTES, 'UTF-8');
         }
     } catch (PDOException $e) {
-        echo "Fehler: " . $e->getMessage();
+        echo "Fehler: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     }
 
     $pdo = null; // Verbindung schließen
@@ -62,3 +67,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Ungültige Anforderung.";
 }
 ?>
+

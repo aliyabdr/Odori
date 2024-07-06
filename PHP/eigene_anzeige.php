@@ -6,7 +6,7 @@ $ad_id = $_GET['id'] ?? 0;
 $user_id = $_SESSION['user_id'] ?? 0;
 
 try {
-    // Anzeige-Daten abrufen
+    // Anzeige-Daten abrufen und Berechtigung überprüfen
     $sql = "SELECT ads.*, users.username AS user_name, users.location AS user_location, users.profile_picture AS user_profile_picture, users.id AS user_id
             FROM ads
             JOIN users ON ads.user_id = users.id
@@ -29,7 +29,7 @@ try {
     $stmt_images->execute();
     $images = $stmt_images->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
 }
 
@@ -40,7 +40,7 @@ $pdo = null; // Verbindung schließen
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($ad['title']); ?></title>
+    <title><?php echo htmlspecialchars($ad['title'], ENT_QUOTES, 'UTF-8'); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -289,44 +289,44 @@ $pdo = null; // Verbindung schließen
         <div class="ad-body">
             <div class="images">
                  <?php if (!empty($ad['image_url'])): ?>
-                    <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                    <img src="<?php echo htmlspecialchars($ad['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="Anzeige Bild">
                     <?php endif; ?>
             </div>
             <div class="details">
-                <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
+                <h1><?php echo htmlspecialchars($ad['title'], ENT_QUOTES, 'UTF-8'); ?></h1>
                 <div class="price">
-                    <?php echo htmlspecialchars($ad['price']); ?>€
+                    <?php echo htmlspecialchars($ad['price'], ENT_QUOTES, 'UTF-8'); ?>€
                     <?php if (!empty($ad['old_price'])): ?>
-                        <span class="old-price"><?php echo htmlspecialchars($ad['old_price']); ?>€</span>
+                        <span class="old-price"><?php echo htmlspecialchars($ad['old_price'], ENT_QUOTES, 'UTF-8'); ?>€</span>
                     <?php endif; ?>
                 </div>
                 <div class="ad-details">
                     <table>
                         <tr>
                             <th>Marke:</th>
-                            <td><?php echo htmlspecialchars($ad['brand']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['brand'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <th>Farbe:</th>
-                            <td><?php echo htmlspecialchars($ad['color']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['color'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <th>Zustand:</th>
-                            <td><?php echo htmlspecialchars($ad['condition']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['condition'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <th>Kategorie:</th>
-                            <td><?php echo htmlspecialchars($ad['category']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['category'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <th>Hochgeladen:</th>
-                            <td><?php echo htmlspecialchars($ad['created_at']); ?></td>
+                            <td><?php echo htmlspecialchars($ad['created_at'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                     </table>
                 </div>
                 <div class="description">
                     <h3>Beschreibung</h3>
-                    <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                    <p><?php echo htmlspecialchars($ad['description'], ENT_QUOTES, 'UTF-8'); ?></p>
                 </div>
             </div>
         </div>
@@ -375,5 +375,6 @@ $pdo = null; // Verbindung schließen
     </script>
 </body>
 </html>
+
 
 

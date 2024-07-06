@@ -1,6 +1,11 @@
 <?php
 session_start();
-include 'db.php'; // Verbindet zur Datenbank
+include 'db.php'; // Verbindung zur Datenbank herstellen
+
+// Funktion zum Escapen von HTML-Ausgabe
+function escape($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
 
 $search = $_GET['artikel'] ?? '';
 $sort = $_GET['sort'] ?? 'newest';
@@ -323,21 +328,21 @@ $conditions = ["gebraucht", "neu"];
 <body>
     <?php include 'header.php'; ?>
     <div class="search-results-container">
-        <h2><?php echo count($ads); ?> Suchergebnisse für "<?php echo htmlspecialchars($search); ?>"</h2>
+        <h2><?php echo escape(count($ads)); ?> Suchergebnisse für "<?php echo escape($search); ?>"</h2>
         <div class="filter-bar">
             <!-- Filter-Formulare und Sortieroptionen -->
             <form method="GET">
-                <input type="hidden" name="artikel" value="<?php echo htmlspecialchars($search); ?>">
+                <input type="hidden" name="artikel" value="<?php echo escape($search); ?>">
                 <div>
                     <label for="price_min">Preis von:</label>
                     <div class="input-container">
-                        <input type="number" id="price_min" name="price_min" placeholder="Min" value="<?php echo htmlspecialchars($filters['price_min']); ?>">
+                        <input type="number" id="price_min" name="price_min" placeholder="Min" value="<?php echo escape($filters['price_min']); ?>">
                     </div>
                 </div>
                 <div>
                     <label for="price_max">Preis bis:</label>
                     <div class="input-container">
-                        <input type="number" id="price_max" name="price_max" placeholder="Max" value="<?php echo htmlspecialchars($filters['price_max']); ?>">
+                        <input type="number" id="price_max" name="price_max" placeholder="Max" value="<?php echo escape($filters['price_max']); ?>">
                     </div>
                 </div>
                 <div>
@@ -345,7 +350,7 @@ $conditions = ["gebraucht", "neu"];
                     <select id="color" name="color">
                         <option value="">Alle</option>
                         <?php foreach ($colors as $color): ?>
-                            <option value="<?php echo htmlspecialchars($color); ?>" <?php if ($filters['color'] == $color) echo 'selected'; ?>><?php echo htmlspecialchars($color); ?></option>
+                            <option value="<?php echo escape($color); ?>" <?php if ($filters['color'] == $color) echo 'selected'; ?>><?php echo escape($color); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -354,7 +359,7 @@ $conditions = ["gebraucht", "neu"];
                     <select id="brand" name="brand">
                         <option value="">Alle</option>
                         <?php foreach ($brands as $brand): ?>
-                            <option value="<?php echo htmlspecialchars($brand); ?>" <?php if ($filters['brand'] == $brand) echo 'selected'; ?>><?php echo htmlspecialchars($brand); ?></option>
+                            <option value="<?php echo escape($brand); ?>" <?php if ($filters['brand'] == $brand) echo 'selected'; ?>><?php echo escape($brand); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -363,7 +368,7 @@ $conditions = ["gebraucht", "neu"];
                     <select id="condition" name="condition">
                         <option value="">Alle</option>
                         <?php foreach ($conditions as $condition): ?>
-                            <option value="<?php echo htmlspecialchars($condition); ?>" <?php if ($filters['condition'] == $condition) echo 'selected'; ?>><?php echo htmlspecialchars($condition); ?></option>
+                            <option value="<?php echo escape($condition); ?>" <?php if ($filters['condition'] == $condition) echo 'selected'; ?>><?php echo escape($condition); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -380,17 +385,17 @@ $conditions = ["gebraucht", "neu"];
         </div>
         <div class="ads-list">
             <?php foreach ($ads as $ad): ?>
-                <a class="ad-item-link" href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>">
+                <a class="ad-item-link" href="nutzer_anzeige.php?id=<?php echo escape($ad['id']); ?>">
                     <div class="ad-item">
                         <div class="img-container">
                             <?php $images = explode(",", $ad['image_url']); ?>
                             <?php if (count($images) > 0): ?>
-                                <img src="<?php echo htmlspecialchars($images[0]); ?>" alt="Bild">
+                                <img src="<?php echo escape($images[0]); ?>" alt="Bild">
                             <?php endif; ?>
                         </div>
-                        <h3><?php echo htmlspecialchars($ad['title']); ?></h3>
-                        <p><?php echo htmlspecialchars($ad['description']); ?></p>
-                        <p>Preis: <?php echo htmlspecialchars($ad['price']); ?>€</p>
+                        <h3><?php echo escape($ad['title']); ?></h3>
+                        <p><?php echo escape($ad['description']); ?></p>
+                        <p>Preis: <?php echo escape($ad['price']); ?>€</p>
                     </div>
                 </a>
             <?php endforeach; ?>

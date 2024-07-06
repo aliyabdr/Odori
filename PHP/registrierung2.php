@@ -11,8 +11,8 @@ include '../db_connect.php';
 
 // Speichern der PLZ und des Ortes in der Session
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_SESSION['postal_code'] = $_POST['postal_code'];
-    $_SESSION['location'] = $_POST['location'];
+    $_SESSION['postal_code'] = filter_input(INPUT_POST, 'postal_code', FILTER_SANITIZE_STRING);
+    $_SESSION['location'] = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_STRING);
 }
 ?>
 <!DOCTYPE html>
@@ -22,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrierung - Schritt 2</title>
     <style>
-            /* Importiere die Schriftart 'Lato' */
-            @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+        /* Importiere die Schriftart 'Lato' */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
         body {
             background-image: url('../img/Hintergrundbild.jpg');
             background-size: cover;
@@ -110,8 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container">
         <h1>Benutzerdaten</h1>
         <form name="regForm" action="register.php" method="post" onsubmit="return validateForm()">
-            <input type="hidden" name="postal_code" value="<?php echo htmlspecialchars($_SESSION['postal_code']); ?>">
-            <input type="hidden" name="location" value="<?php echo htmlspecialchars($_SESSION['location']); ?>">
+            <input type="hidden" name="postal_code" value="<?php echo htmlspecialchars($_SESSION['postal_code'], ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="location" value="<?php echo htmlspecialchars($_SESSION['location'], ENT_QUOTES, 'UTF-8'); ?>">
             <input type="text" name="username" placeholder="Benutzername" required>
             <input type="email" name="email" placeholder="E-Mail" required>
             <input type="password" name="password" placeholder="Passwort" required>
@@ -122,4 +122,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'footer.php'; ?>     
 </body>
 </html>
+
 

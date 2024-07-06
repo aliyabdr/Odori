@@ -15,6 +15,8 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    // Fehlerbehandlung: sicheres Logging und Ausgabe einer generischen Fehlermeldung
+    error_log($e->getMessage(), 3, '/path/to/error_log_file.log'); // Loggen Sie die Fehlermeldung in eine Datei
+    echo "Verbindung zur Datenbank fehlgeschlagen. Bitte versuchen Sie es später erneut.";
 }
 ?>

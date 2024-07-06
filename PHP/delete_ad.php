@@ -8,8 +8,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Überprüfen, ob die Anzeige-ID gesetzt ist
-if (isset($_GET['id'])) {
+// Überprüfen, ob die Anzeige-ID gesetzt ist und ein gültiger Integer-Wert ist
+if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
     $ad_id = $_GET['id'];
 
     // Überprüfen, ob die Anzeige dem aktuellen Benutzer gehört
@@ -24,17 +24,19 @@ if (isset($_GET['id'])) {
         if ($stmt->execute()) {
             // Erfolgreich gelöscht
             header('Location: eigenes_profil.php');
+            exit;
         } else {
             // Fehler beim Löschen
             echo "Fehler beim Löschen der Anzeige.";
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        echo "Error: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     }
 } else {
-    echo "Keine Anzeige-ID angegeben.";
+    echo "Keine gültige Anzeige-ID angegeben.";
 }
 
 $pdo = null;
 ?>
+
 

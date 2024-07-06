@@ -13,6 +13,7 @@ $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES => false,
+    PDO::ATTR_PERSISTENT => true, // Verbindung persistent machen
 ];
 
 try {
@@ -20,6 +21,8 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
     // Fehlerbehandlung
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    error_log($e->getMessage()); // Fehler in die Log-Datei schreiben
+    throw new \PDOException("Datenbankverbindung fehlgeschlagen", (int)$e->getCode()); // Generische Fehlermeldung für den Benutzer
 }
 ?>
+

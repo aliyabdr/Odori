@@ -2,14 +2,25 @@
 session_start();
 include '../db_connect.php'; // Verbindung zur Datenbank herstellen
 
+// Funktion zum Escapen von HTML-Ausgabe
+function escape($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $ad_id = $_POST['ad_id'];
+    // Eingabedaten bereinigen und validieren
+    $ad_id = filter_input(INPUT_POST, 'ad_id', FILTER_VALIDATE_INT);
     $user_id = $_SESSION['user_id'];
+
+    if ($ad_id === false) {
+        echo "Ungültige Anzeige-ID.";
+        exit();
+    }
 
     try {
         // Überprüfen, ob die Anzeige bereits gespeichert wurde
@@ -34,10 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: gespeicherte_anzeigen.php');
         exit();
     } catch (PDOException $e) {
-        echo "Fehler: " . $e->getMessage();
+        echo "Fehler: " . escape($e->getMessage());
     }
 
     $pdo = null; // Verbindung schließen
 }
 ?>
+
 

@@ -19,7 +19,7 @@ try {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Überprüfen, ob die 'location'-Spalte existiert und nicht leer ist
-    $user_location = !empty($user['location']) ? $user['location'] : '';
+    $user_location = !empty($user['location']) ? htmlspecialchars($user['location'], ENT_QUOTES, 'UTF-8') : '';
 
     // Zweite Abfrage für Anzeigen
     $sql_ads = "SELECT * FROM ads WHERE user_id = :user_id";
@@ -43,7 +43,7 @@ try {
         $saved_ads_list = $stmt_saved->fetchAll(PDO::FETCH_ASSOC);
     }
 } catch (PDOException $e) {
-    echo 'Error: ' . $e->getMessage();
+    echo 'Error: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
 }
 
@@ -344,14 +344,14 @@ $pdo = null; // Verbindung schließen
         <div class="profile-header">
             <div class="profile-picture" id="profilePicture">
                 <?php if (!empty($user['profile_picture'])): ?>
-                    <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profilbild">
+                    <img src="<?php echo htmlspecialchars($user['profile_picture'], ENT_QUOTES, 'UTF-8'); ?>" alt="Profilbild">
                 <?php else: ?>
-                    <?php echo strtoupper(htmlspecialchars($user['username'][0])); ?>
+                    <?php echo strtoupper(htmlspecialchars($user['username'][0], ENT_QUOTES, 'UTF-8')); ?>
                 <?php endif; ?>
             </div>
             <div class="profile-info">
-                <h2><?php echo htmlspecialchars($user['username']); ?></h2>
-                <p><?php echo htmlspecialchars($user_location); ?></p>
+                <h2><?php echo htmlspecialchars($user['username'], ENT_QUOTES, 'UTF-8'); ?></h2>
+                <p><?php echo htmlspecialchars($user_location, ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
         </div>
         <div class="tabs">
@@ -369,13 +369,13 @@ $pdo = null; // Verbindung schließen
                     <?php foreach ($ads as $ad): ?>
                         <div class="ad">
                             <?php if (!empty($ad['image_url'])): ?>
-                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                                <img src="<?php echo htmlspecialchars($ad['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
                             <div class="ad-details">
-                                <h4><a href="eigene_anzeige.php?id=<?php echo $ad['id']; ?>"><?php echo htmlspecialchars($ad['title']); ?></a></h4>
-                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price']); ?> €</p>
-                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
-                                <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                                <h4><a href="eigene_anzeige.php?id=<?php echo $ad['id']; ?>"><?php echo htmlspecialchars($ad['title'], ENT_QUOTES, 'UTF-8'); ?></a></h4>
+                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price'], ENT_QUOTES, 'UTF-8'); ?> €</p>
+                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                <p><?php echo htmlspecialchars($ad['description'], ENT_QUOTES, 'UTF-8'); ?></p>
                             </div>
                             <div class="ad-actions">
                                 <a href="anzeige_bearbeiten.php?id=<?php echo $ad['id']; ?>"><img src="../img/icon_pencil.jpg" alt="Bearbeiten"></a>
@@ -401,13 +401,13 @@ $pdo = null; // Verbindung schließen
                     <?php foreach ($saved_ads_list as $ad): ?>
                         <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" class="ad">
                             <?php if (!empty($ad['image_url'])): ?>
-                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                                <img src="<?php echo htmlspecialchars($ad['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
                             <div class="ad-details">
-                                <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
-                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price']); ?> €</p>
-                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
-                                <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                                <h4><?php echo htmlspecialchars($ad['title'], ENT_QUOTES, 'UTF-8'); ?></h4>
+                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price'], ENT_QUOTES, 'UTF-8'); ?> €</p>
+                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                <p><?php echo htmlspecialchars($ad['description'], ENT_QUOTES, 'UTF-8'); ?></p>
                             </div>
                         </a>
                     <?php endforeach; ?>
@@ -419,9 +419,9 @@ $pdo = null; // Verbindung schließen
         <div class="modal-content">
             <span class="close">&times;</span>
             <?php if (!empty($user['profile_picture'])): ?>
-                <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profilbild">
+                <img src="<?php echo htmlspecialchars($user['profile_picture'], ENT_QUOTES, 'UTF-8'); ?>" alt="Profilbild">
             <?php else: ?>
-                <div style="font-size: 100px; color: #a3b18a;"><?php echo strtoupper(htmlspecialchars($user['username'][0])); ?></div>
+                <div style="font-size: 100px; color: #a3b18a;"><?php echo strtoupper(htmlspecialchars($user['username'][0], ENT_QUOTES, 'UTF-8')); ?></div>
             <?php endif; ?>
         </div>
     </div>

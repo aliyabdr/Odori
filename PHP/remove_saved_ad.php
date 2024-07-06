@@ -2,6 +2,11 @@
 session_start();
 include '../db_connect.php'; // Verbindung zur Datenbank herstellen
 
+// Funktion zum Escapen von JSON-Ausgabe
+function escape_json($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
     exit;
@@ -10,8 +15,8 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
-if (!isset($data['ad_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Keine Anzeige-ID angegeben']);
+if (!isset($data['ad_id']) || !filter_var($data['ad_id'], FILTER_VALIDATE_INT)) {
+    echo json_encode(['success' => false, 'message' => 'Keine gültige Anzeige-ID angegeben']);
     exit;
 }
 
@@ -26,7 +31,7 @@ try {
     $user = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        $saved_ads = explode(',', $user['saved_ads']);
+        $saved_ads = !empty($user['saved_ads']) ? explode(',', $user['saved_ads']) : [];
 
         // Entfernen der Anzeige aus den gespeicherten Anzeigen
         $saved_ads = array_filter($saved_ads, function($id) use ($ad_id) {
@@ -50,8 +55,9 @@ try {
         echo json_encode(['success' => false, 'message' => 'Benutzer nicht gefunden']);
     }
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Fehler: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => 'Fehler: ' . escape_json($e->getMessage())]);
 }
 
 $pdo = null; // Verbindung schließen
 ?>
+

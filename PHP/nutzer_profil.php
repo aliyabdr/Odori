@@ -5,8 +5,11 @@ if (session_status() == PHP_SESSION_NONE) {
 
 include 'db.php'; // Verbindet zur Datenbank
 
-// Verwende die user_id aus der URL, falls vorhanden
-$profile_user_id = $_GET['user_id'] ?? 0;
+// Verwende die user_id aus der URL, falls vorhanden und validiere sie
+$profile_user_id = filter_input(INPUT_GET, 'user_id', FILTER_VALIDATE_INT);
+if (!$profile_user_id) {
+    die("Ungültige Benutzer-ID.");
+}
 
 try {
     // Benutzerinformationen des angezeigten Profils abrufen
@@ -33,7 +36,7 @@ try {
     $reviews_stmt->execute();
     $reviews = $reviews_stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Fehler: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
 }
 
@@ -57,7 +60,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($profile_user['username']); ?>'s Profil</title>
+    <title><?php echo htmlspecialchars($profile_user['username'], ENT_QUOTES, 'UTF-8'); ?>'s Profil</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         body {
@@ -240,10 +243,10 @@ if (isset($_SESSION['user_id'])) {
             .ad-details p {
                 font-size: 18px;
                 display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
         @media (max-width: 600px) {
@@ -298,14 +301,14 @@ if (isset($_SESSION['user_id'])) {
         <div class="profile-header">
             <div class="profile-picture">
                 <?php if (!empty($profile_user['profile_picture'])): ?>
-                    <img src="<?php echo htmlspecialchars($profile_user['profile_picture']); ?>" alt="Profilbild">
+                    <img src="<?php echo htmlspecialchars($profile_user['profile_picture'], ENT_QUOTES, 'UTF-8'); ?>" alt="Profilbild">
                 <?php else: ?>
-                    <?php echo strtoupper(htmlspecialchars($profile_user['username'][0])); ?>
+                    <?php echo strtoupper(htmlspecialchars($profile_user['username'][0], ENT_QUOTES, 'UTF-8')); ?>
                 <?php endif; ?>
             </div>
             <div class="profile-info">
-                <h2><?php echo htmlspecialchars($profile_user['username']); ?></h2>
-                <p><?php echo htmlspecialchars($profile_user['location']); ?></p>
+                <h2><?php echo htmlspecialchars($profile_user['username'], ENT_QUOTES, 'UTF-8'); ?></h2>
+                <p><?php echo htmlspecialchars($profile_user['location'], ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
         </div>
         <div class="tabs">
@@ -320,15 +323,15 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 <?php else: ?>
                     <?php foreach ($ads as $ad): ?>
-                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" class="ad">
+                        <a href="nutzer_anzeige.php?id=<?php echo htmlspecialchars($ad['id'], ENT_QUOTES, 'UTF-8'); ?>" class="ad">
                             <?php if (!empty($ad['image_url'])): ?>
-                                <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
+                                <img src="<?php echo htmlspecialchars($ad['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
                             <div class="ad-details">
-                                <h4><?php echo htmlspecialchars($ad['title']); ?></h4>
-                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price']); ?> €</p>
-                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category']); ?></p>
-                                <p><?php echo htmlspecialchars($ad['description']); ?></p>
+                                <h4><?php echo htmlspecialchars($ad['title'], ENT_QUOTES, 'UTF-8'); ?></h4>
+                                <p><span class="label">Preis:</span> <?php echo htmlspecialchars($ad['price'], ENT_QUOTES, 'UTF-8'); ?> €</p>
+                                <p><span class="label">Kategorie:</span> <?php echo htmlspecialchars($ad['category'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                <p><?php echo htmlspecialchars($ad['description'], ENT_QUOTES, 'UTF-8'); ?></p>
                             </div>
                         </a>
                     <?php endforeach; ?>
@@ -340,7 +343,7 @@ if (isset($_SESSION['user_id'])) {
                 <div class="review-form">
                     <h3>Rezension schreiben</h3>
                     <form action="submit_review.php" method="POST">
-                        <input type="hidden" name="user_id" value="<?php echo $profile_user_id; ?>">
+                        <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($profile_user_id, ENT_QUOTES, 'UTF-8'); ?>">
                         <label for="rating">Bewertung:</label>
                         <select name="rating" id="rating" required>
                             <option value="1">1 Stern</option>
@@ -369,9 +372,9 @@ if (isset($_SESSION['user_id'])) {
                     <?php foreach ($reviews as $review): ?>
                         <div class="review">
                             <div class="review-details">
-                                <h4>Bewertung von <?php echo htmlspecialchars($review['reviewer_name']); ?></h4>
-                                <p><?php echo htmlspecialchars($review['review']); ?></p>
-                                <p><span class="label">Bewertung:</span> <?php echo htmlspecialchars($review['rating']); ?> Sterne</p>
+                                <h4>Bewertung von <?php echo htmlspecialchars($review['reviewer_name'], ENT_QUOTES, 'UTF-8'); ?></h4>
+                                <p><?php echo htmlspecialchars($review['review'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                <p><span class="label">Bewertung:</span> <?php echo htmlspecialchars($review['rating'], ENT_QUOTES, 'UTF-8'); ?> Sterne</p>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -394,4 +397,5 @@ if (isset($_SESSION['user_id'])) {
     </script>
 </body>
 </html>
+
 

@@ -1,6 +1,11 @@
 <?php
 session_start();
-include '../db_connect.php'; // Verbindet zur Datenbank
+include '../db_connect.php'; // Verbindung zur Datenbank herstellen
+
+// Funktion zum Escapen von HTML-Ausgabe
+function escape($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
 
 // Überprüfen, ob der Benutzer eingeloggt ist
 if (!isset($_SESSION['user_id'])) {
@@ -9,25 +14,48 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $ad_id = $_POST['ad_id'];
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $category = $_POST['category'];
-    $price = $_POST['price'];
-    $color = $_POST['color'];
-    $brand = $_POST['brand'];
-    $condition = $_POST['condition'];
+    $ad_id = trim($_POST['ad_id']);
+    $title = trim($_POST['title']);
+    $description = trim($_POST['description']);
+    $category = trim($_POST['category']);
+    $price = trim($_POST['price']);
+    $color = trim($_POST['color']);
+    $brand = trim($_POST['brand']);
+    $condition = trim($_POST['condition']);
     $user_id = $_SESSION['user_id'];
+    
+    // Eingabedaten überprüfen
+    if (empty($ad_id) || empty($title) || empty($description) || empty($category) || empty($price) || empty($color) || empty($brand) || empty($condition)) {
+        echo "Alle Felder sind erforderlich.";
+        exit;
+    }
     
     // Bild-Upload bearbeiten
     $image_path = null;
     $upload_directory = '../uploads/';
+    $allowed_file_types = ['jpg', 'jpeg', 'png', 'gif'];
     
     if (!empty($_FILES['image']['tmp_name'])) {
-        $file_name = basename($_FILES['image']['name']);
-        $target_file = $upload_directory . $file_name;
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-            $image_path = $target_file;
+        $imageFileType = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+        if (in_array($imageFileType, $allowed_file_types)) {
+            $check = getimagesize($_FILES['image']['tmp_name']);
+            if ($check !== false) {
+                // Bilddatei ist ein Bild
+                $new_filename = uniqid() . '.' . $imageFileType;
+                $target_file = $upload_directory . $new_filename;
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+                    $image_path = $target_file;
+                } else {
+                    echo "Fehler beim Hochladen des Bildes.";
+                    exit;
+                }
+            } else {
+                echo "Die Datei ist kein gültiges Bild.";
+                exit;
+            }
+        } else {
+            echo "Ungültiger Dateityp. Erlaubt sind nur JPG, JPEG, PNG und GIF.";
+            exit;
         }
     }
 
@@ -71,3 +99,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+

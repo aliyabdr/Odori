@@ -12,7 +12,7 @@ if (isset($_SESSION['user_id'])) {
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
-    $user = $stmt->fetch();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
         $_SESSION['username'] = $user['username'];
@@ -162,7 +162,8 @@ if (isset($_SESSION['user_id'])) {
                 cursor: pointer;
                 margin-right: 20px;
             }
-</style>
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -193,9 +194,9 @@ if (isset($_SESSION['user_id'])) {
             <div class="user-profile" id="userProfile">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <?php if (!empty($_SESSION['user_profile_picture'])): ?>
-                        <img src="<?php echo $_SESSION['user_profile_picture']; ?>" alt="Profil" class="user-profile-img">
+                        <img src="<?php echo htmlspecialchars($_SESSION['user_profile_picture'], ENT_QUOTES, 'UTF-8'); ?>" alt="Profil" class="user-profile-img">
                     <?php else: ?>
-                        <?php echo strtoupper($_SESSION['username'][0]); ?>
+                        <?php echo strtoupper(htmlspecialchars($_SESSION['username'][0], ENT_QUOTES, 'UTF-8')); ?>
                     <?php endif; ?>
                     <div class="dropdown-content" id="dropdownContent">
                         <a href="eigenes_profil.php">Zum Profil</a>

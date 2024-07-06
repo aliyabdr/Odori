@@ -25,7 +25,7 @@ try {
         exit;
     }
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Error: " . htmlspecialchars($e->getMessage());
     exit;
 }
 
@@ -192,5 +192,6 @@ $pdo = null; // Verbindung schließen
     <?php include 'footer.php'; ?>
 </body>
 </html>
+
 
 
