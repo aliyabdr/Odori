@@ -216,7 +216,7 @@ $pdo = null;
             <?php else: ?>
                 <?php foreach ($ads as $ad): ?>
                     <div class="ad">
-                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>"style="display: flex; align-items: center; text-decoration: none; color: black;"></a> </a>
+                        <a href="nutzer_anzeige.php?id=<?php echo $ad['id']; ?>" style="flex: 1; display: flex; align-items: center; text-decoration: none; color: black;">
                             <?php if (!empty($ad['image_url'])): ?>
                                 <img src="<?php echo htmlspecialchars($ad['image_url']); ?>" alt="Anzeige Bild">
                             <?php endif; ?>
@@ -286,5 +286,6 @@ $pdo = null;
     </script>
 </body>
 </html>
+
 
 

@@ -183,6 +183,9 @@ $pdo = null; // Verbindung schließen
             margin-top: 20px;
             font-size: 18px;
         }
+        .no-ads a{
+            color: #8a9b68
+        }
         .tabs {
             display: flex;
             justify-content: space-between;
