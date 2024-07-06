@@ -218,7 +218,7 @@ if (isset($_SESSION['user_id'])) {
         .login-prompt a:hover {
             background-color: #8a9b68;
         }
-        @media (max-width: 1000px) {
+        @media (max-width: 1100px) {
             .container {
                 width: 90%;
                 margin: 20px auto;
@@ -232,31 +232,37 @@ if (isset($_SESSION['user_id'])) {
             }
             .tabs div {
                 padding: 8px 16px;
-                font-size: 16px;
+                font-size: 20px;
             }
             .ad-details h4 {
-                font-size: 18px;
+                font-size: 25px;
             }
             .ad-details p {
-                font-size: 14px;
+                font-size: 18px;
+                display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
             }
         }
         @media (max-width: 600px) {
             .profile-header {
+                margin-top: 20px;
                 flex-direction: column;
                 align-items: center;
             }
             .profile-picture {
-                width: 100px;
-                height: 100px;
+                width: 200px;
+                height: 200px;
                 margin-right: 0;
                 margin-bottom: 10px;
             }
             .profile-info h2 {
-                font-size: 24px;
+                font-size: 28px;
             }
             .profile-info p {
-                font-size: 14px;
+                font-size: 18px;
             }
             .ad {
                 flex-direction: column;
@@ -270,13 +276,13 @@ if (isset($_SESSION['user_id'])) {
             }
             .tabs div {
                 padding: 6px 12px;
-                font-size: 14px;
+                font-size: 20px;
             }
             .ad-details h4 {
-                font-size: 16px;
+                font-size: 25px;
             }
             .ad-details p {
-                font-size: 12px;
+                font-size: 16px;
             }
             .container {
                 width: 95%;

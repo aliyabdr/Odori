@@ -89,12 +89,19 @@ $pdo = null;
         }
         .ad-details h4 {
             margin-right: 20px;
+            margin-top: 0;
+            margin-bottom: 0;
             font-size: 20px;
         }
         .ad-details p {
             margin: 5px 0;
             font-size: 16px;
             color: #777;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .ad-details .label {
             font-weight: bold;
@@ -151,17 +158,18 @@ $pdo = null;
         .modal-content .cancel {
             background-color: #ccc;
         }
-        @media (max-width: 1000px) {
+        @media (max-width: 1100px) {
             .container {
                 width: 90%;
                 margin: 20px auto;
                 padding: 10px;
             }
             .ad-details h4 {
-                font-size: 18px;
+                margin-top:3%;
+                font-size: 25px;
             }
             .ad-details p {
-                font-size: 14px;
+                font-size: 16px;
             }
         }
         @media (max-width: 600px) {
@@ -173,10 +181,10 @@ $pdo = null;
             .ad {
                 position: relative;
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
+                flex-direction: column;
             }
             .ad img {
-                height: auto;
                 margin-right: 10px;
                 margin-bottom: 10px;
             }
@@ -184,10 +192,10 @@ $pdo = null;
                 width: 100%;
             }
             .ad-details h4 {
-                font-size: 16px;
+                font-size: 25px;
             }
             .ad-details p {
-                font-size: 12px;
+                font-size: 16px;
             }
             .delete-icon {
                 top: 10px;

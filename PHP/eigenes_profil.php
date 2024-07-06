@@ -72,6 +72,13 @@ $pdo = null; // Verbindung schließen
             position: relative;
             color: black;
         }
+        .ad-details a {
+        color: rgb(163, 177, 138);
+        text-decoration: none;
+        }
+        .ad-details a:hover {
+            text-decoration: underline;
+        }
         .edit-icon {
             position: absolute;
             top: 20px;
@@ -255,7 +262,7 @@ $pdo = null; // Verbindung schließen
         .ad:hover {
             background-color: #f0f0f0;
         }
-        @media (max-width: 1000px) {
+        @media (max-width: 1080px) {
             .container {
                 width: 90%;
                 margin: 20px auto;
@@ -280,24 +287,26 @@ $pdo = null; // Verbindung schließen
         }
         @media (max-width: 600px) {
             .profile-header {
+                margin-top: 10px;
                 flex-direction: column;
                 align-items: center;
             }
             .profile-picture {
-                width: 100px;
-                height: 100px;
+                width: 150px;
+                height: 150px;
                 margin-right: 0;
                 margin-bottom: 10px;
             }
             .profile-info h2 {
-                font-size: 24px;
+                font-size: 28px;
             }
             .profile-info p {
-                font-size: 14px;
+                font-size: 18px;
             }
             .ad {
                 flex-direction: column;
                 align-items: flex-start;
+
             }
             .ad img {
                 width: 100%;
@@ -307,13 +316,14 @@ $pdo = null; // Verbindung schließen
             }
             .tabs div {
                 padding: 6px 12px;
-                font-size: 14px;
+                font-size: 17px;
+                text-align: center;
             }
             .ad-details h4 {
-                font-size: 16px;
+                font-size: 25px;
             }
             .ad-details p {
-                font-size: 12px;
+                font-size: 16px;
             }
             .container {
                 width: 95%;

@@ -31,6 +31,7 @@ if (isset($_SESSION['user_id'])) {
             max-width: 200px;
             height: auto;
             margin-left: 20px;
+            margin-right: 10%;
         }
         header {
             display: flex;
@@ -56,6 +57,7 @@ if (isset($_SESSION['user_id'])) {
             padding: 0;
             display: flex;
             gap: 15px;
+            align-items: center;
         }
         .navigation ul li {
             display: inline;
@@ -138,7 +140,7 @@ if (isset($_SESSION['user_id'])) {
             margin: 5px 0;
         }
         /* Media Queries for Responsiveness */
-        @media (max-width: 768px) {
+        @media (max-width: 1100px) {
             .navigation ul {
                 display: none; /* Hide navigation on small screens */
                 flex-direction: column;
@@ -150,6 +152,7 @@ if (isset($_SESSION['user_id'])) {
                 width: 100%;
                 padding: 20px;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                align-items: center;
             }
             .navigation ul.show {
                 display: flex;

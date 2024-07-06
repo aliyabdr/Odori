@@ -166,6 +166,7 @@ $pdo = null; // Verbindung schließen
             background-color: #f1f1f1;
             border-radius: 8px;
             text-align: center;
+            width: 80%;
         }
         .seller-info img {
             border-radius: 50%;
@@ -232,6 +233,55 @@ $pdo = null; // Verbindung schließen
             background-color: #e74c3c;
             color: white;
         }
+        @media (max-width: 1000px) {
+            .container {
+                width: 90%;
+                margin: 20px auto;
+                padding: 10px;
+                flex-direction: column;
+                align-items: center; /* Zentrieren der gesamten Container */
+            }
+            .ad-header h1, .ad-body .details h1 {
+                font-size: 1.5em;
+            }
+            .ad-header .price, .ad-body .details .price {
+                font-size: 1.2em;
+            }
+            .seller-info {
+            width: 100%;
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                margin: 10px auto;
+                padding: 5px;
+                flex-direction: column;
+            }
+            .ad-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .ad-body {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .ad-body .details, .ad-body .images {
+                max-width: 100%;
+                width: 100%;
+            }
+            .seller-info-container {
+                flex-direction: column;
+                align-items: stretch;
+                margin: 10px 0;
+           }
+            .seller-info {
+                width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
     </style>
 </head>
 <body>

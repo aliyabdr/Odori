@@ -240,6 +240,7 @@ $pdo = null; // Verbindung schließen
                 width: 90%;
                 margin: 20px auto;
                 padding: 10px;
+                flex-direction: column;
             }
             .ad-header h1, .ad-body .details h1 {
                 font-size: 1.5em;
