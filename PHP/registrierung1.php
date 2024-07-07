@@ -64,7 +64,6 @@ include '../db_connect.php';
         @media (max-width: 600px) {
             body {
                 height: auto;
-                padding: 20px;   
             }
             .container {
                 margin-top: 50px;

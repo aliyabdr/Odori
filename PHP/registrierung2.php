@@ -70,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         @media (max-width: 600px) {
             body {
                 height: auto;
-                padding: 20px;   
             }
             .container {
                 margin-top: 50px;
