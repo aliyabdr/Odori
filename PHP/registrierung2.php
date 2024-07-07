@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: black;
             width: 350px;
             margin-top: 400px;
-            margin-bottom: 150px;
+            margin-bottom: 90px;
         }
         input[type="text"], input[type="password"], input[type="email"] {
             width: 90%;
